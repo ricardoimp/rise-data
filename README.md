@@ -17,3 +17,4 @@ Dashboard interativo de performance do Instagram de Ricardo Impellizieri.
 - HTML5 + CSS3 (dark theme)
 - Chart.js 4.4
 - Deploy: Vercel
+# rise-data — commit de teste 21/03/2026 19:24
