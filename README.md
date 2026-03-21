@@ -1,4 +1,4 @@
-# Dashboard Instagram — @ricardoimp
+# Rise Data
 
 Dashboard interativo de performance do Instagram de Ricardo Impellizieri.
 
