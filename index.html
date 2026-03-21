@@ -200,6 +200,36 @@
   .update-date { font-size: 12px; color: var(--text2); background: rgba(240,180,41,0.08); border: 1px solid rgba(240,180,41,0.2); padding: 4px 10px; border-radius: 20px; }
   .btn-download { display: inline-flex; align-items: center; gap: 6px; background: rgba(240,180,41,0.1); border: 1px solid rgba(240,180,41,0.3); color: var(--gold); font-size: 12px; font-weight: 600; padding: 7px 14px; border-radius: 20px; cursor: pointer; text-decoration: none; transition: all 0.2s; letter-spacing: 0.3px; white-space: nowrap; }
   .btn-download:hover { background: rgba(240,180,41,0.2); border-color: var(--gold); transform: translateY(-1px); }
+  /* ── Calendário ── */
+  .cal-table { width: 100%; border-collapse: collapse; }
+  .cal-table th { font-size: 11px; font-weight: 600; letter-spacing: 0.8px; text-transform: uppercase; color: var(--text3); padding: 14px 20px; text-align: left; border-bottom: 1px solid var(--border); background: var(--bg3); }
+  .cal-table td { padding: 18px 20px; border-bottom: 1px solid rgba(46,51,64,0.5); font-size: 14px; vertical-align: middle; }
+  .cal-table tr:last-child td { border-bottom: none; }
+  .cal-table tr.cal-highlight td { background: rgba(240,180,41,0.05); }
+  .cal-table tr.cal-dim td { opacity: 0.45; }
+  .cal-table tr:hover td { background: rgba(255,255,255,0.02); }
+  .cal-day { font-size: 16px; font-weight: 700; color: var(--text); }
+  .cal-day.gold { color: var(--gold); }
+  .cal-day.blue { color: var(--blue); }
+  .cal-hour { font-size: 15px; font-weight: 600; color: var(--text2); }
+  .cal-badge { display: inline-block; font-size: 12px; font-weight: 600; padding: 5px 12px; border-radius: 20px; white-space: nowrap; }
+  .cal-badge.reels { background: rgba(74,158,255,0.15); color: var(--blue); }
+  .cal-badge.carousel { background: rgba(147,112,219,0.18); color: #a78bfa; }
+  .cal-badge.static { background: rgba(248,113,113,0.15); color: #fb923c; }
+  .cal-badge.aspirational { background: rgba(240,180,41,0.15); color: var(--gold); }
+  .cal-badge.stories { background: rgba(90,96,112,0.25); color: var(--text2); }
+  .cal-badge.faith { background: rgba(62,207,142,0.15); color: var(--green); }
+  .cal-theme { font-size: 14px; color: var(--text); }
+  .cal-reach { font-size: 14px; font-weight: 700; }
+  .cal-reach.high { color: var(--gold); }
+  .cal-reach.mid { color: var(--blue); }
+  .cal-reach.low { color: var(--text3); }
+  .cal-priority { font-size: 11px; font-weight: 700; padding: 3px 8px; border-radius: 20px; }
+  .cal-priority.p1 { background: rgba(240,180,41,0.15); color: var(--gold); }
+  .cal-priority.p2 { background: rgba(74,158,255,0.15); color: var(--blue); }
+  .cal-priority.p3 { background: rgba(62,207,142,0.15); color: var(--green); }
+  .cal-priority.p0 { background: rgba(90,96,112,0.2); color: var(--text3); }
+
   /* ── Scrollbar ── */
   ::-webkit-scrollbar { width: 6px; height: 6px; }
   ::-webkit-scrollbar-track { background: var(--bg); }
@@ -242,8 +272,9 @@
   <button class="nav-btn" onclick="showSection('s5', this)">👥 Audiência</button>
   <button class="nav-btn" onclick="showSection('s6', this)">🎯 Funil</button>
   <button class="nav-btn" onclick="showSection('s7', this)">💡 Insights</button>
+  <button class="nav-btn" onclick="showSection('s8', this)">📆 Calendário</button>
   <div class="nav-update">
-    <span>⚙️ Sistema: 21/03/2026 às 18:30</span>
+    <span>⚙️ Sistema: 21/03/2026 às 18:51</span>
   </div>
 </div>
 
@@ -762,6 +793,86 @@
   </div>
 </div>
 
+<div id="s8" class="section">
+  <p class="section-title">Calendário Semanal Ideal — Baseado nos Dados Reais</p>
+
+  <!-- Legenda de formatos -->
+  <div style="display:flex;gap:10px;flex-wrap:wrap;margin-bottom:24px;">
+    <div style="display:flex;align-items:center;gap:6px;font-size:12px;color:var(--text2);"><span class="cal-badge reels">Reels</span> Alcance médio: 226</div>
+    <div style="display:flex;align-items:center;gap:6px;font-size:12px;color:var(--text2);"><span class="cal-badge carousel">Carrossel</span> Alcance médio: 285</div>
+    <div style="display:flex;align-items:center;gap:6px;font-size:12px;color:var(--text2);"><span class="cal-badge static">Post Estático</span> Alcance médio: 322</div>
+    <div style="display:flex;align-items:center;gap:6px;font-size:12px;color:var(--text2);"><span class="cal-badge aspirational">Aspiracional</span> Lifestyle + reflexão</div>
+    <div style="display:flex;align-items:center;gap:6px;font-size:12px;color:var(--text2);"><span class="cal-badge stories">Stories</span> Bastidores / CTA</div>
+  </div>
+
+  <!-- Tabela do calendário -->
+  <div class="card" style="padding:0;overflow:hidden;">
+    <table class="cal-table">
+      <thead>
+        <tr>
+          <th>Dia</th>
+          <th>Horário</th>
+          <th>Formato</th>
+          <th>Tema</th>
+          <th>Alcance Esperado</th>
+          <th>Prioridade</th>
+        </tr>
+      </thead>
+      <tbody id="calBody">
+      </tbody>
+    </table>
+  </div>
+
+  <!-- Cards de insights do calendário -->
+  <div class="grid-3" style="margin-top:24px;">
+    <div class="card">
+      <div class="card-title">Melhor Janela da Semana</div>
+      <div class="metric-val gold" style="font-size:24px;">Sáb 19h</div>
+      <div class="metric-sub">Alcance médio: 410 (dia) × 403 (hora)</div>
+      <div class="metric-badge badge-gold" style="margin-top:10px;">Reserve o melhor conteúdo aqui</div>
+    </div>
+    <div class="card">
+      <div class="card-title">Posts de Feed por Semana</div>
+      <div class="metric-val blue" style="font-size:24px;">4</div>
+      <div class="metric-sub">Seg, Ter, Qui, Sáb — dias de maior alcance</div>
+      <div class="metric-badge badge-blue" style="margin-top:10px;">Qua e Sex apenas Stories</div>
+    </div>
+    <div class="card">
+      <div class="card-title">Formato Prioritário</div>
+      <div class="metric-val green" style="font-size:24px;">Estático</div>
+      <div class="metric-sub">322 alcance médio — maior retorno por post</div>
+      <div class="metric-badge badge-green" style="margin-top:10px;">Aumentar de 18% para 35% do feed</div>
+    </div>
+  </div>
+
+  <!-- Regras do calendário -->
+  <div class="card" style="margin-top:0;">
+    <div class="card-title">Regras do Calendário — Baseadas nos Dados</div>
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-top:4px;">
+      <div>
+        <div style="font-size:13px;font-weight:600;color:var(--gold);margin-bottom:8px;">Fazer sempre</div>
+        <div style="font-size:13px;color:var(--text2);line-height:1.8;">
+          ✅ Publicar feed entre 19h–21h<br>
+          ✅ Reservar Sábado para o post mais importante<br>
+          ✅ CTA obrigatório no último slide de carrossel<br>
+          ✅ Stories de bastidores na Sexta com CTA<br>
+          ✅ Cruzar Lifestyle com mensagem de negócios
+        </div>
+      </div>
+      <div>
+        <div style="font-size:13px;font-weight:600;color:var(--red);margin-bottom:8px;">Nunca fazer</div>
+        <div style="font-size:13px;color:var(--text2);line-height:1.8;">
+          ❌ Publicar feed entre 06h–12h<br>
+          ❌ Postar conteúdo estratégico na Quarta<br>
+          ❌ Usar linguagem de coach genérico<br>
+          ❌ Reels sem gancho nos primeiros 3 segundos<br>
+          ❌ Carrossel sem CTA no último slide
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
 </div><!-- /main -->
 
 <script>
@@ -951,6 +1062,89 @@ const topEngagement = [
   {rank:10, caption:"Miami não é sobre festa. É sobre energia 🔥 (v2)", type:"Reels", likes:6, interactions:8, date:"04/02"},
 ];
 buildTable('tableTopEngagement', topEngagement, 'interactions', 'Interações');
+
+// ── Calendário Semanal ────────────────────────────────────────────────────────────────────────────────
+const calendarData = [
+  {
+    dia: 'Segunda', dayClass: 'blue',
+    hora: '19h00',
+    formato: 'Reels de Impacto', badgeClass: 'reels',
+    tema: 'Mentalidade ou Negócios',
+    alcance: '~274', reachClass: 'mid',
+    prioridade: 'Alto', priClass: 'p2',
+    dim: false, highlight: false
+  },
+  {
+    dia: 'Terça', dayClass: 'blue',
+    hora: '21h00',
+    formato: 'Carrossel', badgeClass: 'carousel',
+    tema: 'Estratégia, IA ou GovTech',
+    alcance: '~285', reachClass: 'mid',
+    prioridade: 'Alto', priClass: 'p2',
+    dim: false, highlight: false
+  },
+  {
+    dia: 'Quarta', dayClass: '',
+    hora: '—',
+    formato: 'Stories apenas', badgeClass: 'stories',
+    tema: 'Evitar Feed/Reels',
+    alcance: '—', reachClass: 'low',
+    prioridade: 'Baixo', priClass: 'p0',
+    dim: true, highlight: false
+  },
+  {
+    dia: 'Quinta', dayClass: '',
+    hora: '19h00',
+    formato: 'Post Estático', badgeClass: 'static',
+    tema: 'Fé / Propósito',
+    alcance: '~322', reachClass: 'mid',
+    prioridade: 'Médio', priClass: 'p3',
+    dim: false, highlight: false
+  },
+  {
+    dia: 'Sexta', dayClass: '',
+    hora: '—',
+    formato: 'Stories apenas', badgeClass: 'stories',
+    tema: 'Bastidores + CTA',
+    alcance: '—', reachClass: 'low',
+    prioridade: 'Baixo', priClass: 'p0',
+    dim: true, highlight: false
+  },
+  {
+    dia: 'Sábado', dayClass: 'gold',
+    hora: '19h00',
+    formato: 'Post Aspiracional', badgeClass: 'aspirational',
+    tema: 'Lifestyle + reflexão de liberdade',
+    alcance: '~410', reachClass: 'high',
+    prioridade: '🏆 Ouro', priClass: 'p1',
+    dim: false, highlight: true
+  },
+  {
+    dia: 'Domingo', dayClass: '',
+    hora: '—',
+    formato: 'Descanso ou Stories', badgeClass: 'stories',
+    tema: 'Opcional',
+    alcance: '~231', reachClass: 'low',
+    prioridade: 'Opcional', priClass: 'p0',
+    dim: true, highlight: false
+  }
+];
+
+const calBody = document.getElementById('calBody');
+calendarData.forEach(row => {
+  const tr = document.createElement('tr');
+  if (row.highlight) tr.classList.add('cal-highlight');
+  if (row.dim) tr.classList.add('cal-dim');
+  tr.innerHTML = `
+    <td><span class="cal-day ${row.dayClass}">${row.dia}</span></td>
+    <td><span class="cal-hour">${row.hora}</span></td>
+    <td><span class="cal-badge ${row.badgeClass}">${row.formato}</span></td>
+    <td><span class="cal-theme">${row.tema}</span></td>
+    <td><span class="cal-reach ${row.reachClass}">${row.alcance}</span></td>
+    <td><span class="cal-priority ${row.priClass}">${row.prioridade}</span></td>
+  `;
+  calBody.appendChild(tr);
+});
 
 // ── Download Aprendizado com nome dinâmico ────────────────────────────────
 // Conteúdo do aprendizado embutido para download via Blob (contorna restrição cross-origin)
