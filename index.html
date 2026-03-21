@@ -140,6 +140,8 @@
   .rank-3 { background: rgba(180,120,60,0.2); color: #cd7f32; }
   .rank-n { background: var(--bg3); color: var(--text3); }
   .post-caption { color: var(--text); max-width: 300px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+  .post-caption-link { color: var(--text); max-width: 300px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; display: block; text-decoration: none; transition: color 0.15s; }
+  .post-caption-link:hover { color: #818cf8; }
   .post-type { font-size: 11px; padding: 2px 8px; border-radius: 10px; }
   .type-reels { background: rgba(74,158,255,0.15); color: var(--blue); }
   .type-carousel { background: rgba(240,180,41,0.15); color: var(--gold); }
@@ -309,7 +311,7 @@
   <button class="nav-btn" onclick="showSection('s7', this)">💡 Insights</button>
   <button class="nav-btn" onclick="showSection('s8', this)">📆 Calendário</button>
   <div class="nav-update">
-    <span>⚙️ Sistema: 21/03/2026 às 19:50</span>
+    <span>⚙️ Sistema: 21/03/2026 às 19:53</span>
   </div>
 </div>
 
@@ -1211,25 +1213,24 @@ const topReach = [
 function buildTable(tableId, data, valKey, valLabel) {
   const table = document.getElementById(tableId);
   table.innerHTML = `<thead><tr>
-    <th>#</th><th>Publicação</th><th>Formato</th><th>${valLabel}</th><th>Likes</th><th>Data</th><th></th>
+    <th>#</th><th>Publicação</th><th>Formato</th><th>${valLabel}</th><th>Likes</th><th>Data</th>
   </tr></thead>`;
   const tbody = document.createElement('tbody');
   data.forEach(p => {
     const tr = document.createElement('tr');
     const rankClass = p.rank <= 3 ? `rank-${p.rank}` : 'rank-n';
     const typeClass = p.type === 'Reels' ? 'type-reels' : p.type === 'Carrossel' ? 'type-carousel' : 'type-image';
+    const captionHtml = p.permalink
+      ? `<a href="${p.permalink}" target="_blank" rel="noopener" class="post-caption-link">${p.caption} <svg style="vertical-align:middle;opacity:0.5" width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg></a>`
+      : `<span class="post-caption">${p.caption}</span>`;
     tr.innerHTML = `
       <td><div class="post-rank ${rankClass}">${p.rank}</div></td>
-      <td><div class="post-caption">${p.caption}</div></td>
+      <td>${captionHtml}</td>
       <td><span class="post-type ${typeClass}">${p.type}</span></td>
       <td><strong>${p[valKey]}</strong></td>
       <td>${p.likes}</td>
       <td style="color:var(--text2)">${p.date}</td>
-      <td>${p.permalink ? `<button class="post-modal-open-btn" data-permalink="${p.permalink}"><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg> Ver post</button>` : ''}</td>
     `;
-    if (p.permalink) {
-      tr.querySelector('.post-modal-open-btn').addEventListener('click', () => openPostModal(p.permalink));
-    }
     tbody.appendChild(tr);
   });
   table.appendChild(tbody);
