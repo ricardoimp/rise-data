@@ -274,7 +274,7 @@
   <button class="nav-btn" onclick="showSection('s7', this)">💡 Insights</button>
   <button class="nav-btn" onclick="showSection('s8', this)">📆 Calendário</button>
   <div class="nav-update">
-    <span>⚙️ Sistema: 21/03/2026 às 19:00</span>
+    <span>⚙️ Sistema: 21/03/2026 às 19:07</span>
   </div>
 </div>
 
@@ -794,79 +794,222 @@
 </div>
 
 <div id="s8" class="section">
-  <p class="section-title">Calendário Semanal Ideal — Baseado nos Dados Reais</p>
+  <p class="section-title">Calendário Semanal Estratégico — Gerado pelos Dados Reais do Perfil</p>
 
-  <!-- Legenda de formatos -->
-  <div style="display:flex;gap:10px;flex-wrap:wrap;margin-bottom:24px;">
-    <div style="display:flex;align-items:center;gap:6px;font-size:12px;color:var(--text2);"><span class="cal-badge reels">Reels</span> Alcance médio: 226</div>
-    <div style="display:flex;align-items:center;gap:6px;font-size:12px;color:var(--text2);"><span class="cal-badge carousel">Carrossel</span> Alcance médio: 285</div>
-    <div style="display:flex;align-items:center;gap:6px;font-size:12px;color:var(--text2);"><span class="cal-badge static">Post Estático</span> Alcance médio: 322</div>
-    <div style="display:flex;align-items:center;gap:6px;font-size:12px;color:var(--text2);"><span class="cal-badge aspirational">Aspiracional</span> Lifestyle + reflexão</div>
-    <div style="display:flex;align-items:center;gap:6px;font-size:12px;color:var(--text2);"><span class="cal-badge stories">Stories</span> Bastidores / CTA</div>
+  <!-- Score estratégico no topo -->
+  <div class="grid-4" style="margin-bottom:24px;">
+    <div class="card-sm" style="border-color:rgba(240,180,41,0.4);background:rgba(240,180,41,0.05);">
+      <div class="card-title">🏆 Dia de Ouro</div>
+      <div style="font-size:22px;font-weight:800;color:var(--gold);">Sábado</div>
+      <div style="font-size:12px;color:var(--text2);margin-top:4px;">Alcance médio: 410 — +51% acima da média</div>
+    </div>
+    <div class="card-sm" style="border-color:rgba(74,158,255,0.3);background:rgba(74,158,255,0.05);">
+      <div class="card-title">⏰ Horário de Pico</div>
+      <div style="font-size:22px;font-weight:800;color:var(--blue);">21h00</div>
+      <div style="font-size:12px;color:var(--text2);margin-top:4px;">Alcance médio: 380 — +40% acima da média</div>
+    </div>
+    <div class="card-sm" style="border-color:rgba(62,207,142,0.3);background:rgba(62,207,142,0.05);">
+      <div class="card-title">📄 Formato Campeão</div>
+      <div style="font-size:22px;font-weight:800;color:var(--green);">Post Estático</div>
+      <div style="font-size:12px;color:var(--text2);margin-top:4px;">Alcance médio: 322 — +18% acima da média</div>
+    </div>
+    <div class="card-sm" style="border-color:rgba(62,207,142,0.3);background:rgba(62,207,142,0.05);">
+      <div class="card-title">📝 Tema Campeão</div>
+      <div style="font-size:20px;font-weight:800;color:var(--green);">Lifestyle/Viagem</div>
+      <div style="font-size:12px;color:var(--text2);margin-top:4px;">Alcance médio: 528 — +94% acima da média</div>
+    </div>
   </div>
 
-  <!-- Tabela do calendário -->
-  <div class="card" style="padding:0;overflow:hidden;">
+  <!-- Tabela principal -->
+  <div class="card" style="padding:0;overflow:hidden;margin-bottom:24px;">
     <table class="cal-table">
       <thead>
         <tr>
-          <th>Dia</th>
-          <th>Horário</th>
-          <th>Formato</th>
-          <th>Tema</th>
-          <th>Alcance Esperado</th>
-          <th>Prioridade</th>
+          <th style="width:90px;">Dia</th>
+          <th style="width:80px;">Horário</th>
+          <th style="width:160px;">Formato</th>
+          <th>Conteúdo Sugerido</th>
+          <th style="width:130px;">Alcance Esperado</th>
+          <th style="width:100px;">Estratégia</th>
         </tr>
       </thead>
       <tbody id="calBody">
+      <tr class="">
+        <td><span class="cal-day blue">Segunda</span></td>
+        <td><span class="cal-hour">23h00</span></td>
+        <td><span class="cal-badge carousel">Carrossel</span></td>
+        <td><span class="cal-theme">Fé/Propósito</span></td>
+        <td><span class="cal-reach mid">~279</span></td>
+        <td><span class="cal-priority p3">Médio</span></td>
+      </tr>
+      <tr class="" style="background:rgba(90,96,112,0.04);">
+        <td></td>
+        <td><span style="font-size:11px;color:var(--text3);">Dia todo</span></td>
+        <td><span class="cal-badge stories">Stories</span></td>
+        <td><span class="cal-theme" style="color:var(--text2);font-size:13px;">Bastidores da rotina de trabalho / empresa</span></td>
+        <td><span class="cal-reach low" style="font-size:12px;">Motor diário</span></td>
+        <td><span class="cal-priority p0">Diário</span></td>
+      </tr>
+      <tr class="">
+        <td><span class="cal-day blue">Terça</span></td>
+        <td><span class="cal-hour">23h00</span></td>
+        <td><span class="cal-badge carousel">Carrossel</span></td>
+        <td><span class="cal-theme">Negócios/Tech</span></td>
+        <td><span class="cal-reach mid">~284</span></td>
+        <td><span class="cal-priority p2">Alto</span></td>
+      </tr>
+      <tr class="" style="background:rgba(90,96,112,0.04);">
+        <td></td>
+        <td><span style="font-size:11px;color:var(--text3);">Dia todo</span></td>
+        <td><span class="cal-badge stories">Stories</span></td>
+        <td><span class="cal-theme" style="color:var(--text2);font-size:13px;">Repost do feed + enquete ou pergunta interativa</span></td>
+        <td><span class="cal-reach low" style="font-size:12px;">Motor diário</span></td>
+        <td><span class="cal-priority p0">Diário</span></td>
+      </tr>
+      <tr class="cal-dim">
+        <td><span class="cal-day">Quarta</span></td>
+        <td><span class="cal-hour" style="color:var(--text3);">—</span></td>
+        <td><span class="cal-badge stories">Evitar feed</span></td>
+        <td><span class="cal-theme" style="color:var(--text3);">Pior dia da semana — alcance 210</span></td>
+        <td><span class="cal-reach low">—</span></td>
+        <td><span class="cal-priority p0">Evitar</span></td>
+      </tr>
+      <tr class="" style="background:rgba(90,96,112,0.04);">
+        <td></td>
+        <td><span style="font-size:11px;color:var(--text3);">Dia todo</span></td>
+        <td><span class="cal-badge stories">Stories</span></td>
+        <td><span class="cal-theme" style="color:var(--text2);font-size:13px;">Bastidores de viagem ou projeto + CTA para o link da bio</span></td>
+        <td><span class="cal-reach low" style="font-size:12px;">Motor diário</span></td>
+        <td><span class="cal-priority p0">Diário</span></td>
+      </tr>
+      <tr class="">
+        <td><span class="cal-day ">Quinta</span></td>
+        <td><span class="cal-hour">21h00</span></td>
+        <td><span class="cal-badge static">Post Estático</span></td>
+        <td><span class="cal-theme">Lifestyle/Viagem</span></td>
+        <td><span class="cal-reach mid">~293</span></td>
+        <td><span class="cal-priority p3">Médio</span></td>
+      </tr>
+      <tr class="" style="background:rgba(90,96,112,0.04);">
+        <td></td>
+        <td><span style="font-size:11px;color:var(--text3);">Dia todo</span></td>
+        <td><span class="cal-badge stories">Stories</span></td>
+        <td><span class="cal-theme" style="color:var(--text2);font-size:13px;">Reflexão curta + caixinha de perguntas</span></td>
+        <td><span class="cal-reach low" style="font-size:12px;">Motor diário</span></td>
+        <td><span class="cal-priority p0">Diário</span></td>
+      </tr>
+      <tr class="">
+        <td><span class="cal-day">Sexta</span></td>
+        <td><span class="cal-hour" style="color:var(--text3);">—</span></td>
+        <td><span class="cal-badge stories">Sem feed</span></td>
+        <td><span class="cal-theme" style="color:var(--text3);">Descanso de feed</span></td>
+        <td><span class="cal-reach low">—</span></td>
+        <td><span class="cal-priority p0">Opcional</span></td>
+      </tr>
+      <tr class="" style="background:rgba(90,96,112,0.04);">
+        <td></td>
+        <td><span style="font-size:11px;color:var(--text3);">Dia todo</span></td>
+        <td><span class="cal-badge stories">Stories</span></td>
+        <td><span class="cal-theme" style="color:var(--text2);font-size:13px;">Bastidores do fim de semana + CTA direto para o link</span></td>
+        <td><span class="cal-reach low" style="font-size:12px;">Motor diário</span></td>
+        <td><span class="cal-priority p0">Diário</span></td>
+      </tr>
+      <tr class="cal-highlight">
+        <td><span class="cal-day gold">Sábado</span></td>
+        <td><span class="cal-hour">21h00</span></td>
+        <td><span class="cal-badge static">Post Estático</span></td>
+        <td><span class="cal-theme">Lifestyle/Viagem</span></td>
+        <td><span class="cal-reach high">~366</span></td>
+        <td><span class="cal-priority p1">🏆 Ouro</span></td>
+      </tr>
+      <tr class="cal-highlight" style="background:rgba(90,96,112,0.04);">
+        <td></td>
+        <td><span style="font-size:11px;color:var(--text3);">Dia todo</span></td>
+        <td><span class="cal-badge stories">Stories</span></td>
+        <td><span class="cal-theme" style="color:var(--text2);font-size:13px;">Amplificar o post do feed + bastidores da foto/viagem</span></td>
+        <td><span class="cal-reach low" style="font-size:12px;">Motor diário</span></td>
+        <td><span class="cal-priority p0">Diário</span></td>
+      </tr>
+      <tr class="">
+        <td><span class="cal-day">Domingo</span></td>
+        <td><span class="cal-hour" style="color:var(--text3);">—</span></td>
+        <td><span class="cal-badge stories">Sem feed</span></td>
+        <td><span class="cal-theme" style="color:var(--text3);">Descanso de feed</span></td>
+        <td><span class="cal-reach low">—</span></td>
+        <td><span class="cal-priority p0">Opcional</span></td>
+      </tr>
+      <tr class="" style="background:rgba(90,96,112,0.04);">
+        <td></td>
+        <td><span style="font-size:11px;color:var(--text3);">Dia todo</span></td>
+        <td><span class="cal-badge stories">Stories</span></td>
+        <td><span class="cal-theme" style="color:var(--text2);font-size:13px;">Conteúdo leve / reflexão de fim de semana</span></td>
+        <td><span class="cal-reach low" style="font-size:12px;">Motor diário</span></td>
+        <td><span class="cal-priority p0">Diário</span></td>
+      </tr>
       </tbody>
     </table>
   </div>
 
-  <!-- Cards de insights do calendário -->
-  <div class="grid-3" style="margin-top:24px;">
-    <div class="card">
-      <div class="card-title">Melhor Janela da Semana</div>
-      <div class="metric-val gold" style="font-size:24px;">Sáb 19h</div>
-      <div class="metric-sub">Alcance médio: 410 (dia) × 403 (hora)</div>
-      <div class="metric-badge badge-gold" style="margin-top:10px;">Reserve o melhor conteúdo aqui</div>
-    </div>
-    <div class="card">
-      <div class="card-title">Posts de Feed por Semana</div>
-      <div class="metric-val blue" style="font-size:24px;">4</div>
-      <div class="metric-sub">Seg, Ter, Qui, Sáb — dias de maior alcance</div>
-      <div class="metric-badge badge-blue" style="margin-top:10px;">Qua e Sex apenas Stories</div>
-    </div>
-    <div class="card">
-      <div class="card-title">Formato Prioritário</div>
-      <div class="metric-val green" style="font-size:24px;">Estático</div>
-      <div class="metric-sub">322 alcance médio — maior retorno por post</div>
-      <div class="metric-badge badge-green" style="margin-top:10px;">Aumentar de 18% para 35% do feed</div>
-    </div>
+  <!-- Legenda -->
+  <div style="display:flex;gap:12px;flex-wrap:wrap;margin-bottom:24px;align-items:center;">
+    <span style="font-size:11px;color:var(--text3);text-transform:uppercase;letter-spacing:0.8px;">Formatos:</span>
+    <span class="cal-badge reels">Reels</span>
+    <span class="cal-badge carousel">Carrossel</span>
+    <span class="cal-badge static">Post Estático</span>
+    <span class="cal-badge aspirational">Aspiracional</span>
+    <span class="cal-badge stories">Stories</span>
+    <span class="cal-badge faith">Fé / Propósito</span>
   </div>
 
-  <!-- Regras do calendário -->
-  <div class="card" style="margin-top:0;">
-    <div class="card-title">Regras do Calendário — Baseadas nos Dados</div>
-    <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-top:4px;">
-      <div>
-        <div style="font-size:13px;font-weight:600;color:var(--gold);margin-bottom:8px;">Fazer sempre</div>
-        <div style="font-size:13px;color:var(--text2);line-height:1.8;">
-          ✅ Publicar feed entre 19h–21h<br>
-          ✅ Reservar Sábado para o post mais importante<br>
-          ✅ CTA obrigatório no último slide de carrossel<br>
-          ✅ Stories de bastidores na Sexta com CTA<br>
-          ✅ Cruzar Lifestyle com mensagem de negócios
+  <!-- Painel de regras estratégicas -->
+  <div class="grid-2">
+    <div class="card">
+      <div class="card-title">✅ Regras de Ouro — Sempre Fazer</div>
+      <div style="display:flex;flex-direction:column;gap:10px;margin-top:8px;">
+        <div style="display:flex;gap:10px;align-items:flex-start;">
+          <span style="color:var(--gold);font-size:16px;flex-shrink:0;">1</span>
+          <div><div style="font-size:13px;font-weight:600;color:var(--text);">Publicar feed sempre entre 21h e 23h</div><div style="font-size:12px;color:var(--text2);margin-top:2px;">Posts nesse horário têm +40% de alcance que a média geral</div></div>
+        </div>
+        <div style="display:flex;gap:10px;align-items:flex-start;">
+          <span style="color:var(--gold);font-size:16px;flex-shrink:0;">2</span>
+          <div><div style="font-size:13px;font-weight:600;color:var(--text);">Reservar Sábado para o melhor conteúdo da semana</div><div style="font-size:12px;color:var(--text2);margin-top:2px;">Sábado tem alcance +51% acima da média — é o seu dia de ouro</div></div>
+        </div>
+        <div style="display:flex;gap:10px;align-items:flex-start;">
+          <span style="color:var(--gold);font-size:16px;flex-shrink:0;">3</span>
+          <div><div style="font-size:13px;font-weight:600;color:var(--text);">Stories todos os dias — CTA pelo menos 3x por semana</div><div style="font-size:12px;color:var(--text2);margin-top:2px;">Stories são o principal motor de visitas ao perfil (68.9% do alcance)</div></div>
+        </div>
+        <div style="display:flex;gap:10px;align-items:flex-start;">
+          <span style="color:var(--gold);font-size:16px;flex-shrink:0;">4</span>
+          <div><div style="font-size:13px;font-weight:600;color:var(--text);">Priorizar Post Estático e Carrossel no feed</div><div style="font-size:12px;color:var(--text2);margin-top:2px;">Post Estático: 322 alcance médio vs Carrossel: 285 — maior retorno por post</div></div>
+        </div>
+        <div style="display:flex;gap:10px;align-items:flex-start;">
+          <span style="color:var(--gold);font-size:16px;flex-shrink:0;">5</span>
+          <div><div style="font-size:13px;font-weight:600;color:var(--text);">Focar narrativa em Lifestyle/Viagem</div><div style="font-size:12px;color:var(--text2);margin-top:2px;">Alcance médio de 528 — o tema mais subrepresentado e mais eficiente</div></div>
         </div>
       </div>
-      <div>
-        <div style="font-size:13px;font-weight:600;color:var(--red);margin-bottom:8px;">Nunca fazer</div>
-        <div style="font-size:13px;color:var(--text2);line-height:1.8;">
-          ❌ Publicar feed entre 06h–12h<br>
-          ❌ Postar conteúdo estratégico na Quarta<br>
-          ❌ Usar linguagem de coach genérico<br>
-          ❌ Reels sem gancho nos primeiros 3 segundos<br>
-          ❌ Carrossel sem CTA no último slide
+    </div>
+    <div class="card">
+      <div class="card-title">❌ Armadilhas — Nunca Fazer</div>
+      <div style="display:flex;flex-direction:column;gap:10px;margin-top:8px;">
+        <div style="display:flex;gap:10px;align-items:flex-start;">
+          <span style="color:var(--red);font-size:16px;flex-shrink:0;">!</span>
+          <div><div style="font-size:13px;font-weight:600;color:var(--text);">Publicar feed entre 06h e 12h</div><div style="font-size:12px;color:var(--text2);margin-top:2px;">Alcance cai pela metade nesse horário — dados confirmam</div></div>
+        </div>
+        <div style="display:flex;gap:10px;align-items:flex-start;">
+          <span style="color:var(--red);font-size:16px;flex-shrink:0;">!</span>
+          <div><div style="font-size:13px;font-weight:600;color:var(--text);">Postar conteúdo estratégico na Quarta</div><div style="font-size:12px;color:var(--text2);margin-top:2px;">Quarta tem o menor alcance médio da semana (210)</div></div>
+        </div>
+        <div style="display:flex;gap:10px;align-items:flex-start;">
+          <span style="color:var(--red);font-size:16px;flex-shrink:0;">!</span>
+          <div><div style="font-size:13px;font-weight:600;color:var(--text);">Reels sem gancho nos primeiros 3 segundos</div><div style="font-size:12px;color:var(--text2);margin-top:2px;">Reels têm o menor alcance médio (226) — sem gancho, não chegam a lugar nenhum</div></div>
+        </div>
+        <div style="display:flex;gap:10px;align-items:flex-start;">
+          <span style="color:var(--red);font-size:16px;flex-shrink:0;">!</span>
+          <div><div style="font-size:13px;font-weight:600;color:var(--text);">Carrossel sem CTA no último slide</div><div style="font-size:12px;color:var(--text2);margin-top:2px;">Carrossel tem o maior número de saves — aproveite para converter</div></div>
+        </div>
+        <div style="display:flex;gap:10px;align-items:flex-start;">
+          <span style="color:var(--red);font-size:16px;flex-shrink:0;">!</span>
+          <div><div style="font-size:13px;font-weight:600;color:var(--text);">Linguagem de coach genérico</div><div style="font-size:12px;color:var(--text2);margin-top:2px;">Sua audiência responde a princípios vividos, não a conselhos motivacionais</div></div>
         </div>
       </div>
     </div>
@@ -1062,47 +1205,6 @@ const topEngagement = [
   {rank:10, caption:"Miami não é sobre festa. É sobre energia 🔥 (v2)", type:"Reels", likes:6, interactions:8, date:"04/02"},
 ];
 buildTable('tableTopEngagement', topEngagement, 'interactions', 'Interações');
-
-// ── Calendário Semanal ────────────────────────────────────────────────────────────────────────────────
-const calendarData = [
-  // SEGUNDA
-  { dia: 'Segunda', dayClass: 'blue', hora: '19h00', formato: 'Reels de Impacto', badgeClass: 'reels', tema: 'Mentalidade ou Negócios', alcance: '~274', reachClass: 'mid', prioridade: 'Alto', priClass: 'p2', dim: false, highlight: false },
-  { dia: '', dayClass: '', hora: 'Dia todo', formato: 'Stories', badgeClass: 'stories', tema: 'Bastidores da rotina / bastidores do trabalho', alcance: '—', reachClass: 'low', prioridade: 'Diário', priClass: 'p0', dim: false, highlight: false },
-  // TERÇA
-  { dia: 'Terça', dayClass: 'blue', hora: '21h00', formato: 'Carrossel', badgeClass: 'carousel', tema: 'Estratégia, IA ou GovTech', alcance: '~285', reachClass: 'mid', prioridade: 'Alto', priClass: 'p2', dim: false, highlight: false },
-  { dia: '', dayClass: '', hora: 'Dia todo', formato: 'Stories', badgeClass: 'stories', tema: 'Repost do post + enquete / pergunta', alcance: '—', reachClass: 'low', prioridade: 'Diário', priClass: 'p0', dim: false, highlight: false },
-  // QUARTA
-  { dia: 'Quarta', dayClass: '', hora: '—', formato: 'Sem feed', badgeClass: 'stories', tema: 'Evitar Feed/Reels neste dia', alcance: '—', reachClass: 'low', prioridade: 'Evitar', priClass: 'p0', dim: true, highlight: false },
-  { dia: '', dayClass: '', hora: 'Dia todo', formato: 'Stories', badgeClass: 'stories', tema: 'Bastidores de viagem ou empresa + CTA link', alcance: '—', reachClass: 'low', prioridade: 'Diário', priClass: 'p0', dim: false, highlight: false },
-  // QUINTA
-  { dia: 'Quinta', dayClass: '', hora: '19h00', formato: 'Post Estático', badgeClass: 'static', tema: 'Fé / Propósito', alcance: '~322', reachClass: 'mid', prioridade: 'Médio', priClass: 'p3', dim: false, highlight: false },
-  { dia: '', dayClass: '', hora: 'Dia todo', formato: 'Stories', badgeClass: 'stories', tema: 'Reflexão curta + caixinha de perguntas', alcance: '—', reachClass: 'low', prioridade: 'Diário', priClass: 'p0', dim: false, highlight: false },
-  // SEXTA
-  { dia: 'Sexta', dayClass: '', hora: '—', formato: 'Sem feed', badgeClass: 'stories', tema: 'Descanso de feed — foco em conversão', alcance: '—', reachClass: 'low', prioridade: 'Evitar', priClass: 'p0', dim: true, highlight: false },
-  { dia: '', dayClass: '', hora: 'Dia todo', formato: 'Stories', badgeClass: 'stories', tema: 'Bastidores + CTA direto para o link da bio', alcance: '—', reachClass: 'low', prioridade: 'Diário', priClass: 'p0', dim: false, highlight: false },
-  // SÁBADO
-  { dia: 'Sábado', dayClass: 'gold', hora: '19h00', formato: 'Post Aspiracional', badgeClass: 'aspirational', tema: 'Lifestyle + reflexão de liberdade', alcance: '~410', reachClass: 'high', prioridade: '🏆 Ouro', priClass: 'p1', dim: false, highlight: true },
-  { dia: '', dayClass: '', hora: 'Dia todo', formato: 'Stories', badgeClass: 'stories', tema: 'Amplificar o post + mostrar bastidores da foto/viagem', alcance: '—', reachClass: 'low', prioridade: 'Diário', priClass: 'p0', dim: false, highlight: true },
-  // DOMINGO
-  { dia: 'Domingo', dayClass: '', hora: '—', formato: 'Descanso de feed', badgeClass: 'stories', tema: 'Opcional — priorizar descanso', alcance: '~231', reachClass: 'low', prioridade: 'Opcional', priClass: 'p0', dim: true, highlight: false },
-  { dia: '', dayClass: '', hora: 'Dia todo', formato: 'Stories', badgeClass: 'stories', tema: 'Conteúdo leve / bastidores do fim de semana', alcance: '—', reachClass: 'low', prioridade: 'Diário', priClass: 'p0', dim: false, highlight: false },
-];
-
-const calBody = document.getElementById('calBody');
-calendarData.forEach(row => {
-  const tr = document.createElement('tr');
-  if (row.highlight) tr.classList.add('cal-highlight');
-  if (row.dim) tr.classList.add('cal-dim');
-  tr.innerHTML = `
-    <td><span class="cal-day ${row.dayClass}">${row.dia}</span></td>
-    <td><span class="cal-hour">${row.hora}</span></td>
-    <td><span class="cal-badge ${row.badgeClass}">${row.formato}</span></td>
-    <td><span class="cal-theme">${row.tema}</span></td>
-    <td><span class="cal-reach ${row.reachClass}">${row.alcance}</span></td>
-    <td><span class="cal-priority ${row.priClass}">${row.prioridade}</span></td>
-  `;
-  calBody.appendChild(tr);
-});
 
 // ── Download Aprendizado com nome dinâmico ────────────────────────────────
 // Conteúdo do aprendizado embutido para download via Blob (contorna restrição cross-origin)
