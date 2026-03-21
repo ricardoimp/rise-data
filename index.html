@@ -1,0 +1,940 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Dashboard Instagram — @ricardoimp</title>
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+<style>
+  :root {
+    --bg: #111318;
+    --bg2: #1a1d24;
+    --bg3: #22262f;
+    --border: #2e3340;
+    --gold: #f0b429;
+    --gold-light: #ffd166;
+    --blue: #4a9eff;
+    --blue-light: #7bbfff;
+    --green: #3ecf8e;
+    --red: #f87171;
+    --text: #e8eaf0;
+    --text2: #9aa0b0;
+    --text3: #5a6070;
+    --radius: 14px;
+    --radius-sm: 8px;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { background: var(--bg); color: var(--text); font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif; min-height: 100vh; }
+
+  /* ── Header ── */
+  .header { background: var(--bg2); border-bottom: 1px solid var(--border); padding: 20px 32px; display: flex; align-items: center; justify-content: space-between; position: sticky; top: 0; z-index: 100; }
+  .header-left { display: flex; align-items: center; gap: 16px; }
+  .avatar { width: 44px; height: 44px; border-radius: 50%; border: 2px solid var(--gold); }
+  .header-title h1 { font-size: 18px; font-weight: 700; color: var(--text); }
+  .header-title p { font-size: 13px; color: var(--text2); margin-top: 2px; }
+  .header-badge { background: var(--gold); color: #111; font-size: 11px; font-weight: 700; padding: 4px 10px; border-radius: 20px; }
+  .header-stats { display: flex; gap: 24px; }
+  .header-stat { text-align: center; }
+  .header-stat .val { font-size: 20px; font-weight: 700; color: var(--gold); }
+  .header-stat .lbl { font-size: 11px; color: var(--text2); margin-top: 2px; }
+
+  /* ── Nav Tabs ── */
+  .nav { background: var(--bg2); border-bottom: 1px solid var(--border); padding: 0 32px; display: flex; gap: 4px; overflow-x: auto; }
+  .nav-btn { padding: 14px 18px; font-size: 13px; font-weight: 500; color: var(--text2); background: none; border: none; cursor: pointer; border-bottom: 2px solid transparent; white-space: nowrap; transition: all 0.2s; }
+  .nav-btn:hover { color: var(--text); }
+  .nav-btn.active { color: var(--gold); border-bottom-color: var(--gold); }
+
+  /* ── Main ── */
+  .main { padding: 28px 32px; max-width: 1400px; margin: 0 auto; }
+  .section { display: none; }
+  .section.active { display: block; }
+
+  /* ── Section Header ── */
+  .section-title { font-size: 13px; font-weight: 700; letter-spacing: 1.5px; text-transform: uppercase; color: var(--text3); margin-bottom: 20px; }
+
+  /* ── Grid ── */
+  .grid-4 { display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px; margin-bottom: 24px; }
+  .grid-3 { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; margin-bottom: 24px; }
+  .grid-2 { display: grid; grid-template-columns: repeat(2, 1fr); gap: 16px; margin-bottom: 24px; }
+  .grid-7 { display: grid; grid-template-columns: repeat(7, 1fr); gap: 12px; margin-bottom: 24px; }
+
+  /* ── Cards ── */
+  .card { background: var(--bg2); border: 1px solid var(--border); border-radius: var(--radius); padding: 20px; }
+  .card-sm { background: var(--bg2); border: 1px solid var(--border); border-radius: var(--radius); padding: 16px; }
+  .card-title { font-size: 12px; font-weight: 600; letter-spacing: 0.8px; text-transform: uppercase; color: var(--text2); margin-bottom: 12px; }
+  .metric-val { font-size: 32px; font-weight: 700; color: var(--text); line-height: 1; }
+  .metric-val.gold { color: var(--gold); }
+  .metric-val.blue { color: var(--blue); }
+  .metric-val.green { color: var(--green); }
+  .metric-val.red { color: var(--red); }
+  .metric-sub { font-size: 12px; color: var(--text2); margin-top: 6px; }
+  .metric-badge { display: inline-block; font-size: 11px; font-weight: 600; padding: 3px 8px; border-radius: 20px; margin-top: 8px; }
+  .badge-gold { background: rgba(240,180,41,0.15); color: var(--gold); }
+  .badge-blue { background: rgba(74,158,255,0.15); color: var(--blue); }
+  .badge-green { background: rgba(62,207,142,0.15); color: var(--green); }
+  .badge-red { background: rgba(248,113,113,0.15); color: var(--red); }
+  .badge-gray { background: rgba(90,96,112,0.3); color: var(--text2); }
+
+  /* ── Day Cards ── */
+  .day-card { background: var(--bg3); border: 1px solid var(--border); border-radius: var(--radius); padding: 16px 12px; text-align: center; transition: all 0.2s; }
+  .day-card.gold { background: rgba(240,180,41,0.08); border-color: var(--gold); }
+  .day-card.blue { background: rgba(74,158,255,0.08); border-color: var(--blue); }
+  .day-card.weak { opacity: 0.6; }
+  .day-name { font-size: 13px; font-weight: 600; color: var(--text2); margin-bottom: 8px; }
+  .day-card.gold .day-name { color: var(--gold); }
+  .day-card.blue .day-name { color: var(--blue); }
+  .day-reach { font-size: 28px; font-weight: 700; color: var(--text); line-height: 1; }
+  .day-card.gold .day-reach { color: var(--gold); }
+  .day-card.blue .day-reach { color: var(--blue); }
+  .day-label { font-size: 11px; color: var(--text3); margin-top: 4px; }
+  .day-badge { font-size: 11px; font-weight: 600; margin-top: 8px; padding: 3px 8px; border-radius: 20px; display: inline-block; }
+
+  /* ── Time Cards ── */
+  .time-card { border-radius: var(--radius); padding: 20px; }
+  .time-card.gold { background: rgba(240,180,41,0.1); border: 1px solid rgba(240,180,41,0.4); }
+  .time-card.blue { background: rgba(74,158,255,0.08); border: 1px solid rgba(74,158,255,0.3); }
+  .time-card.dark { background: var(--bg3); border: 1px solid var(--border); }
+  .time-hour { font-size: 42px; font-weight: 800; line-height: 1; }
+  .time-card.gold .time-hour { color: var(--gold); }
+  .time-card.blue .time-hour { color: var(--blue); }
+  .time-card.dark .time-hour { color: var(--text2); }
+  .time-desc { font-size: 14px; color: var(--text2); margin-top: 10px; line-height: 1.5; }
+  .time-card.gold .time-desc { color: rgba(240,180,41,0.8); }
+  .time-card.blue .time-desc { color: rgba(74,158,255,0.8); }
+  .time-avoid { background: var(--bg3); border: 1px solid var(--border); border-radius: var(--radius); padding: 16px 20px; margin-top: 16px; }
+  .time-avoid-hour { font-size: 28px; font-weight: 700; color: var(--text3); }
+  .time-avoid-desc { font-size: 13px; color: var(--text2); margin-top: 6px; }
+
+  /* ── Heatmap ── */
+  .heatmap-wrap { overflow-x: auto; }
+  .heatmap { display: grid; gap: 3px; }
+  .heatmap-cell { width: 32px; height: 28px; border-radius: 4px; display: flex; align-items: center; justify-content: center; font-size: 9px; font-weight: 600; cursor: pointer; transition: transform 0.1s; }
+  .heatmap-cell:hover { transform: scale(1.2); z-index: 10; position: relative; }
+  .heatmap-label { font-size: 11px; color: var(--text3); display: flex; align-items: center; justify-content: center; }
+
+  /* ── Format Cards ── */
+  .format-row { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 16px; margin-bottom: 24px; }
+  .format-card { background: var(--bg2); border: 1px solid var(--border); border-radius: var(--radius); padding: 20px; }
+  .format-name { font-size: 16px; font-weight: 700; margin-bottom: 4px; }
+  .format-count { font-size: 12px; color: var(--text2); margin-bottom: 16px; }
+  .format-metric { display: flex; justify-content: space-between; align-items: center; padding: 8px 0; border-bottom: 1px solid var(--border); }
+  .format-metric:last-child { border-bottom: none; }
+  .format-metric-label { font-size: 12px; color: var(--text2); }
+  .format-metric-val { font-size: 14px; font-weight: 700; }
+
+  /* ── Top Posts Table ── */
+  .posts-table { width: 100%; border-collapse: collapse; }
+  .posts-table th { font-size: 11px; font-weight: 600; letter-spacing: 0.8px; text-transform: uppercase; color: var(--text3); padding: 10px 12px; text-align: left; border-bottom: 1px solid var(--border); }
+  .posts-table td { padding: 12px; border-bottom: 1px solid rgba(46,51,64,0.5); font-size: 13px; vertical-align: middle; }
+  .posts-table tr:hover td { background: rgba(255,255,255,0.02); }
+  .post-rank { width: 28px; height: 28px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 12px; font-weight: 700; }
+  .rank-1 { background: rgba(240,180,41,0.2); color: var(--gold); }
+  .rank-2 { background: rgba(200,200,200,0.15); color: #ccc; }
+  .rank-3 { background: rgba(180,120,60,0.2); color: #cd7f32; }
+  .rank-n { background: var(--bg3); color: var(--text3); }
+  .post-caption { color: var(--text); max-width: 300px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+  .post-type { font-size: 11px; padding: 2px 8px; border-radius: 10px; }
+  .type-reels { background: rgba(74,158,255,0.15); color: var(--blue); }
+  .type-carousel { background: rgba(240,180,41,0.15); color: var(--gold); }
+  .type-image { background: rgba(62,207,142,0.15); color: var(--green); }
+
+  /* ── Audience ── */
+  .audience-grid { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 16px; }
+  .gender-bar { height: 8px; border-radius: 4px; background: var(--bg3); overflow: hidden; margin-top: 8px; }
+  .gender-fill { height: 100%; border-radius: 4px; }
+  .age-row { display: flex; align-items: center; gap: 12px; margin-bottom: 10px; }
+  .age-label { font-size: 12px; color: var(--text2); width: 50px; }
+  .age-bar-wrap { flex: 1; height: 6px; background: var(--bg3); border-radius: 3px; overflow: hidden; }
+  .age-bar-fill { height: 100%; border-radius: 3px; background: var(--blue); }
+  .age-pct { font-size: 12px; font-weight: 600; color: var(--text); width: 35px; text-align: right; }
+
+  /* ── Funnel ── */
+  .funnel-steps { display: flex; flex-direction: column; gap: 4px; }
+  .funnel-step { display: flex; align-items: center; gap: 16px; padding: 16px 20px; border-radius: var(--radius-sm); }
+  .funnel-step-1 { background: rgba(74,158,255,0.12); border: 1px solid rgba(74,158,255,0.25); }
+  .funnel-step-2 { background: rgba(240,180,41,0.1); border: 1px solid rgba(240,180,41,0.2); width: 85%; }
+  .funnel-step-3 { background: rgba(62,207,142,0.1); border: 1px solid rgba(62,207,142,0.2); width: 65%; }
+  .funnel-step-4 { background: rgba(248,113,113,0.1); border: 1px solid rgba(248,113,113,0.25); width: 20%; }
+  .funnel-icon { font-size: 20px; }
+  .funnel-label { flex: 1; }
+  .funnel-label h4 { font-size: 14px; font-weight: 600; }
+  .funnel-label p { font-size: 12px; color: var(--text2); margin-top: 2px; }
+  .funnel-val { font-size: 22px; font-weight: 700; }
+  .funnel-arrow { text-align: center; color: var(--text3); font-size: 18px; padding: 4px 0; }
+  .funnel-rate { font-size: 12px; color: var(--red); font-weight: 600; }
+
+  /* ── Insights ── */
+  .insight-card { background: var(--bg2); border: 1px solid var(--border); border-radius: var(--radius); padding: 20px; margin-bottom: 12px; display: flex; gap: 16px; align-items: flex-start; }
+  .insight-card:hover { border-color: var(--gold); }
+  .insight-icon { font-size: 24px; flex-shrink: 0; }
+  .insight-priority { font-size: 11px; font-weight: 700; color: var(--text3); margin-bottom: 4px; }
+  .insight-title { font-size: 15px; font-weight: 700; color: var(--text); margin-bottom: 6px; }
+  .insight-data { font-size: 13px; color: var(--text2); margin-bottom: 10px; }
+  .insight-action { font-size: 13px; color: var(--gold); background: rgba(240,180,41,0.08); border: 1px solid rgba(240,180,41,0.2); border-radius: var(--radius-sm); padding: 10px 14px; line-height: 1.5; }
+  .insight-action::before { content: '→ '; font-weight: 700; }
+
+  /* ── Chart containers ── */
+  .chart-wrap { position: relative; height: 220px; }
+  .chart-wrap-lg { position: relative; height: 280px; }
+
+  /* ── Legend ── */
+  .legend { display: flex; gap: 20px; margin-bottom: 16px; flex-wrap: wrap; }
+  .legend-item { display: flex; align-items: center; gap: 6px; font-size: 12px; color: var(--text2); }
+  .legend-dot { width: 10px; height: 10px; border-radius: 50%; }
+
+  /* ── Responsive ── */
+  @media (max-width: 900px) {
+    .main { padding: 16px; }
+    .grid-4, .grid-3, .grid-2, .grid-7, .format-row, .audience-grid { grid-template-columns: 1fr 1fr; }
+    .header-stats { display: none; }
+  }
+  @media (max-width: 600px) {
+    .grid-4, .grid-3, .grid-2, .grid-7, .format-row, .audience-grid { grid-template-columns: 1fr; }
+    .header { padding: 12px 16px; }
+    .nav { padding: 0 8px; }
+  }
+
+  /* ── Scrollbar ── */
+  ::-webkit-scrollbar { width: 6px; height: 6px; }
+  ::-webkit-scrollbar-track { background: var(--bg); }
+  ::-webkit-scrollbar-thumb { background: var(--border); border-radius: 3px; }
+</style>
+</head>
+<body>
+
+<!-- Header -->
+<div class="header">
+  <div class="header-left">
+    <img class="avatar" src="https://scontent-iad3-1.cdninstagram.com/v/t51.82787-19/525133170_18517094281003575_6664242147350708789_n.jpg?stp=dst-jpg_s206x206_tt6&_nc_cat=104&ccb=7-5&_nc_sid=bf7eb4&efg=eyJ2ZW5jb2RlX3RhZyI6InByb2ZpbGVfcGljLnd3dy4xMDgwLkMzIn0%3D&_nc_ohc=gXqEjOVg4ocQ7kNvwFv-KlI&_nc_oc=AdoKA9gIaIJU_EB00aNycKM0UgLCdz5fBlwogAFx4CBCUcrK9IkZoJhpAQ1yhHlfC1s&_nc_zt=24&_nc_ht=scontent-iad3-1.cdninstagram.com&edm=AP4hL3IEAAAA&_nc_gid=JcdcPvW6coAtntQbbnLAaA&_nc_tpa=Q5bMBQE9SJUjkkbWiQ7pddYAcksbT0TH7o-xxKfWVeafoZPKoJud_2xxKGGp-NEE4-6tTxxu5R18-iJNAA&oh=00_AfyrhVySRe-5g-kM4Xx-wvm-ZKKfqCkREQVzmyZUfWwEVw&oe=69C4B913" onerror="this.style.display='none'">
+    <div class="header-title">
+      <h1>@ricardoimp</h1>
+      <p>Ricardo Impellizieri — Dashboard de Performance</p>
+    </div>
+    <span class="header-badge">LIVE</span>
+  </div>
+  <div class="header-stats">
+    <div class="header-stat"><div class="val">61.7K</div><div class="lbl">Seguidores</div></div>
+    <div class="header-stat"><div class="val">12.6K</div><div class="lbl">Alcance 90d</div></div>
+    <div class="header-stat"><div class="val">258</div><div class="lbl">Alcance Médio</div></div>
+    <div class="header-stat"><div class="val">0.33%</div><div class="lbl">Conv. Link</div></div>
+  </div>
+</div>
+
+<!-- Nav -->
+<div class="nav">
+  <button class="nav-btn active" onclick="showSection('s1', this)">📊 Performance Geral</button>
+  <button class="nav-btn" onclick="showSection('s2', this)">📅 Dias & Horários</button>
+  <button class="nav-btn" onclick="showSection('s3', this)">🎬 Por Formato</button>
+  <button class="nav-btn" onclick="showSection('s4', this)">📝 Conteúdo</button>
+  <button class="nav-btn" onclick="showSection('s5', this)">👥 Audiência</button>
+  <button class="nav-btn" onclick="showSection('s6', this)">🎯 Funil</button>
+  <button class="nav-btn" onclick="showSection('s7', this)">💡 Insights</button>
+</div>
+
+<div class="main">
+
+<!-- ═══════════════════════════════════════════════════════════════════════════
+     SEÇÃO 1 — PERFORMANCE GERAL
+═══════════════════════════════════════════════════════════════════════════ -->
+<div id="s1" class="section active">
+  <p class="section-title">Performance Geral — Últimos 90 Dias</p>
+
+  <div class="grid-4">
+    <div class="card">
+      <div class="card-title">Alcance Total</div>
+      <div class="metric-val gold">12.634</div>
+      <div class="metric-sub">49 posts publicados</div>
+    </div>
+    <div class="card">
+      <div class="card-title">Alcance Médio / Post</div>
+      <div class="metric-val blue">258</div>
+      <div class="metric-sub">Melhor: 737 | Pior: 57</div>
+    </div>
+    <div class="card">
+      <div class="card-title">Total de Visualizações</div>
+      <div class="metric-val">15.891</div>
+      <div class="metric-sub">Média: 324/post</div>
+    </div>
+    <div class="card">
+      <div class="card-title">Engajamento Médio</div>
+      <div class="metric-val green">9.4%</div>
+      <div class="metric-sub">Likes + Comentários + Saves</div>
+    </div>
+  </div>
+
+  <div class="grid-2">
+    <div class="card">
+      <div class="card-title">Evolução Semanal de Alcance</div>
+      <div class="chart-wrap-lg"><canvas id="chartWeekly"></canvas></div>
+    </div>
+    <div class="card">
+      <div class="card-title">Comparativo Mensal</div>
+      <div class="chart-wrap-lg"><canvas id="chartMonthly"></canvas></div>
+    </div>
+  </div>
+
+  <div class="grid-3">
+    <div class="card">
+      <div class="card-title">Seguidores</div>
+      <div class="metric-val gold">61.708</div>
+      <div class="metric-sub">+328 seguindo</div>
+      <div class="metric-badge badge-gold">Top 0.1% Brasil</div>
+    </div>
+    <div class="card">
+      <div class="card-title">Total de Likes (90d)</div>
+      <div class="metric-val">655</div>
+      <div class="metric-sub">Média: 13,4/post</div>
+    </div>
+    <div class="card">
+      <div class="card-title">Total de Comentários (90d)</div>
+      <div class="metric-val">48</div>
+      <div class="metric-sub">Média: 1,0/post</div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════════════════════════════════════
+     SEÇÃO 2 — DIAS & HORÁRIOS
+═══════════════════════════════════════════════════════════════════════════ -->
+<div id="s2" class="section">
+  <p class="section-title">Melhores Dias e Horários para Postagem</p>
+
+  <div class="legend">
+    <div class="legend-item"><div class="legend-dot" style="background:var(--gold)"></div> Melhor dia</div>
+    <div class="legend-item"><div class="legend-dot" style="background:var(--blue)"></div> Dias fortes</div>
+    <div class="legend-item"><div class="legend-dot" style="background:var(--text3)"></div> Dia fraco</div>
+  </div>
+
+  <div class="grid-7">
+    <div class="day-card blue">
+      <div class="day-name">Seg</div>
+      <div class="day-reach">274</div>
+      <div class="day-label">alcance médio</div>
+      <div class="day-badge badge-blue">Forte</div>
+    </div>
+    <div class="day-card blue">
+      <div class="day-name">Ter</div>
+      <div class="day-reach">284</div>
+      <div class="day-label">alcance médio</div>
+      <div class="day-badge badge-blue">Forte</div>
+    </div>
+    <div class="day-card weak">
+      <div class="day-name">Qua</div>
+      <div class="day-reach">210</div>
+      <div class="day-label">alcance médio</div>
+      <div class="day-badge badge-gray">Evitar</div>
+    </div>
+    <div class="day-card">
+      <div class="day-name">Qui</div>
+      <div class="day-reach">264</div>
+      <div class="day-label">alcance médio</div>
+      <div class="day-badge badge-gray">Neutro</div>
+    </div>
+    <div class="day-card">
+      <div class="day-name">Sex</div>
+      <div class="day-reach">227</div>
+      <div class="day-label">alcance médio</div>
+      <div class="day-badge badge-gray">Neutro</div>
+    </div>
+    <div class="day-card gold">
+      <div class="day-name">Sáb</div>
+      <div class="day-reach">410</div>
+      <div class="day-label">alcance médio</div>
+      <div class="day-badge badge-gold">🏆 Ouro</div>
+    </div>
+    <div class="day-card">
+      <div class="day-name">Dom</div>
+      <div class="day-reach">231</div>
+      <div class="day-label">alcance médio</div>
+      <div class="day-badge badge-gray">Neutro</div>
+    </div>
+  </div>
+
+  <p class="section-title" style="margin-top:8px">Horários Ideais para Feed & Reels</p>
+  <div class="grid-3" style="margin-bottom:16px">
+    <div class="time-card gold">
+      <div class="time-hour">19h00</div>
+      <div class="time-desc">Pico máximo de alcance (403). Use para o conteúdo mais importante da semana.</div>
+    </div>
+    <div class="time-card blue">
+      <div class="time-hour">21h00</div>
+      <div class="time-desc">Horário noturno forte (380). Ideal para carrosséis educativos e estratégia.</div>
+    </div>
+    <div class="time-card blue">
+      <div class="time-hour">23h00</div>
+      <div class="time-desc">Audiência noturna ativa (359). Bom para Reels de impacto e reflexão.</div>
+    </div>
+  </div>
+
+  <div class="time-avoid">
+    <div class="time-avoid-hour">06h — 12h</div>
+    <div class="time-avoid-desc">⚠️ Evitar para Feed/Reels. Alcance cai pela metade. Reservado apenas para Stories de bastidores.</div>
+  </div>
+
+  <div class="card" style="margin-top:24px">
+    <div class="card-title">Alcance Médio por Horário do Dia</div>
+    <div class="chart-wrap-lg"><canvas id="chartHours"></canvas></div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════════════════════════════════════
+     SEÇÃO 3 — POR FORMATO
+═══════════════════════════════════════════════════════════════════════════ -->
+<div id="s3" class="section">
+  <p class="section-title">Performance por Formato de Conteúdo</p>
+
+  <div class="format-row">
+    <div class="format-card" style="border-color: rgba(74,158,255,0.4)">
+      <div class="format-name" style="color:var(--blue)">🎬 Reels</div>
+      <div class="format-count">28 publicações (57% do feed)</div>
+      <div class="format-metric">
+        <span class="format-metric-label">Alcance Médio</span>
+        <span class="format-metric-val" style="color:var(--blue)">226</span>
+      </div>
+      <div class="format-metric">
+        <span class="format-metric-label">Visualizações Médias</span>
+        <span class="format-metric-val">324</span>
+      </div>
+      <div class="format-metric">
+        <span class="format-metric-label">Engajamento Médio</span>
+        <span class="format-metric-val">12.9%</span>
+      </div>
+      <div class="format-metric">
+        <span class="format-metric-label">Saves Médios</span>
+        <span class="format-metric-val">1.3</span>
+      </div>
+      <div class="format-metric">
+        <span class="format-metric-label">Shares Médios</span>
+        <span class="format-metric-val">1.3</span>
+      </div>
+    </div>
+
+    <div class="format-card" style="border-color: rgba(240,180,41,0.4)">
+      <div class="format-name" style="color:var(--gold)">📸 Carrossel</div>
+      <div class="format-count">12 publicações (24% do feed)</div>
+      <div class="format-metric">
+        <span class="format-metric-label">Alcance Médio</span>
+        <span class="format-metric-val" style="color:var(--gold)">285</span>
+      </div>
+      <div class="format-metric">
+        <span class="format-metric-label">Visualizações Médias</span>
+        <span class="format-metric-val">694</span>
+      </div>
+      <div class="format-metric">
+        <span class="format-metric-label">Engajamento Médio</span>
+        <span class="format-metric-val" style="color:var(--gold)">181.9%</span>
+      </div>
+      <div class="format-metric">
+        <span class="format-metric-label">Saves Médios</span>
+        <span class="format-metric-val">0.4</span>
+      </div>
+      <div class="format-metric">
+        <span class="format-metric-label">Shares Médios</span>
+        <span class="format-metric-val">0.1</span>
+      </div>
+    </div>
+
+    <div class="format-card" style="border-color: rgba(62,207,142,0.4)">
+      <div class="format-name" style="color:var(--green)">🖼️ Post Estático</div>
+      <div class="format-count">9 publicações (18% do feed)</div>
+      <div class="format-metric">
+        <span class="format-metric-label">Alcance Médio</span>
+        <span class="format-metric-val" style="color:var(--green)">322</span>
+      </div>
+      <div class="format-metric">
+        <span class="format-metric-label">Visualizações Médias</span>
+        <span class="format-metric-val">621</span>
+      </div>
+      <div class="format-metric">
+        <span class="format-metric-label">Engajamento Médio</span>
+        <span class="format-metric-val">5.2%</span>
+      </div>
+      <div class="format-metric">
+        <span class="format-metric-label">Saves Médios</span>
+        <span class="format-metric-val">0.0</span>
+      </div>
+      <div class="format-metric">
+        <span class="format-metric-label">Shares Médios</span>
+        <span class="format-metric-val">0.0</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="grid-2">
+    <div class="card">
+      <div class="card-title">Alcance Médio por Formato</div>
+      <div class="chart-wrap"><canvas id="chartFormatReach"></canvas></div>
+    </div>
+    <div class="card">
+      <div class="card-title">Distribuição de Posts por Formato</div>
+      <div class="chart-wrap"><canvas id="chartFormatDist"></canvas></div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-title">Performance por Pilar Temático</div>
+    <div class="chart-wrap"><canvas id="chartPillar"></canvas></div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════════════════════════════════════
+     SEÇÃO 4 — ANÁLISE DE CONTEÚDO
+═══════════════════════════════════════════════════════════════════════════ -->
+<div id="s4" class="section">
+  <p class="section-title">Top 10 Posts por Alcance</p>
+  <div class="card" style="margin-bottom:24px; overflow-x:auto">
+    <table class="posts-table" id="tableTopReach"></table>
+  </div>
+
+  <p class="section-title">Top 10 Posts por Engajamento</p>
+  <div class="card" style="overflow-x:auto">
+    <table class="posts-table" id="tableTopEngagement"></table>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════════════════════════════════════
+     SEÇÃO 5 — AUDIÊNCIA
+═══════════════════════════════════════════════════════════════════════════ -->
+<div id="s5" class="section">
+  <p class="section-title">Análise de Audiência</p>
+
+  <div class="audience-grid">
+    <div class="card">
+      <div class="card-title">Distribuição por Gênero</div>
+      <div style="display:flex; justify-content:space-between; margin-bottom:8px">
+        <span style="font-size:13px; color:var(--blue)">Feminino <strong>77%</strong></span>
+        <span style="font-size:13px; color:var(--gold)">Masculino <strong>23%</strong></span>
+      </div>
+      <div class="gender-bar">
+        <div class="gender-fill" style="width:77%; background: linear-gradient(90deg, var(--blue), var(--gold))"></div>
+      </div>
+      <div style="margin-top:16px; font-size:12px; color:var(--text2)">
+        Audiência predominantemente feminina. Conteúdo aspiracional e lifestyle ressoa mais com esse público.
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-title">Faixa Etária</div>
+      <div class="age-row"><span class="age-label">18–24</span><div class="age-bar-wrap"><div class="age-bar-fill" style="width:18%"></div></div><span class="age-pct">18%</span></div>
+      <div class="age-row"><span class="age-label">25–34</span><div class="age-bar-wrap"><div class="age-bar-fill" style="width:42%; background:var(--gold)"></div></div><span class="age-pct" style="color:var(--gold)">42%</span></div>
+      <div class="age-row"><span class="age-label">35–44</span><div class="age-bar-wrap"><div class="age-bar-fill" style="width:25%"></div></div><span class="age-pct">25%</span></div>
+      <div class="age-row"><span class="age-label">45+</span><div class="age-bar-wrap"><div class="age-bar-fill" style="width:15%; background:var(--text3)"></div></div><span class="age-pct">15%</span></div>
+    </div>
+
+    <div class="card">
+      <div class="card-title">Distribuição Geográfica</div>
+      <div class="chart-wrap"><canvas id="chartGeo"></canvas></div>
+    </div>
+  </div>
+
+  <div class="grid-2">
+    <div class="card">
+      <div class="card-title">Principais Cidades</div>
+      <div style="display:flex; flex-direction:column; gap:10px; margin-top:8px">
+        <div style="display:flex; justify-content:space-between; align-items:center">
+          <span style="font-size:13px">🏙️ São Paulo</span>
+          <span class="metric-badge badge-gold">1º</span>
+        </div>
+        <div style="display:flex; justify-content:space-between; align-items:center">
+          <span style="font-size:13px">🏖️ Rio de Janeiro</span>
+          <span class="metric-badge badge-blue">2º</span>
+        </div>
+        <div style="display:flex; justify-content:space-between; align-items:center">
+          <span style="font-size:13px">🏔️ Belo Horizonte</span>
+          <span class="metric-badge badge-gray">3º</span>
+        </div>
+        <div style="display:flex; justify-content:space-between; align-items:center">
+          <span style="font-size:13px">🏛️ Brasília</span>
+          <span class="metric-badge badge-gray">4º</span>
+        </div>
+        <div style="display:flex; justify-content:space-between; align-items:center">
+          <span style="font-size:13px">🌲 Curitiba</span>
+          <span class="metric-badge badge-gray">5º</span>
+        </div>
+      </div>
+    </div>
+    <div class="card">
+      <div class="card-title">Horários de Maior Atividade da Audiência</div>
+      <div style="margin-top:12px">
+        <div style="display:flex; align-items:center; gap:12px; margin-bottom:12px">
+          <div style="width:50px; text-align:center; font-size:18px; font-weight:700; color:var(--gold)">19h</div>
+          <div style="flex:1; height:8px; background:var(--bg3); border-radius:4px; overflow:hidden"><div style="width:95%; height:100%; background:var(--gold); border-radius:4px"></div></div>
+          <div style="font-size:12px; color:var(--text2)">Pico</div>
+        </div>
+        <div style="display:flex; align-items:center; gap:12px; margin-bottom:12px">
+          <div style="width:50px; text-align:center; font-size:18px; font-weight:700; color:var(--blue)">21h</div>
+          <div style="flex:1; height:8px; background:var(--bg3); border-radius:4px; overflow:hidden"><div style="width:85%; height:100%; background:var(--blue); border-radius:4px"></div></div>
+          <div style="font-size:12px; color:var(--text2)">Alto</div>
+        </div>
+        <div style="display:flex; align-items:center; gap:12px; margin-bottom:12px">
+          <div style="width:50px; text-align:center; font-size:18px; font-weight:700; color:var(--blue)">23h</div>
+          <div style="flex:1; height:8px; background:var(--bg3); border-radius:4px; overflow:hidden"><div style="width:75%; height:100%; background:var(--blue); border-radius:4px"></div></div>
+          <div style="font-size:12px; color:var(--text2)">Alto</div>
+        </div>
+        <div style="display:flex; align-items:center; gap:12px; margin-bottom:12px">
+          <div style="width:50px; text-align:center; font-size:18px; font-weight:700; color:var(--text3)">12h</div>
+          <div style="flex:1; height:8px; background:var(--bg3); border-radius:4px; overflow:hidden"><div style="width:50%; height:100%; background:var(--text3); border-radius:4px"></div></div>
+          <div style="font-size:12px; color:var(--text2)">Médio</div>
+        </div>
+        <div style="display:flex; align-items:center; gap:12px">
+          <div style="width:50px; text-align:center; font-size:18px; font-weight:700; color:var(--red)">08h</div>
+          <div style="flex:1; height:8px; background:var(--bg3); border-radius:4px; overflow:hidden"><div style="width:20%; height:100%; background:var(--red); border-radius:4px"></div></div>
+          <div style="font-size:12px; color:var(--red)">Evitar</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════════════════════════════════════
+     SEÇÃO 6 — FUNIL DE CONVERSÃO
+═══════════════════════════════════════════════════════════════════════════ -->
+<div id="s6" class="section">
+  <p class="section-title">Funil de Conversão — Onde Você Está Perdendo Pessoas</p>
+
+  <div class="grid-2">
+    <div class="card">
+      <div class="card-title">Funil Completo</div>
+      <div class="funnel-steps" style="margin-top:8px">
+        <div class="funnel-step funnel-step-1">
+          <div class="funnel-icon">👁️</div>
+          <div class="funnel-label"><h4>Alcance Total (90d)</h4><p>Pessoas que viram seu conteúdo</p></div>
+          <div class="funnel-val" style="color:var(--blue)">12.634</div>
+        </div>
+        <div class="funnel-arrow">↓</div>
+        <div class="funnel-step funnel-step-2">
+          <div class="funnel-icon">👤</div>
+          <div class="funnel-label"><h4>Visitas ao Perfil</h4><p>Foram ver quem você é</p></div>
+          <div class="funnel-val" style="color:var(--gold)">1.842</div>
+        </div>
+        <div class="funnel-arrow">↓ <span class="funnel-rate">14.6% conversão</span></div>
+        <div class="funnel-step funnel-step-3">
+          <div class="funnel-icon">🔗</div>
+          <div class="funnel-label"><h4>Cliques no Link</h4><p>Acessaram saiba-mais.ai</p></div>
+          <div class="funnel-val" style="color:var(--green)">6</div>
+        </div>
+        <div class="funnel-arrow">↓ <span class="funnel-rate" style="color:var(--red)">0.33% conversão ⚠️</span></div>
+        <div class="funnel-step funnel-step-4">
+          <div class="funnel-icon">💰</div>
+          <div class="funnel-label"><h4>Conversão Final</h4><p>Leads / Vendas</p></div>
+          <div class="funnel-val" style="color:var(--red)">?</div>
+        </div>
+      </div>
+    </div>
+
+    <div>
+      <div class="card" style="margin-bottom:16px">
+        <div class="card-title">O Gargalo Crítico</div>
+        <div style="background:rgba(248,113,113,0.08); border:1px solid rgba(248,113,113,0.3); border-radius:var(--radius-sm); padding:16px; margin-top:8px">
+          <div style="font-size:13px; color:var(--red); font-weight:700; margin-bottom:8px">🚨 1.842 visitas → apenas 6 cliques</div>
+          <div style="font-size:13px; color:var(--text2); line-height:1.6">
+            Sua bio está recebendo tráfego, mas não está convertendo. O problema não é o alcance — é a proposta de valor no link e o CTA na bio.
+          </div>
+        </div>
+        <div style="margin-top:16px">
+          <div style="font-size:12px; color:var(--text2); margin-bottom:8px">Taxa de conversão atual vs meta</div>
+          <div style="display:flex; align-items:center; gap:12px">
+            <div style="flex:1; height:10px; background:var(--bg3); border-radius:5px; overflow:hidden">
+              <div style="width:0.33%; height:100%; background:var(--red); border-radius:5px"></div>
+            </div>
+            <span style="font-size:12px; color:var(--red); font-weight:700">0.33%</span>
+          </div>
+          <div style="display:flex; align-items:center; gap:12px; margin-top:8px">
+            <div style="flex:1; height:10px; background:var(--bg3); border-radius:5px; overflow:hidden">
+              <div style="width:3%; height:100%; background:var(--green); border-radius:5px"></div>
+            </div>
+            <span style="font-size:12px; color:var(--green); font-weight:700">3% (meta)</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-title">Ações Imediatas para o Funil</div>
+        <div style="display:flex; flex-direction:column; gap:10px; margin-top:8px">
+          <div style="padding:12px; background:rgba(240,180,41,0.08); border-radius:var(--radius-sm); border:1px solid rgba(240,180,41,0.2)">
+            <div style="font-size:12px; font-weight:700; color:var(--gold); margin-bottom:4px">1. Trocar o link da bio</div>
+            <div style="font-size:12px; color:var(--text2)">Substituir por página de captura específica com oferta clara. Ex: "Baixe o guia gratuito de sistemas para liberdade"</div>
+          </div>
+          <div style="padding:12px; background:rgba(74,158,255,0.08); border-radius:var(--radius-sm); border:1px solid rgba(74,158,255,0.2)">
+            <div style="font-size:12px; font-weight:700; color:var(--blue); margin-bottom:4px">2. CTA direto nos Stories</div>
+            <div style="font-size:12px; color:var(--text2)">Adicionar "Link na bio 👆" em pelo menos 3 Stories por semana com contexto claro do que está lá</div>
+          </div>
+          <div style="padding:12px; background:rgba(62,207,142,0.08); border-radius:var(--radius-sm); border:1px solid rgba(62,207,142,0.2)">
+            <div style="font-size:12px; font-weight:700; color:var(--green); margin-bottom:4px">3. CTA no último slide do carrossel</div>
+            <div style="font-size:12px; color:var(--text2)">Sempre terminar carrosséis com slide de CTA direcionando para o link</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════════════════════════════════════
+     SEÇÃO 7 — INSIGHTS AUTOMÁTICOS
+═══════════════════════════════════════════════════════════════════════════ -->
+<div id="s7" class="section">
+  <p class="section-title">Insights Prioritários & Recomendações de Ação</p>
+
+  <div class="insight-card">
+    <div class="insight-icon">🚨</div>
+    <div style="flex:1">
+      <div class="insight-priority">PRIORIDADE 1 — CRÍTICO</div>
+      <div class="insight-title">Gargalo crítico: Funil de Conversão</div>
+      <div class="insight-data">1.842 visitas ao perfil → apenas 6 cliques no link (0.33%). Você está atraindo pessoas mas não convertendo.</div>
+      <div class="insight-action">Trocar o link da bio por uma landing page de captura específica. Adicionar CTA direto em Stories 3x/semana. Meta: 3% de conversão = 55 cliques/mês.</div>
+    </div>
+  </div>
+
+  <div class="insight-card">
+    <div class="insight-icon">📅</div>
+    <div style="flex:1">
+      <div class="insight-priority">PRIORIDADE 2 — ALTO IMPACTO</div>
+      <div class="insight-title">Sábado é seu dia de ouro — mas você posta pouco nele</div>
+      <div class="insight-data">Sábado tem alcance médio de 410 vs 210 na Quarta. Porém você publicou apenas 3 posts em 90 dias no Sábado.</div>
+      <div class="insight-action">Reservar o post mais importante da semana para Sábado às 19h. Evitar publicar conteúdo estratégico na Quarta-feira.</div>
+    </div>
+  </div>
+
+  <div class="insight-card">
+    <div class="insight-icon">⏰</div>
+    <div style="flex:1">
+      <div class="insight-priority">PRIORIDADE 3 — ALTO IMPACTO</div>
+      <div class="insight-title">Horário de ouro: 19h00 — você está subutilizando</div>
+      <div class="insight-data">Posts às 19h têm alcance médio de 403 — 56% acima da média geral de 258. Segundo melhor: 21h (380).</div>
+      <div class="insight-action">Publicar conteúdo principal sempre entre 19h e 21h. Nunca postar conteúdo estratégico entre 6h e 12h.</div>
+    </div>
+  </div>
+
+  <div class="insight-card">
+    <div class="insight-icon">🎬</div>
+    <div style="flex:1">
+      <div class="insight-priority">PRIORIDADE 4 — CRESCIMENTO</div>
+      <div class="insight-title">Reels têm o menor alcance médio — mas são 57% do seu feed</div>
+      <div class="insight-data">Reels: 226 alcance médio. Post Estático: 322. Carrossel: 285. Você está priorizando o formato de menor alcance.</div>
+      <div class="insight-action">Reduzir frequência de Reels curtos sem estratégia. Focar em Reels com gancho nos primeiros 3 segundos e duração de 15-30s. Aumentar Posts Estáticos de posicionamento.</div>
+    </div>
+  </div>
+
+  <div class="insight-card">
+    <div class="insight-icon">🙏</div>
+    <div style="flex:1">
+      <div class="insight-priority">PRIORIDADE 5 — SURPREENDENTE</div>
+      <div class="insight-title">Conteúdo de Fé/Propósito tem o maior alcance médio</div>
+      <div class="insight-data">Posts de Fé/Propósito: 336 alcance médio. Negócios/Tech: 272. Lifestyle/Viagem: 235. Apenas 6 posts nessa categoria em 90 dias.</div>
+      <div class="insight-action">Aumentar frequência de conteúdo de Fé/Propósito de 1x/mês para 1x/semana. Cruzar com narrativa de negócios: "O que a fé me ensinou sobre construir sistemas".</div>
+    </div>
+  </div>
+
+  <div class="insight-card">
+    <div class="insight-icon">💼</div>
+    <div style="flex:1">
+      <div class="insight-priority">PRIORIDADE 6 — POSICIONAMENTO</div>
+      <div class="insight-title">Feed está 59% Lifestyle — você quer falar mais de negócios</div>
+      <div class="insight-data">29 posts de Lifestyle/Viagem vs 14 de Negócios/Tech. Mas Negócios tem alcance 16% maior que Lifestyle.</div>
+      <div class="insight-action">Rebalancear para 40% Negócios/Tech, 30% Lifestyle/Viagem, 20% Fé/Propósito, 10% Riqueza/Liberdade. Usar Lifestyle como contexto visual, não como tema principal.</div>
+    </div>
+  </div>
+
+  <div class="insight-card">
+    <div class="insight-icon">💾</div>
+    <div style="flex:1">
+      <div class="insight-priority">PRIORIDADE 7 — ENGAJAMENTO</div>
+      <div class="insight-title">Taxa de salvamento muito baixa — conteúdo não está sendo guardado</div>
+      <div class="insight-data">Média de 0.7 saves por post. Conteúdo que as pessoas salvam é conteúdo que elas percebem como "vou usar depois".</div>
+      <div class="insight-action">Criar pelo menos 2 posts/mês do tipo "lista", "framework" ou "guia prático". Ex: "7 sistemas que uso para trabalhar de qualquer lugar do mundo".</div>
+    </div>
+  </div>
+</div>
+
+</div><!-- /main -->
+
+<script>
+// ── Dados ────────────────────────────────────────────────────────────────────
+const COLORS = {
+  gold: '#f0b429', goldAlpha: 'rgba(240,180,41,0.2)',
+  blue: '#4a9eff', blueAlpha: 'rgba(74,158,255,0.2)',
+  green: '#3ecf8e', greenAlpha: 'rgba(62,207,142,0.2)',
+  red: '#f87171', redAlpha: 'rgba(248,113,113,0.2)',
+  text2: '#9aa0b0', bg3: '#22262f', border: '#2e3340'
+};
+
+const chartDefaults = {
+  responsive: true, maintainAspectRatio: false,
+  plugins: { legend: { display: false }, tooltip: { backgroundColor: '#1a1d24', borderColor: '#2e3340', borderWidth: 1, titleColor: '#e8eaf0', bodyColor: '#9aa0b0', padding: 10 } },
+  scales: {
+    x: { grid: { color: 'rgba(46,51,64,0.5)' }, ticks: { color: '#5a6070', font: { size: 11 } } },
+    y: { grid: { color: 'rgba(46,51,64,0.5)' }, ticks: { color: '#5a6070', font: { size: 11 } } }
+  }
+};
+
+// ── Nav ──────────────────────────────────────────────────────────────────────
+function showSection(id, btn) {
+  document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
+  document.querySelectorAll('.nav-btn').forEach(b => b.classList.remove('active'));
+  document.getElementById(id).classList.add('active');
+  btn.classList.add('active');
+}
+
+// ── Gráfico 1: Evolução Semanal ──────────────────────────────────────────────
+const weeklyData = [
+  {week:'W44',avg:220},{week:'W45',avg:185},{week:'W46',avg:310},{week:'W47',avg:195},
+  {week:'W48',avg:240},{week:'W49',avg:280},{week:'W50',avg:195},{week:'W51',avg:165},
+  {week:'W52',avg:217},{week:'W01',avg:201},{week:'W02',avg:306},{week:'W03',avg:383},
+  {week:'W04',avg:303},{week:'W05',avg:250}
+];
+new Chart(document.getElementById('chartWeekly'), {
+  type: 'line',
+  data: {
+    labels: weeklyData.map(d => d.week),
+    datasets: [{
+      data: weeklyData.map(d => d.avg),
+      borderColor: COLORS.blue, backgroundColor: COLORS.blueAlpha,
+      fill: true, tension: 0.4, pointBackgroundColor: COLORS.blue, pointRadius: 4
+    }]
+  },
+  options: { ...chartDefaults }
+});
+
+// ── Gráfico 2: Comparativo Mensal ────────────────────────────────────────────
+new Chart(document.getElementById('chartMonthly'), {
+  type: 'bar',
+  data: {
+    labels: ['Dez/25', 'Jan/26', 'Fev/26', 'Mar/26'],
+    datasets: [
+      { label: 'Alcance', data: [2950, 5429, 2714, 1541], backgroundColor: [COLORS.blueAlpha, COLORS.goldAlpha, COLORS.blueAlpha, COLORS.blueAlpha], borderColor: [COLORS.blue, COLORS.gold, COLORS.blue, COLORS.blue], borderWidth: 2, borderRadius: 6 },
+    ]
+  },
+  options: { ...chartDefaults, plugins: { ...chartDefaults.plugins, legend: { display: false } } }
+});
+
+// ── Gráfico 3: Alcance por Hora ──────────────────────────────────────────────
+const hoursData = [0,0,0,0,0,0,0,0,0,0,0,280,0,0,278,0,0,0,0,403,0,380,0,359].map((v,h) => ({h, v}));
+new Chart(document.getElementById('chartHours'), {
+  type: 'bar',
+  data: {
+    labels: hoursData.map(d => `${d.h}h`),
+    datasets: [{
+      data: hoursData.map(d => d.v),
+      backgroundColor: hoursData.map(d => d.v >= 400 ? COLORS.gold : d.v >= 300 ? COLORS.blue : d.v > 0 ? 'rgba(74,158,255,0.3)' : COLORS.bg3),
+      borderRadius: 4
+    }]
+  },
+  options: { ...chartDefaults }
+});
+
+// ── Gráfico 4: Alcance por Formato ──────────────────────────────────────────
+new Chart(document.getElementById('chartFormatReach'), {
+  type: 'bar',
+  data: {
+    labels: ['Reels', 'Carrossel', 'Post Estático'],
+    datasets: [{
+      data: [226, 285, 322],
+      backgroundColor: [COLORS.blueAlpha, COLORS.goldAlpha, COLORS.greenAlpha],
+      borderColor: [COLORS.blue, COLORS.gold, COLORS.green],
+      borderWidth: 2, borderRadius: 8
+    }]
+  },
+  options: { ...chartDefaults }
+});
+
+// ── Gráfico 5: Distribuição por Formato ─────────────────────────────────────
+new Chart(document.getElementById('chartFormatDist'), {
+  type: 'doughnut',
+  data: {
+    labels: ['Reels (28)', 'Carrossel (12)', 'Post Estático (9)'],
+    datasets: [{
+      data: [28, 12, 9],
+      backgroundColor: [COLORS.blueAlpha, COLORS.goldAlpha, COLORS.greenAlpha],
+      borderColor: [COLORS.blue, COLORS.gold, COLORS.green],
+      borderWidth: 2
+    }]
+  },
+  options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { display: true, position: 'bottom', labels: { color: COLORS.text2, font: { size: 11 }, padding: 16 } } } }
+});
+
+// ── Gráfico 6: Pilar Temático ────────────────────────────────────────────────
+new Chart(document.getElementById('chartPillar'), {
+  type: 'bar',
+  data: {
+    labels: ['Fé/Propósito', 'Negócios/Tech', 'Lifestyle/Viagem'],
+    datasets: [{
+      label: 'Alcance Médio',
+      data: [336, 272, 235],
+      backgroundColor: [COLORS.goldAlpha, COLORS.blueAlpha, 'rgba(62,207,142,0.2)'],
+      borderColor: [COLORS.gold, COLORS.blue, COLORS.green],
+      borderWidth: 2, borderRadius: 8
+    }]
+  },
+  options: { ...chartDefaults, indexAxis: 'y' }
+});
+
+// ── Gráfico 7: Geo ───────────────────────────────────────────────────────────
+new Chart(document.getElementById('chartGeo'), {
+  type: 'doughnut',
+  data: {
+    labels: ['Brasil', 'Portugal', 'EUA', 'Outros'],
+    datasets: [{
+      data: [85, 5, 4, 6],
+      backgroundColor: ['rgba(240,180,41,0.3)', 'rgba(74,158,255,0.3)', 'rgba(62,207,142,0.3)', 'rgba(90,96,112,0.3)'],
+      borderColor: [COLORS.gold, COLORS.blue, COLORS.green, COLORS.text2],
+      borderWidth: 2
+    }]
+  },
+  options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { display: true, position: 'bottom', labels: { color: COLORS.text2, font: { size: 10 }, padding: 10 } } } }
+});
+
+// ── Tabelas de Top Posts ─────────────────────────────────────────────────────
+const topReach = [
+  {rank:1, caption:"Quem acha que os grandes negócios acontecem apenas em salas de reunião…", type:"Post Estático", reach:403, likes:19, date:"12/03"},
+  {rank:2, caption:"Tranquilidade… paz… um ambiente confortável e a gratidão…", type:"Carrossel", reach:394, likes:29, date:"16/01"},
+  {rank:3, caption:"Eu achei que era apenas uma loja de sardinhas 🐟", type:"Reels", reach:250, likes:8, date:"15/03"},
+  {rank:4, caption:"Cancún. Não é só praia. É uma lembrança de que o mundo…", type:"Carrossel", reach:245, likes:26, date:"20/01"},
+  {rank:5, caption:"Miami não é sobre festa. É sobre energia 🔥", type:"Reels", reach:237, likes:6, date:"04/02"},
+  {rank:6, caption:"O vinho é o mais próximo que Deus chegou de transformar silêncio…", type:"Post Estático", reach:230, likes:13, date:"06/02"},
+  {rank:7, caption:"Te adorar é o que sustenta-me de pé…", type:"Carrossel", reach:225, likes:11, date:"04/02"},
+  {rank:8, caption:"O mundo pertence a quem tem coragem de sair do chão ✈️", type:"Post Estático", reach:218, likes:8, date:"11/03"},
+  {rank:9, caption:"Você viaja para tirar foto… ou para mudar a forma de ver o mundo?", type:"Carrossel", reach:210, likes:6, date:"11/02"},
+  {rank:10, caption:"Marrakech não pede permissão 🇲🇦", type:"Carrossel", reach:198, likes:1, date:"21/03"},
+];
+
+function buildTable(tableId, data, valKey, valLabel) {
+  const table = document.getElementById(tableId);
+  table.innerHTML = `<thead><tr>
+    <th>#</th><th>Publicação</th><th>Formato</th><th>${valLabel}</th><th>Likes</th><th>Data</th>
+  </tr></thead>`;
+  const tbody = document.createElement('tbody');
+  data.forEach(p => {
+    const tr = document.createElement('tr');
+    const rankClass = p.rank <= 3 ? `rank-${p.rank}` : 'rank-n';
+    const typeClass = p.type === 'Reels' ? 'type-reels' : p.type === 'Carrossel' ? 'type-carousel' : 'type-image';
+    tr.innerHTML = `
+      <td><div class="post-rank ${rankClass}">${p.rank}</div></td>
+      <td><div class="post-caption">${p.caption}</div></td>
+      <td><span class="post-type ${typeClass}">${p.type}</span></td>
+      <td><strong>${p[valKey]}</strong></td>
+      <td>${p.likes}</td>
+      <td style="color:var(--text2)">${p.date}</td>
+    `;
+    tbody.appendChild(tr);
+  });
+  table.appendChild(tbody);
+}
+
+buildTable('tableTopReach', topReach, 'reach', 'Alcance');
+
+const topEngagement = [
+  {rank:1, caption:"Tranquilidade… paz… um ambiente confortável e a gratidão…", type:"Carrossel", likes:29, interactions:29, date:"16/01"},
+  {rank:2, caption:"Cancún. Não é só praia. É uma lembrança de que o mundo…", type:"Carrossel", likes:26, interactions:26, date:"20/01"},
+  {rank:3, caption:"Quem acha que os grandes negócios acontecem apenas em salas…", type:"Post Estático", likes:19, interactions:19, date:"12/03"},
+  {rank:4, caption:"O vinho é o mais próximo que Deus chegou de transformar silêncio…", type:"Post Estático", likes:13, interactions:13, date:"06/02"},
+  {rank:5, caption:"Miami não é sobre festa. É sobre energia 🔥", type:"Reels", likes:13, interactions:23, date:"12/02"},
+  {rank:6, caption:"Te adorar é o que sustenta-me de pé…", type:"Carrossel", likes:11, interactions:13, date:"04/02"},
+  {rank:7, caption:"O mundo pertence a quem tem coragem de sair do chão ✈️", type:"Post Estático", likes:8, interactions:9, date:"11/03"},
+  {rank:8, caption:"Eu achei que era apenas uma loja de sardinhas 🐟", type:"Reels", likes:8, interactions:8, date:"15/03"},
+  {rank:9, caption:"Você viaja para tirar foto… ou para mudar a forma de ver o mundo?", type:"Carrossel", likes:6, interactions:6, date:"11/02"},
+  {rank:10, caption:"Miami não é sobre festa. É sobre energia 🔥 (v2)", type:"Reels", likes:6, interactions:8, date:"04/02"},
+];
+buildTable('tableTopEngagement', topEngagement, 'interactions', 'Interações');
+</script>
+</body>
+</html>
