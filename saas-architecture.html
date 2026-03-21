@@ -1,0 +1,567 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Arquitetura SaaS — Instagram Dashboard</title>
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body {
+    background: #0d0f14;
+    color: #e2e8f0;
+    font-family: 'Inter', -apple-system, sans-serif;
+    min-height: 100vh;
+    padding: 40px 32px;
+  }
+
+  h1 {
+    text-align: center;
+    font-size: 22px;
+    font-weight: 700;
+    color: #f8fafc;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    margin-bottom: 6px;
+  }
+  .subtitle {
+    text-align: center;
+    font-size: 13px;
+    color: #64748b;
+    margin-bottom: 48px;
+    letter-spacing: 0.5px;
+  }
+
+  /* GRID PRINCIPAL */
+  .arch {
+    display: flex;
+    flex-direction: column;
+    gap: 0;
+    max-width: 1100px;
+    margin: 0 auto;
+  }
+
+  /* CAMADAS */
+  .layer {
+    display: flex;
+    align-items: stretch;
+    gap: 0;
+    position: relative;
+  }
+
+  .layer-label {
+    writing-mode: vertical-rl;
+    text-orientation: mixed;
+    transform: rotate(180deg);
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: #475569;
+    padding: 0 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 36px;
+    border-right: 1px solid #1e2535;
+  }
+
+  .layer-content {
+    flex: 1;
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    padding: 20px 24px;
+    border-bottom: 1px solid #1e2535;
+  }
+
+  /* CONECTOR VERTICAL */
+  .connector {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 6px 0;
+    margin-left: 36px;
+  }
+  .connector-line {
+    width: 2px;
+    height: 28px;
+    background: linear-gradient(to bottom, #334155, #1e293b);
+    position: relative;
+  }
+  .connector-line::after {
+    content: '';
+    position: absolute;
+    bottom: -6px;
+    left: 50%;
+    transform: translateX(-50%);
+    border-left: 6px solid transparent;
+    border-right: 6px solid transparent;
+    border-top: 8px solid #334155;
+  }
+  .connector-label {
+    font-size: 10px;
+    color: #475569;
+    margin-left: 12px;
+    letter-spacing: 0.5px;
+  }
+
+  /* CARDS */
+  .node {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 6px;
+    padding: 14px 16px;
+    border-radius: 10px;
+    border: 1px solid;
+    min-width: 110px;
+    text-align: center;
+    position: relative;
+    transition: transform 0.15s;
+    cursor: default;
+  }
+  .node:hover { transform: translateY(-2px); }
+
+  .node-icon { font-size: 22px; }
+  .node-name {
+    font-size: 12px;
+    font-weight: 700;
+    line-height: 1.3;
+  }
+  .node-tech {
+    font-size: 10px;
+    color: #94a3b8;
+    line-height: 1.4;
+  }
+  .node-badge {
+    position: absolute;
+    top: -8px;
+    right: -8px;
+    font-size: 9px;
+    font-weight: 700;
+    padding: 2px 6px;
+    border-radius: 20px;
+    letter-spacing: 0.5px;
+    text-transform: uppercase;
+  }
+
+  /* CORES POR TIPO */
+  .node-user    { background: rgba(99,102,241,0.1); border-color: rgba(99,102,241,0.35); }
+  .node-front   { background: rgba(74,158,255,0.1); border-color: rgba(74,158,255,0.3); }
+  .node-auth    { background: rgba(240,180,41,0.1); border-color: rgba(240,180,41,0.3); }
+  .node-api     { background: rgba(62,207,142,0.1); border-color: rgba(62,207,142,0.3); }
+  .node-db      { background: rgba(168,85,247,0.1); border-color: rgba(168,85,247,0.3); }
+  .node-pay     { background: rgba(248,113,113,0.1); border-color: rgba(248,113,113,0.3); }
+  .node-ext     { background: rgba(251,146,60,0.1); border-color: rgba(251,146,60,0.3); }
+  .node-worker  { background: rgba(20,184,166,0.1); border-color: rgba(20,184,166,0.3); }
+  .node-ai      { background: rgba(236,72,153,0.1); border-color: rgba(236,72,153,0.3); }
+  .node-infra   { background: rgba(148,163,184,0.08); border-color: rgba(148,163,184,0.2); }
+
+  .badge-new  { background: rgba(62,207,142,0.2); color: #3ecf8e; border: 1px solid rgba(62,207,142,0.4); }
+  .badge-core { background: rgba(74,158,255,0.2); color: #4a9eff; border: 1px solid rgba(74,158,255,0.4); }
+  .badge-ext  { background: rgba(251,146,60,0.2); color: #fb923c; border: 1px solid rgba(251,146,60,0.4); }
+
+  /* SETA HORIZONTAL */
+  .arrow {
+    display: flex;
+    align-items: center;
+    color: #334155;
+    font-size: 18px;
+    padding: 0 4px;
+    flex-shrink: 0;
+  }
+
+  /* GRUPO */
+  .group {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    flex-wrap: wrap;
+  }
+
+  /* LEGENDA */
+  .legend {
+    display: flex;
+    gap: 20px;
+    flex-wrap: wrap;
+    justify-content: center;
+    margin-top: 40px;
+    padding-top: 24px;
+    border-top: 1px solid #1e2535;
+  }
+  .legend-item {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 11px;
+    color: #94a3b8;
+  }
+  .legend-dot {
+    width: 10px;
+    height: 10px;
+    border-radius: 3px;
+    border: 1px solid;
+  }
+
+  /* FASES */
+  .phases {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 16px;
+    margin-top: 40px;
+    max-width: 1100px;
+    margin-left: auto;
+    margin-right: auto;
+  }
+  .phase-card {
+    background: #111827;
+    border: 1px solid #1e2535;
+    border-radius: 10px;
+    padding: 16px 18px;
+  }
+  .phase-card h3 {
+    font-size: 12px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    margin-bottom: 10px;
+    padding-bottom: 8px;
+    border-bottom: 1px solid #1e2535;
+  }
+  .phase-card ul {
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+  }
+  .phase-card li {
+    font-size: 12px;
+    color: #94a3b8;
+    display: flex;
+    gap: 8px;
+    align-items: flex-start;
+  }
+  .phase-card li span { flex-shrink: 0; }
+  .ph1 h3 { color: #4a9eff; }
+  .ph2 h3 { color: #3ecf8e; }
+  .ph3 h3 { color: #f0b429; }
+
+  .section-title-arch {
+    font-size: 11px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    color: #475569;
+    text-align: center;
+    margin-top: 40px;
+    margin-bottom: 16px;
+  }
+</style>
+</head>
+<body>
+
+<h1>Arquitetura SaaS — Instagram Analytics Dashboard</h1>
+<p class="subtitle">Estrutura completa de produto · Multi-conta · Assinatura · IA · Automação</p>
+
+<div class="arch">
+
+  <!-- CAMADA 1: USUÁRIO -->
+  <div class="layer">
+    <div class="layer-label" style="color:#6366f1;">Usuário</div>
+    <div class="layer-content" style="background:rgba(99,102,241,0.03);">
+      <div class="group">
+        <div class="node node-user">
+          <div class="node-icon">🧑‍💻</div>
+          <div class="node-name">Cliente / Usuário</div>
+          <div class="node-tech">Browser / Mobile</div>
+        </div>
+        <div class="arrow">→</div>
+        <div class="node node-user">
+          <div class="node-icon">🔐</div>
+          <div class="node-name">Login / Cadastro</div>
+          <div class="node-tech">Email · Google OAuth</div>
+        </div>
+        <div class="arrow">→</div>
+        <div class="node node-pay">
+          <div class="node-icon">💳</div>
+          <div class="node-name">Plano / Assinatura</div>
+          <div class="node-tech">Free · Pro · Agency</div>
+          <span class="node-badge badge-new">Stripe</span>
+        </div>
+        <div class="arrow">→</div>
+        <div class="node node-user">
+          <div class="node-icon">📱</div>
+          <div class="node-name">Conectar Instagram</div>
+          <div class="node-tech">OAuth 2.0 · Meta API</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="connector">
+    <div class="connector-line"></div>
+    <span class="connector-label">HTTPS · JWT Token</span>
+  </div>
+
+  <!-- CAMADA 2: FRONTEND -->
+  <div class="layer">
+    <div class="layer-label" style="color:#4a9eff;">Frontend</div>
+    <div class="layer-content" style="background:rgba(74,158,255,0.03);">
+      <div class="group">
+        <div class="node node-front">
+          <div class="node-icon">▲</div>
+          <div class="node-name">Vercel</div>
+          <div class="node-tech">Next.js · React<br>Edge Network CDN</div>
+          <span class="node-badge badge-core">Core</span>
+        </div>
+        <div class="arrow">→</div>
+        <div class="node node-front">
+          <div class="node-icon">📊</div>
+          <div class="node-name">Dashboard Multi-conta</div>
+          <div class="node-tech">Performance · Calendário<br>Funil · Audiência · IA</div>
+        </div>
+        <div class="arrow">→</div>
+        <div class="node node-front">
+          <div class="node-icon">🔔</div>
+          <div class="node-name">Notificações</div>
+          <div class="node-tech">Alertas de queda<br>Sugestões semanais</div>
+        </div>
+        <div class="arrow">→</div>
+        <div class="node node-front">
+          <div class="node-icon">📥</div>
+          <div class="node-name">Exportação</div>
+          <div class="node-tech">PDF · MD · CSV<br>Relatório IA</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="connector">
+    <div class="connector-line"></div>
+    <span class="connector-label">API REST / Serverless Functions</span>
+  </div>
+
+  <!-- CAMADA 3: BACKEND / API -->
+  <div class="layer">
+    <div class="layer-label" style="color:#3ecf8e;">Backend</div>
+    <div class="layer-content" style="background:rgba(62,207,142,0.03);">
+      <div class="group">
+        <div class="node node-api">
+          <div class="node-icon">⚡</div>
+          <div class="node-name">API Routes</div>
+          <div class="node-tech">Vercel Serverless<br>Next.js API</div>
+        </div>
+        <div class="arrow">→</div>
+        <div class="node node-auth">
+          <div class="node-icon">🛡️</div>
+          <div class="node-name">Auth</div>
+          <div class="node-tech">Supabase Auth<br>JWT · Sessions</div>
+          <span class="node-badge badge-core">Core</span>
+        </div>
+        <div class="arrow">→</div>
+        <div class="node node-api">
+          <div class="node-icon">🔄</div>
+          <div class="node-name">OAuth Handler</div>
+          <div class="node-tech">Meta OAuth 2.0<br>Token Exchange</div>
+        </div>
+        <div class="arrow">→</div>
+        <div class="node node-api">
+          <div class="node-icon">📡</div>
+          <div class="node-name">Instagram Collector</div>
+          <div class="node-tech">Graph API<br>Posts · Insights</div>
+        </div>
+        <div class="arrow">→</div>
+        <div class="node node-pay">
+          <div class="node-icon">💰</div>
+          <div class="node-name">Billing API</div>
+          <div class="node-tech">Stripe Webhooks<br>Planos · Limites</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="connector">
+    <div class="connector-line"></div>
+    <span class="connector-label">Read / Write · Row Level Security</span>
+  </div>
+
+  <!-- CAMADA 4: BANCO DE DADOS -->
+  <div class="layer">
+    <div class="layer-label" style="color:#a855f7;">Dados</div>
+    <div class="layer-content" style="background:rgba(168,85,247,0.03);">
+      <div class="group">
+        <div class="node node-db">
+          <div class="node-icon">🗄️</div>
+          <div class="node-name">Supabase</div>
+          <div class="node-tech">PostgreSQL<br>Row Level Security</div>
+          <span class="node-badge badge-core">Core</span>
+        </div>
+        <div class="arrow">→</div>
+        <div class="node node-db" style="min-width:130px;">
+          <div class="node-icon">👤</div>
+          <div class="node-name">users</div>
+          <div class="node-tech">id · email · plan<br>created_at</div>
+        </div>
+        <div class="arrow">→</div>
+        <div class="node node-db" style="min-width:130px;">
+          <div class="node-icon">📱</div>
+          <div class="node-name">instagram_accounts</div>
+          <div class="node-tech">user_id · ig_id<br>access_token · username</div>
+        </div>
+        <div class="arrow">→</div>
+        <div class="node node-db" style="min-width:130px;">
+          <div class="node-icon">📊</div>
+          <div class="node-name">dashboard_data</div>
+          <div class="node-tech">account_id · week<br>metrics JSON · updated_at</div>
+        </div>
+        <div class="arrow">→</div>
+        <div class="node node-db" style="min-width:120px;">
+          <div class="node-icon">💳</div>
+          <div class="node-name">subscriptions</div>
+          <div class="node-tech">user_id · stripe_id<br>plan · status</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="connector">
+    <div class="connector-line"></div>
+    <span class="connector-label">Cron Jobs · Queue · Triggers</span>
+  </div>
+
+  <!-- CAMADA 5: WORKERS / AUTOMAÇÃO -->
+  <div class="layer">
+    <div class="layer-label" style="color:#14b8a6;">Automação</div>
+    <div class="layer-content" style="background:rgba(20,184,166,0.03);">
+      <div class="group">
+        <div class="node node-worker">
+          <div class="node-icon">⏰</div>
+          <div class="node-name">Cron Semanal</div>
+          <div class="node-tech">Vercel Cron<br>Todo domingo 08h</div>
+        </div>
+        <div class="arrow">→</div>
+        <div class="node node-worker">
+          <div class="node-icon">🔁</div>
+          <div class="node-name">Data Collector</div>
+          <div class="node-tech">Coleta posts + insights<br>de todas as contas ativas</div>
+        </div>
+        <div class="arrow">→</div>
+        <div class="node node-ai">
+          <div class="node-icon">🤖</div>
+          <div class="node-name">IA Engine</div>
+          <div class="node-tech">GPT-4 / Gemini<br>Análise + Calendário</div>
+          <span class="node-badge badge-ext">OpenAI</span>
+        </div>
+        <div class="arrow">→</div>
+        <div class="node node-worker">
+          <div class="node-icon">📄</div>
+          <div class="node-name">Report Generator</div>
+          <div class="node-tech">Gera MD + PDF<br>por conta</div>
+        </div>
+        <div class="arrow">→</div>
+        <div class="node node-worker">
+          <div class="node-icon">📧</div>
+          <div class="node-name">Email Semanal</div>
+          <div class="node-tech">Resend / SendGrid<br>Resumo + insights</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="connector">
+    <div class="connector-line"></div>
+    <span class="connector-label">External APIs · Webhooks</span>
+  </div>
+
+  <!-- CAMADA 6: INTEGRAÇÕES EXTERNAS -->
+  <div class="layer">
+    <div class="layer-label" style="color:#fb923c;">Externas</div>
+    <div class="layer-content" style="background:rgba(251,146,60,0.03);">
+      <div class="group">
+        <div class="node node-ext">
+          <div class="node-icon">📸</div>
+          <div class="node-name">Meta Graph API</div>
+          <div class="node-tech">instagram_basic<br>manage_insights</div>
+        </div>
+        <div class="arrow">→</div>
+        <div class="node node-ext">
+          <div class="node-icon">💳</div>
+          <div class="node-name">Stripe</div>
+          <div class="node-tech">Checkout · Webhooks<br>Customer Portal</div>
+        </div>
+        <div class="arrow">→</div>
+        <div class="node node-ext">
+          <div class="node-icon">🧠</div>
+          <div class="node-name">OpenAI / Gemini</div>
+          <div class="node-tech">Análise estratégica<br>Sugestões de conteúdo</div>
+        </div>
+        <div class="arrow">→</div>
+        <div class="node node-ext">
+          <div class="node-icon">📧</div>
+          <div class="node-name">Resend</div>
+          <div class="node-tech">Emails transacionais<br>Relatórios semanais</div>
+        </div>
+        <div class="arrow">→</div>
+        <div class="node node-ext">
+          <div class="node-icon">📦</div>
+          <div class="node-name">Supabase Storage</div>
+          <div class="node-tech">PDFs · Relatórios<br>Assets por conta</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</div><!-- /arch -->
+
+<!-- LEGENDA -->
+<div class="legend">
+  <div class="legend-item"><div class="legend-dot" style="background:rgba(99,102,241,0.3);border-color:rgba(99,102,241,0.5);"></div> Usuário / UX</div>
+  <div class="legend-item"><div class="legend-dot" style="background:rgba(74,158,255,0.3);border-color:rgba(74,158,255,0.5);"></div> Frontend (Vercel)</div>
+  <div class="legend-item"><div class="legend-dot" style="background:rgba(62,207,142,0.3);border-color:rgba(62,207,142,0.5);"></div> Backend / API</div>
+  <div class="legend-item"><div class="legend-dot" style="background:rgba(168,85,247,0.3);border-color:rgba(168,85,247,0.5);"></div> Banco de Dados (Supabase)</div>
+  <div class="legend-item"><div class="legend-dot" style="background:rgba(20,184,166,0.3);border-color:rgba(20,184,166,0.5);"></div> Workers / Automação</div>
+  <div class="legend-item"><div class="legend-dot" style="background:rgba(236,72,153,0.3);border-color:rgba(236,72,153,0.5);"></div> IA Engine</div>
+  <div class="legend-item"><div class="legend-dot" style="background:rgba(251,146,60,0.3);border-color:rgba(251,146,60,0.5);"></div> Integrações Externas</div>
+  <div class="legend-item"><div class="legend-dot" style="background:rgba(248,113,113,0.3);border-color:rgba(248,113,113,0.5);"></div> Pagamento (Stripe)</div>
+</div>
+
+<!-- FASES DE DESENVOLVIMENTO -->
+<p class="section-title-arch">Roadmap de Desenvolvimento — 3 Fases</p>
+<div class="phases">
+  <div class="phase-card ph1">
+    <h3>Fase 1 — MVP (4–6 semanas)</h3>
+    <ul>
+      <li><span>▲</span> Next.js + Vercel (substituir HTML estático)</li>
+      <li><span>🗄️</span> Supabase: users + instagram_accounts + dashboard_data</li>
+      <li><span>🔐</span> Auth: cadastro + login (email/Google)</li>
+      <li><span>📱</span> OAuth Meta: conectar conta Instagram</li>
+      <li><span>📊</span> Dashboard por conta (dados reais)</li>
+      <li><span>⏰</span> Cron semanal de coleta automática</li>
+    </ul>
+  </div>
+  <div class="phase-card ph2">
+    <h3>Fase 2 — Monetização (2–3 semanas)</h3>
+    <ul>
+      <li><span>💳</span> Stripe: planos Free / Pro / Agency</li>
+      <li><span>🔒</span> Limites por plano (nº de contas, features)</li>
+      <li><span>🧠</span> IA Engine: análise + calendário automático</li>
+      <li><span>📄</span> Exportação PDF + relatório IA por conta</li>
+      <li><span>📧</span> Email semanal com resumo de performance</li>
+      <li><span>👤</span> Painel admin para gerenciar clientes</li>
+    </ul>
+  </div>
+  <div class="phase-card ph3">
+    <h3>Fase 3 — Escala (contínuo)</h3>
+    <ul>
+      <li><span>🔔</span> Alertas: queda de alcance, melhor horário</li>
+      <li><span>📊</span> Comparativo entre contas (Agency)</li>
+      <li><span>🤖</span> Sugestões de conteúdo geradas por IA</li>
+      <li><span>📱</span> App mobile (React Native)</li>
+      <li><span>🔗</span> Integrações: Notion, Slack, WhatsApp</li>
+      <li><span>🌍</span> Multi-idioma · White-label para agências</li>
+    </ul>
+  </div>
+</div>
+
+</body>
+</html>
