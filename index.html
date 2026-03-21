@@ -1198,16 +1198,16 @@ new Chart(document.getElementById('chartGeo'), {
 
 // ── Tabelas de Top Posts ─────────────────────────────────────────────────────
 const topReach = [
-  {rank:1, caption:"Quem acha que os grandes negócios acontecem apenas em salas de reunião…", type:"Post Estático", reach:403, likes:19, date:"12/03", permalink:"https://www.instagram.com/p/DT5Xq0tADxs/"},
-  {rank:2, caption:"Tranquilidade… paz… um ambiente confortável e a gratidão…", type:"Carrossel", reach:394, likes:29, date:"16/01", permalink:"https://www.instagram.com/reel/DS50zOTgOu6/"},
-  {rank:3, caption:"Eu achei que era apenas uma loja de sardinhas 🐟", type:"Reels", reach:250, likes:8, date:"15/03", permalink:"https://www.instagram.com/reel/DTtXwp9AOgu/"},
-  {rank:4, caption:"Cancún. Não é só praia. É uma lembrança de que o mundo…", type:"Carrossel", reach:245, likes:26, date:"20/01", permalink:"https://www.instagram.com/reel/DS2ICoyjIbg/"},
-  {rank:5, caption:"Miami não é sobre festa. É sobre energia 🔥", type:"Reels", reach:237, likes:6, date:"04/02", permalink:"https://www.instagram.com/reel/DTd3qZyAGjG/"},
-  {rank:6, caption:"O vinho é o mais próximo que Deus chegou de transformar silêncio…", type:"Post Estático", reach:230, likes:13, date:"06/02", permalink:"https://www.instagram.com/p/DSlV2EWgEWg/"},
-  {rank:7, caption:"Te adorar é o que sustenta-me de pé…", type:"Carrossel", reach:225, likes:11, date:"04/02", permalink:"https://www.instagram.com/reel/DS7n6VUjCkB/"},
-  {rank:8, caption:"O mundo pertence a quem tem coragem de sair do chão ✈️", type:"Post Estático", reach:218, likes:8, date:"11/03", permalink:"https://www.instagram.com/reel/DTBLOGOAEZb/"},
-  {rank:9, caption:"Você viaja para tirar foto… ou para mudar a forma de ver o mundo?", type:"Carrossel", reach:210, likes:6, date:"11/02", permalink:"https://www.instagram.com/p/DTLwFpHgKW3/"},
-  {rank:10, caption:"Marrakech não pede permissão 🇲🇦", type:"Carrossel", reach:198, likes:1, date:"21/03", permalink:"https://www.instagram.com/p/DVy89NQAKj5/"},
+  {rank:1, caption:"@douglas__martinss @clealmeida conversando com a @micheladuarte10 achamos que me…", type:"Post Estático", reach:757, likes:29, date:"24/01", permalink:"https://www.instagram.com/p/DT5Xq0tADxs/"},
+  {rank:2, caption:"Viajar não é sobre ir longe. É sobre voltar diferente.  Pouca gente sabe… mas es…", type:"Post Estático", reach:646, likes:28, date:"30/12", permalink:"https://www.instagram.com/reel/DS50zOTgOu6/"},
+  {rank:3, caption:"O mundo dá voltas. E a gente também 🥰  #viagem #trip #instamood #viagens #video", type:"Post Estático", reach:609, likes:51, date:"19/01", permalink:"https://www.instagram.com/reel/DTtXwp9AOgu/"},
+  {rank:4, caption:"A hora da dose 💉  #dose #mounjaro #heathlylife #instagram", type:"Post Estático", reach:486, likes:14, date:"29/12", permalink:"https://www.instagram.com/reel/DS2ICoyjIbg/"},
+  {rank:5, caption:"Maduro Gangsta Style 😎  #maduro #nike #gangsta #styles #instamood", type:"Post Estático", reach:461, likes:38, date:"13/01", permalink:"https://www.instagram.com/reel/DTd3qZyAGjG/"},
+  {rank:6, caption:"A rádio jamais perde a sua magia 🪄🎶 e o sonho jamais perde o objetivo 🤩  #radio …", type:"Post Estático", reach:457, likes:19, date:"22/12", permalink:"https://www.instagram.com/p/DSlV2EWgEWg/"},
+  {rank:7, caption:"Nosso Riad para o preparatório da festa de ano novo 🤩   Escolhemos passar a vira…", type:"Post Estático", reach:429, likes:17, date:"31/12", permalink:"https://www.instagram.com/reel/DS7n6VUjCkB/"},
+  {rank:8, caption:"“Família não é só sangue. Às vezes tem patas.” 🖤  Quem convive, entende.  #famíl…", type:"Post Estático", reach:426, likes:42, date:"02/01", permalink:"https://www.instagram.com/reel/DTBLOGOAEZb/"},
+  {rank:9, caption:"“Não se chega ao outro lado do deserto igual quando entrou”  Saara 🏜️ Desert 202…", type:"Post Estático", reach:413, likes:37, date:"06/01", permalink:"https://www.instagram.com/p/DTLwFpHgKW3/"},
+  {rank:10, caption:"Quem acha que os grandes negócios acontecem apenas em salas de reunião… nunca en…", type:"Post Estático", reach:403, likes:19, date:"12/03", permalink:"https://www.instagram.com/p/DVy89NQAKj5/"},
 ];
 
 function buildTable(tableId, data, valKey, valLabel) {
@@ -1261,16 +1261,16 @@ document.addEventListener('keydown', e => { if (e.key === 'Escape') closePostMod
 buildTable('tableTopReach', topReach, 'reach', 'Alcance');
 
 const topEngagement = [
-  {rank:1, caption:"Tranquilidade… paz… um ambiente confortável e a gratidão…", type:"Carrossel", likes:29, interactions:29, date:"16/01", permalink:"https://www.instagram.com/reel/DTtXwp9AOgu/"},
-  {rank:2, caption:"Cancún. Não é só praia. É uma lembrança de que o mundo…", type:"Carrossel", likes:26, interactions:26, date:"20/01", permalink:"https://www.instagram.com/reel/DS50zOTgOu6/"},
-  {rank:3, caption:"Quem acha que os grandes negócios acontecem apenas em salas…", type:"Post Estático", likes:19, interactions:19, date:"12/03", permalink:"https://www.instagram.com/reel/DTBLOGOAEZb/"},
-  {rank:4, caption:"O vinho é o mais próximo que Deus chegou de transformar silêncio…", type:"Post Estático", likes:13, interactions:13, date:"06/02", permalink:"https://www.instagram.com/reel/DTd3qZyAGjG/"},
-  {rank:5, caption:"Miami não é sobre festa. É sobre energia 🔥", type:"Reels", likes:13, interactions:23, date:"12/02", permalink:"https://www.instagram.com/p/DTJTueTgNGO/"},
-  {rank:6, caption:"Te adorar é o que sustenta-me de pé…", type:"Carrossel", likes:11, interactions:13, date:"04/02", permalink:"https://www.instagram.com/p/DTLwFpHgKW3/"},
-  {rank:7, caption:"O mundo pertence a quem tem coragem de sair do chão ✈️", type:"Post Estático", likes:8, interactions:9, date:"11/03", permalink:"https://www.instagram.com/p/DT5Xq0tADxs/"},
-  {rank:8, caption:"Eu achei que era apenas uma loja de sardinhas 🐟", type:"Reels", likes:8, interactions:8, date:"15/03", permalink:"https://www.instagram.com/reel/DS7n6VUjCkB/"},
-  {rank:9, caption:"Você viaja para tirar foto… ou para mudar a forma de ver o mundo?", type:"Carrossel", likes:6, interactions:6, date:"11/02", permalink:"https://www.instagram.com/p/DTQ_zZaAEso/"},
-  {rank:10, caption:"Miami não é sobre festa. É sobre energia 🔥 (v2)", type:"Reels", likes:6, interactions:8, date:"04/02", permalink:"https://www.instagram.com/p/DVn61LdgLHu/"},
+  {rank:1, caption:"O mundo dá voltas. E a gente também 🥰  #viagem #trip #instamood #viagens #video", type:"Post Estático", likes:51, interactions:77, date:"19/01", permalink:"https://www.instagram.com/reel/DTtXwp9AOgu/"},
+  {rank:2, caption:"Viajar não é sobre ir longe. É sobre voltar diferente.  Pouca gente sabe… mas es…", type:"Post Estático", likes:28, interactions:76, date:"30/12", permalink:"https://www.instagram.com/reel/DS50zOTgOu6/"},
+  {rank:3, caption:"“Família não é só sangue. Às vezes tem patas.” 🖤  Quem convive, entende.  #famíl…", type:"Post Estático", likes:42, interactions:70, date:"02/01", permalink:"https://www.instagram.com/reel/DTBLOGOAEZb/"},
+  {rank:4, caption:"Maduro Gangsta Style 😎  #maduro #nike #gangsta #styles #instamood", type:"Post Estático", likes:38, interactions:63, date:"13/01", permalink:"https://www.instagram.com/reel/DTd3qZyAGjG/"},
+  {rank:5, caption:"O deserto não passa por você! 🌵 Ele te atravessa e muda a forma como você enxerg…", type:"Post Estático", likes:37, interactions:44, date:"05/01", permalink:"https://www.instagram.com/p/DTJTueTgNGO/"},
+  {rank:6, caption:"“Não se chega ao outro lado do deserto igual quando entrou”  Saara 🏜️ Desert 202…", type:"Post Estático", likes:37, interactions:38, date:"06/01", permalink:"https://www.instagram.com/p/DTLwFpHgKW3/"},
+  {rank:7, caption:"@douglas__martinss @clealmeida conversando com a @micheladuarte10 achamos que me…", type:"Post Estático", likes:29, interactions:34, date:"24/01", permalink:"https://www.instagram.com/p/DT5Xq0tADxs/"},
+  {rank:8, caption:"Nosso Riad para o preparatório da festa de ano novo 🤩   Escolhemos passar a vira…", type:"Post Estático", likes:17, interactions:32, date:"31/12", permalink:"https://www.instagram.com/reel/DS7n6VUjCkB/"},
+  {rank:9, caption:"Da série congelando com estilo $ Red & White (Chile 2023) 🇨🇱  #chile #trip #snow…", type:"Post Estático", likes:29, interactions:31, date:"08/01", permalink:"https://www.instagram.com/p/DTQ_zZaAEso/"},
+  {rank:10, caption:"Tranquilidade… paz… um ambiente confortável e a gratidão de que existe alguém po…", type:"Post Estático", likes:29, interactions:29, date:"08/03", permalink:"https://www.instagram.com/p/DVn61LdgLHu/"},
 ];
 buildTable('tableTopEngagement', topEngagement, 'interactions', 'Interações');
 
