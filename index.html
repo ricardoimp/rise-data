@@ -238,15 +238,18 @@
   /* ── Print / PDF ── */
   @media print {
     * { -webkit-print-color-adjust: exact !important; print-color-adjust: exact !important; color-adjust: exact !important; }
-    body { background: #111318 !important; color: #e2e8f0 !important; }
+    /* Remove cabeçalho/rodapé do browser (URL, data, número de página) */
+    @page { size: A4 landscape; margin: 0 !important; }
+    body { background: #111318 !important; color: #e2e8f0 !important; padding: 8mm !important; }
     .nav, #btn-pdf, button[onclick="downloadAprendizado()"], .nav-update-badge { display: none !important; }
-    .header { position: static !important; padding: 16px 24px !important; }
-    .section { display: block !important; page-break-inside: avoid; margin-bottom: 32px; }
+    .header { position: static !important; padding: 12px 16px !important; }
+    .section { display: block !important; page-break-inside: avoid; margin-bottom: 24px; }
     .card { page-break-inside: avoid; }
     .grid-4, .grid-3, .grid-2 { grid-template-columns: repeat(2, 1fr) !important; }
-    canvas { max-width: 100% !important; }
+    /* Garantir que canvas seja visível no PDF */
+    canvas { display: block !important; visibility: visible !important; opacity: 1 !important; max-width: 100% !important; }
+    .chart-container, .chart-wrap { display: block !important; visibility: visible !important; }
     a { text-decoration: none !important; }
-    @page { size: A4 landscape; margin: 10mm; }
   }
 </style>
 </head>
@@ -292,7 +295,7 @@
   <button class="nav-btn" onclick="showSection('s7', this)">💡 Insights</button>
   <button class="nav-btn" onclick="showSection('s8', this)">📆 Calendário</button>
   <div class="nav-update">
-    <span>⚙️ Sistema: 21/03/2026 às 19:33</span>
+    <span>⚙️ Sistema: 21/03/2026 às 19:37</span>
   </div>
 </div>
 
@@ -1230,9 +1233,14 @@ const topEngagement = [
 ];
 buildTable('tableTopEngagement', topEngagement, 'interactions', 'Interações');
 
-// ── Download PDF do Dashboard (via window.print nativo) ─────────────────────
+//// ── Download PDF do Dashboard (via window.print nativo) ─────────────────────
 function downloadPDF() {
-  // Mostrar todas as seções antes de imprimir
+  const btn = document.getElementById('btn-pdf');
+  const originalHTML = btn.innerHTML;
+  btn.innerHTML = `<svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></svg> Preparando...`;
+  btn.disabled = true;
+
+  // 1. Mostrar todas as seções
   const allSections = document.querySelectorAll('.section');
   const hiddenSections = [];
   allSections.forEach(s => {
@@ -1242,20 +1250,45 @@ function downloadPDF() {
     }
   });
 
-  // Definir título do documento para sugerir nome do arquivo
+  // 2. Converter cada canvas em <img> para garantir render no PDF
+  const canvasList = document.querySelectorAll('canvas');
+  const replacements = [];
+  canvasList.forEach(canvas => {
+    try {
+      const dataURL = canvas.toDataURL('image/png');
+      const img = document.createElement('img');
+      img.src = dataURL;
+      img.style.width = canvas.offsetWidth + 'px';
+      img.style.height = canvas.offsetHeight + 'px';
+      img.style.display = 'block';
+      canvas.parentNode.insertBefore(img, canvas);
+      canvas.style.display = 'none';
+      replacements.push({ canvas, img });
+    } catch(e) { console.warn('canvas skip:', e); }
+  });
+
+  // 3. Definir título para sugerir nome do arquivo
   const now = new Date();
   const dateStr = now.toISOString().split('T')[0];
   const prevTitle = document.title;
   document.title = `ricardoimp-dashboard-${dateStr}`;
 
-  // Imprimir
-  window.print();
-
-  // Restaurar estado após impressão
+  // 4. Pequeno delay para garantir render, depois imprimir
   setTimeout(() => {
-    document.title = prevTitle;
-    hiddenSections.forEach(s => s.style.display = 'none');
-  }, 1000);
+    window.print();
+
+    // 5. Restaurar tudo após impressão
+    setTimeout(() => {
+      document.title = prevTitle;
+      hiddenSections.forEach(s => s.style.display = 'none');
+      replacements.forEach(({ canvas, img }) => {
+        canvas.style.display = '';
+        img.remove();
+      });
+      btn.innerHTML = originalHTML;
+      btn.disabled = false;
+    }, 1500);
+  }, 400);
 }
 
 // ── Download Aprendizado com nome dinâmico ────────────────────────────────
