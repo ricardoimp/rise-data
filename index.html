@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Dashboard Instagram — @ricardoimp</title>
 <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
+<!-- PDF via window.print() nativo -->
 <style>
   :root {
     --bg: #111318;
@@ -235,6 +235,19 @@
   ::-webkit-scrollbar { width: 6px; height: 6px; }
   ::-webkit-scrollbar-track { background: var(--bg); }
   ::-webkit-scrollbar-thumb { background: var(--border); border-radius: 3px; }
+  /* ── Print / PDF ── */
+  @media print {
+    * { -webkit-print-color-adjust: exact !important; print-color-adjust: exact !important; color-adjust: exact !important; }
+    body { background: #111318 !important; color: #e2e8f0 !important; }
+    .nav, #btn-pdf, button[onclick="downloadAprendizado()"], .nav-update-badge { display: none !important; }
+    .header { position: static !important; padding: 16px 24px !important; }
+    .section { display: block !important; page-break-inside: avoid; margin-bottom: 32px; }
+    .card { page-break-inside: avoid; }
+    .grid-4, .grid-3, .grid-2 { grid-template-columns: repeat(2, 1fr) !important; }
+    canvas { max-width: 100% !important; }
+    a { text-decoration: none !important; }
+    @page { size: A4 landscape; margin: 10mm; }
+  }
 </style>
 </head>
 <body>
@@ -279,7 +292,7 @@
   <button class="nav-btn" onclick="showSection('s7', this)">💡 Insights</button>
   <button class="nav-btn" onclick="showSection('s8', this)">📆 Calendário</button>
   <div class="nav-update">
-    <span>⚙️ Sistema: 21/03/2026 às 19:28</span>
+    <span>⚙️ Sistema: 21/03/2026 às 19:33</span>
   </div>
 </div>
 
@@ -1217,21 +1230,9 @@ const topEngagement = [
 ];
 buildTable('tableTopEngagement', topEngagement, 'interactions', 'Interações');
 
-// ── Download PDF do Dashboard ────────────────────────────────────────────────
+// ── Download PDF do Dashboard (via window.print nativo) ─────────────────────
 function downloadPDF() {
-  const btn = document.getElementById('btn-pdf');
-  const originalText = btn.innerHTML;
-
-  // Feedback visual
-  btn.innerHTML = `<svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></svg> Gerando PDF...`;
-  btn.disabled = true;
-  btn.style.opacity = '0.7';
-
-  // Esconder elementos que não devem aparecer no PDF
-  const hideEls = document.querySelectorAll('.nav, #btn-pdf, button[onclick="downloadAprendizado()"], .nav-update-badge');
-  hideEls.forEach(el => el.style.display = 'none');
-
-  // Mostrar todas as seções (o PDF captura tudo)
+  // Mostrar todas as seções antes de imprimir
   const allSections = document.querySelectorAll('.section');
   const hiddenSections = [];
   allSections.forEach(s => {
@@ -1241,49 +1242,20 @@ function downloadPDF() {
     }
   });
 
-  // Data para o nome do arquivo
+  // Definir título do documento para sugerir nome do arquivo
   const now = new Date();
   const dateStr = now.toISOString().split('T')[0];
-  const filename = `ricardoimp-dashboard-${dateStr}.pdf`;
+  const prevTitle = document.title;
+  document.title = `ricardoimp-dashboard-${dateStr}`;
 
-  // Configurações do html2pdf
-  const opt = {
-    margin: [8, 8, 8, 8],
-    filename: filename,
-    image: { type: 'jpeg', quality: 0.95 },
-    html2canvas: {
-      scale: 2,
-      useCORS: true,
-      backgroundColor: '#111318',
-      logging: false,
-      scrollY: 0
-    },
-    jsPDF: {
-      unit: 'mm',
-      format: 'a4',
-      orientation: 'landscape'
-    },
-    pagebreak: { mode: ['avoid-all', 'css', 'legacy'] }
-  };
+  // Imprimir
+  window.print();
 
-  // Elemento a capturar (o main inteiro)
-  const element = document.querySelector('body');
-
-  html2pdf().set(opt).from(element).save().then(() => {
-    // Restaurar estado
-    hideEls.forEach(el => el.style.display = '');
+  // Restaurar estado após impressão
+  setTimeout(() => {
+    document.title = prevTitle;
     hiddenSections.forEach(s => s.style.display = 'none');
-    btn.innerHTML = originalText;
-    btn.disabled = false;
-    btn.style.opacity = '1';
-  }).catch(err => {
-    console.error('Erro ao gerar PDF:', err);
-    hideEls.forEach(el => el.style.display = '');
-    hiddenSections.forEach(s => s.style.display = 'none');
-    btn.innerHTML = originalText;
-    btn.disabled = false;
-    btn.style.opacity = '1';
-  });
+  }, 1000);
 }
 
 // ── Download Aprendizado com nome dinâmico ────────────────────────────────
