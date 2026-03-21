@@ -218,10 +218,10 @@
     <span class="update-date">Atualizado em Sábado, 21/03/2026 às 17:56</span>
   </div>
   <div style="display:flex;align-items:center;gap:12px;">
-    <a href="aprendizado_ia.md" download="aprendizado_instagram_ricardoimp.md" class="btn-download">
+    <button onclick="downloadAprendizado()" class="btn-download">
       <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
       Download Aprendizado
-    </a>
+    </button>
   </div>
   <div class="header-stats">
     <div class="header-stat"><div class="val">61.7K</div><div class="lbl">Seguidores</div></div>
@@ -946,6 +946,22 @@ const topEngagement = [
   {rank:10, caption:"Miami não é sobre festa. É sobre energia 🔥 (v2)", type:"Reels", likes:6, interactions:8, date:"04/02"},
 ];
 buildTable('tableTopEngagement', topEngagement, 'interactions', 'Interações');
+
+// ── Download Aprendizado com nome dinâmico ────────────────────────────────
+function downloadAprendizado() {
+  const now = new Date();
+  const year = now.getFullYear();
+  const month = String(now.getMonth() + 1).padStart(2, '0');
+  const day = String(now.getDate()).padStart(2, '0');
+  const dateStr = `${year}-${month}-${day}`;
+  const filename = `ricardoimp-aprendizado-${dateStr}.md`;
+  const a = document.createElement('a');
+  a.href = 'aprendizado_ia.md';
+  a.download = filename;
+  document.body.appendChild(a);
+  a.click();
+  document.body.removeChild(a);
+}
 </script>
 </body>
 </html>
