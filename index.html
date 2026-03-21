@@ -274,7 +274,7 @@
   <button class="nav-btn" onclick="showSection('s7', this)">💡 Insights</button>
   <button class="nav-btn" onclick="showSection('s8', this)">📆 Calendário</button>
   <div class="nav-update">
-    <span>⚙️ Sistema: 21/03/2026 às 18:51</span>
+    <span>⚙️ Sistema: 21/03/2026 às 19:00</span>
   </div>
 </div>
 
@@ -1065,69 +1065,27 @@ buildTable('tableTopEngagement', topEngagement, 'interactions', 'Interações');
 
 // ── Calendário Semanal ────────────────────────────────────────────────────────────────────────────────
 const calendarData = [
-  {
-    dia: 'Segunda', dayClass: 'blue',
-    hora: '19h00',
-    formato: 'Reels de Impacto', badgeClass: 'reels',
-    tema: 'Mentalidade ou Negócios',
-    alcance: '~274', reachClass: 'mid',
-    prioridade: 'Alto', priClass: 'p2',
-    dim: false, highlight: false
-  },
-  {
-    dia: 'Terça', dayClass: 'blue',
-    hora: '21h00',
-    formato: 'Carrossel', badgeClass: 'carousel',
-    tema: 'Estratégia, IA ou GovTech',
-    alcance: '~285', reachClass: 'mid',
-    prioridade: 'Alto', priClass: 'p2',
-    dim: false, highlight: false
-  },
-  {
-    dia: 'Quarta', dayClass: '',
-    hora: '—',
-    formato: 'Stories apenas', badgeClass: 'stories',
-    tema: 'Evitar Feed/Reels',
-    alcance: '—', reachClass: 'low',
-    prioridade: 'Baixo', priClass: 'p0',
-    dim: true, highlight: false
-  },
-  {
-    dia: 'Quinta', dayClass: '',
-    hora: '19h00',
-    formato: 'Post Estático', badgeClass: 'static',
-    tema: 'Fé / Propósito',
-    alcance: '~322', reachClass: 'mid',
-    prioridade: 'Médio', priClass: 'p3',
-    dim: false, highlight: false
-  },
-  {
-    dia: 'Sexta', dayClass: '',
-    hora: '—',
-    formato: 'Stories apenas', badgeClass: 'stories',
-    tema: 'Bastidores + CTA',
-    alcance: '—', reachClass: 'low',
-    prioridade: 'Baixo', priClass: 'p0',
-    dim: true, highlight: false
-  },
-  {
-    dia: 'Sábado', dayClass: 'gold',
-    hora: '19h00',
-    formato: 'Post Aspiracional', badgeClass: 'aspirational',
-    tema: 'Lifestyle + reflexão de liberdade',
-    alcance: '~410', reachClass: 'high',
-    prioridade: '🏆 Ouro', priClass: 'p1',
-    dim: false, highlight: true
-  },
-  {
-    dia: 'Domingo', dayClass: '',
-    hora: '—',
-    formato: 'Descanso ou Stories', badgeClass: 'stories',
-    tema: 'Opcional',
-    alcance: '~231', reachClass: 'low',
-    prioridade: 'Opcional', priClass: 'p0',
-    dim: true, highlight: false
-  }
+  // SEGUNDA
+  { dia: 'Segunda', dayClass: 'blue', hora: '19h00', formato: 'Reels de Impacto', badgeClass: 'reels', tema: 'Mentalidade ou Negócios', alcance: '~274', reachClass: 'mid', prioridade: 'Alto', priClass: 'p2', dim: false, highlight: false },
+  { dia: '', dayClass: '', hora: 'Dia todo', formato: 'Stories', badgeClass: 'stories', tema: 'Bastidores da rotina / bastidores do trabalho', alcance: '—', reachClass: 'low', prioridade: 'Diário', priClass: 'p0', dim: false, highlight: false },
+  // TERÇA
+  { dia: 'Terça', dayClass: 'blue', hora: '21h00', formato: 'Carrossel', badgeClass: 'carousel', tema: 'Estratégia, IA ou GovTech', alcance: '~285', reachClass: 'mid', prioridade: 'Alto', priClass: 'p2', dim: false, highlight: false },
+  { dia: '', dayClass: '', hora: 'Dia todo', formato: 'Stories', badgeClass: 'stories', tema: 'Repost do post + enquete / pergunta', alcance: '—', reachClass: 'low', prioridade: 'Diário', priClass: 'p0', dim: false, highlight: false },
+  // QUARTA
+  { dia: 'Quarta', dayClass: '', hora: '—', formato: 'Sem feed', badgeClass: 'stories', tema: 'Evitar Feed/Reels neste dia', alcance: '—', reachClass: 'low', prioridade: 'Evitar', priClass: 'p0', dim: true, highlight: false },
+  { dia: '', dayClass: '', hora: 'Dia todo', formato: 'Stories', badgeClass: 'stories', tema: 'Bastidores de viagem ou empresa + CTA link', alcance: '—', reachClass: 'low', prioridade: 'Diário', priClass: 'p0', dim: false, highlight: false },
+  // QUINTA
+  { dia: 'Quinta', dayClass: '', hora: '19h00', formato: 'Post Estático', badgeClass: 'static', tema: 'Fé / Propósito', alcance: '~322', reachClass: 'mid', prioridade: 'Médio', priClass: 'p3', dim: false, highlight: false },
+  { dia: '', dayClass: '', hora: 'Dia todo', formato: 'Stories', badgeClass: 'stories', tema: 'Reflexão curta + caixinha de perguntas', alcance: '—', reachClass: 'low', prioridade: 'Diário', priClass: 'p0', dim: false, highlight: false },
+  // SEXTA
+  { dia: 'Sexta', dayClass: '', hora: '—', formato: 'Sem feed', badgeClass: 'stories', tema: 'Descanso de feed — foco em conversão', alcance: '—', reachClass: 'low', prioridade: 'Evitar', priClass: 'p0', dim: true, highlight: false },
+  { dia: '', dayClass: '', hora: 'Dia todo', formato: 'Stories', badgeClass: 'stories', tema: 'Bastidores + CTA direto para o link da bio', alcance: '—', reachClass: 'low', prioridade: 'Diário', priClass: 'p0', dim: false, highlight: false },
+  // SÁBADO
+  { dia: 'Sábado', dayClass: 'gold', hora: '19h00', formato: 'Post Aspiracional', badgeClass: 'aspirational', tema: 'Lifestyle + reflexão de liberdade', alcance: '~410', reachClass: 'high', prioridade: '🏆 Ouro', priClass: 'p1', dim: false, highlight: true },
+  { dia: '', dayClass: '', hora: 'Dia todo', formato: 'Stories', badgeClass: 'stories', tema: 'Amplificar o post + mostrar bastidores da foto/viagem', alcance: '—', reachClass: 'low', prioridade: 'Diário', priClass: 'p0', dim: false, highlight: true },
+  // DOMINGO
+  { dia: 'Domingo', dayClass: '', hora: '—', formato: 'Descanso de feed', badgeClass: 'stories', tema: 'Opcional — priorizar descanso', alcance: '~231', reachClass: 'low', prioridade: 'Opcional', priClass: 'p0', dim: true, highlight: false },
+  { dia: '', dayClass: '', hora: 'Dia todo', formato: 'Stories', badgeClass: 'stories', tema: 'Conteúdo leve / bastidores do fim de semana', alcance: '—', reachClass: 'low', prioridade: 'Diário', priClass: 'p0', dim: false, highlight: false },
 ];
 
 const calBody = document.getElementById('calBody');
