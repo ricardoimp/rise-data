@@ -241,22 +241,23 @@
     }
     .header-dates-mobile .update-date,
     .header-dates-mobile .nav-update-mobile {
-      font-size: 10px;
-      padding: 4px 8px;
+      font-size: 10px !important;
+      padding: 0 8px !important;
       flex: 1;
       text-align: center;
       white-space: nowrap;
-      display: flex;
+      display: flex !important;
       align-items: center;
       justify-content: center;
       line-height: 1;
-      height: 26px;
+      height: 26px !important;
+      box-sizing: border-box;
+      border-radius: 20px !important;
     }
     .header-dates-mobile .nav-update-mobile {
       background: rgba(62,207,142,0.08);
       border: 1px solid rgba(62,207,142,0.2);
       color: var(--green);
-      border-radius: 20px;
       font-weight: 600;
       letter-spacing: 0.3px;
     }
@@ -385,7 +386,7 @@
   <button class="nav-btn" onclick="showSection('s7', this)">💡 Insights</button>
   <button class="nav-btn" onclick="showSection('s8', this)">📆 Calendário</button>
   <div class="nav-update">
-    <span>⚙️ Sistema: 21/03/2026 às 21:40</span>
+    <span>⚙️ Sistema: 21/03/2026 às 21:42</span>
   </div>
 </div>
 
