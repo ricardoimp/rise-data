@@ -26,11 +26,27 @@
     .kpi-delta.neutral{background:rgba(100,116,139,.12);color:var(--muted);}
     .section-title{font-size:1rem;font-weight:600;color:var(--purple);margin:28px 0 12px;display:flex;align-items:center;gap:8px;}
     .section-title::before{content:'';display:block;width:3px;height:18px;background:var(--purple);border-radius:2px;}
-    table{width:100%;border-collapse:collapse;font-size:.82rem;}
+    /* Tabelas desktop */
+    .table-wrap{overflow-x:auto;}
+    table{width:100%;border-collapse:collapse;font-size:.82rem;min-width:420px;}
     th{text-align:left;color:var(--muted);padding:8px 10px;border-bottom:1px solid var(--border);font-weight:500;font-size:.75rem;text-transform:uppercase;letter-spacing:.04em;}
     td{padding:9px 10px;border-bottom:1px solid var(--border);}
     tr:last-child td{border-bottom:none;}tr:hover td{background:rgba(167,139,250,.04);}
     .badge{background:rgba(167,139,250,.12);color:var(--purple);padding:2px 8px;border-radius:20px;font-size:.72rem;white-space:nowrap;}
+    /* Post cards mobile (substitui tabela em telas pequenas) */
+    .post-list{display:none;}
+    @media(max-width:640px){
+      .table-wrap{display:none;}
+      .post-list{display:flex;flex-direction:column;gap:10px;}
+    }
+    .post-card{display:flex;align-items:flex-start;gap:10px;padding:12px 0;border-bottom:1px solid var(--border);}
+    .post-card:last-child{border-bottom:none;}
+    .post-rank{font-size:.8rem;color:var(--muted);min-width:18px;font-weight:700;}
+    .post-info{flex:1;min-width:0;}
+    .post-caption{font-size:.82rem;color:var(--purple);text-decoration:none;display:block;margin-bottom:4px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
+    .post-meta{display:flex;align-items:center;gap:6px;flex-wrap:wrap;}
+    .post-date{font-size:.7rem;color:var(--muted);}
+    .post-metric{font-size:.88rem;font-weight:700;color:var(--text);min-width:48px;text-align:right;}
     .chart-wrap{position:relative;height:240px;}
     .chart-wrap-lg{position:relative;height:280px;}
     .format-row{display:flex;align-items:center;gap:12px;padding:10px 0;border-bottom:1px solid var(--border);}
@@ -69,9 +85,24 @@
     <div><span class="kpi-delta down">▼ 93 vs semana anterior</span></div>
     <div class="kpi-sub" style="margin-top:4px">Anterior: 62,354</div>
   </div>
-  <div class="card"><div class="kpi-label">Alcance Total (90d)</div><div class="kpi-value">7,528</div><div class="kpi-sub">Média 327/post · 23 posts</div></div>
-  <div class="card"><div class="kpi-label">Taxa de Engajamento</div><div class="kpi-value">5.90%</div><div class="kpi-sub">(likes+comentários+saves)/alcance</div></div>
-  <div class="card"><div class="kpi-label">Salvamentos</div><div class="kpi-value">11</div><div class="kpi-sub">Últimos 23 posts (90d)</div></div>
+  <div class="card">
+    <div class="kpi-label">Alcance Total (90d)</div>
+    <div class="kpi-value">7,528</div>
+    <div><span class="kpi-delta up">▲ +2.098 vs período anterior</span></div>
+    <div class="kpi-sub" style="margin-top:4px">Anterior: 5,430</div>
+  </div>
+  <div class="card">
+    <div class="kpi-label">Taxa de Engajamento</div>
+    <div class="kpi-value">5.90%</div>
+    <div><span class="kpi-delta down">▼ -0.88pp vs anterior</span></div>
+    <div class="kpi-sub" style="margin-top:4px">Anterior: 6.78%</div>
+  </div>
+  <div class="card">
+    <div class="kpi-label">Salvamentos</div>
+    <div class="kpi-value">11</div>
+    <div><span class="kpi-delta up">▲ +1 vs anterior</span></div>
+    <div class="kpi-sub" style="margin-top:4px">Anterior: 10</div>
+  </div>
 </div>
 <div class="grid grid-4" style="margin-top:14px">
   <div class="card"><div class="kpi-label">Total de Posts</div><div class="kpi-value">2,999</div><div class="kpi-sub">No perfil</div></div>
@@ -115,22 +146,44 @@
 
 <!-- Top 5 posts -->
 <p class="section-title">Top 5 Posts por Alcance</p>
-<div class="card"><table><thead><tr><th>#</th><th>Legenda</th><th>Tipo</th><th>Data</th><th>Alcance</th></tr></thead><tbody>
-<tr><td style="color:#94a3b8;font-size:.8rem">1</td><td><a href="https://www.instagram.com/reel/DWTwL0igM_t/" target="_blank" style="color:#a78bfa;text-decoration:none">Eu achei que era apenas uma loja de sardinhas...</a></td><td><span class="badge">🎬 Reel</span></td><td style="color:#94a3b8;font-size:.8rem">2026-03-25</td><td><strong style="color:#e2e8f0">1,185</strong></td></tr>
-<tr><td style="color:#94a3b8;font-size:.8rem">2</td><td><a href="https://www.instagram.com/p/DVQyI-HgCik/" target="_blank" style="color:#a78bfa;text-decoration:none">Você quer estabilidade…ou histórias para contar?</a></td><td><span class="badge">🖼️ Carrossel</span></td><td style="color:#94a3b8;font-size:.8rem">2026-02-27</td><td><strong style="color:#e2e8f0">434</strong></td></tr>
-<tr><td style="color:#94a3b8;font-size:.8rem">3</td><td><a href="https://www.instagram.com/p/DVj99DeAOWE/" target="_blank" style="color:#a78bfa;text-decoration:none">Construindo. Celebrando. Repetindo.</a></td><td><span class="badge">📷 Foto</span></td><td style="color:#94a3b8;font-size:.8rem">2026-03-06</td><td><strong style="color:#e2e8f0">470</strong></td></tr>
-<tr><td style="color:#94a3b8;font-size:.8rem">4</td><td><a href="https://www.instagram.com/reel/DWXT-QhAEcA/" target="_blank" style="color:#a78bfa;text-decoration:none">Não é sobre parecer que vive. 🌍</a></td><td><span class="badge">🎬 Reel</span></td><td style="color:#94a3b8;font-size:.8rem">2026-03-26</td><td><strong style="color:#e2e8f0">393</strong></td></tr>
-<tr><td style="color:#94a3b8;font-size:.8rem">5</td><td><a href="https://www.instagram.com/p/DVn61LdgLHu/" target="_blank" style="color:#a78bfa;text-decoration:none">Tranquilidade… paz… um ambiente confortável</a></td><td><span class="badge">🖼️ Carrossel</span></td><td style="color:#94a3b8;font-size:.8rem">2026-03-08</td><td><strong style="color:#e2e8f0">380</strong></td></tr>
-</tbody></table></div>
+<div class="card">
+  <!-- Desktop -->
+  <div class="table-wrap"><table><thead><tr><th>#</th><th>Legenda</th><th>Tipo</th><th>Data</th><th>Alcance</th></tr></thead><tbody>
+  <tr><td style="color:#94a3b8;font-size:.8rem">1</td><td><a href="https://www.instagram.com/reel/DWTwL0igM_t/" target="_blank" style="color:#a78bfa;text-decoration:none">Eu achei que era apenas uma loja de sardinhas...</a></td><td><span class="badge">🎬 Reel</span></td><td style="color:#94a3b8;font-size:.8rem">25/03</td><td><strong>1,185</strong></td></tr>
+  <tr><td style="color:#94a3b8;font-size:.8rem">2</td><td><a href="https://www.instagram.com/p/DVj99DeAOWE/" target="_blank" style="color:#a78bfa;text-decoration:none">Construindo. Celebrando. Repetindo.</a></td><td><span class="badge">📷 Foto</span></td><td style="color:#94a3b8;font-size:.8rem">06/03</td><td><strong>470</strong></td></tr>
+  <tr><td style="color:#94a3b8;font-size:.8rem">3</td><td><a href="https://www.instagram.com/p/DVQyI-HgCik/" target="_blank" style="color:#a78bfa;text-decoration:none">Você quer estabilidade…ou histórias para contar?</a></td><td><span class="badge">🖼️ Carrossel</span></td><td style="color:#94a3b8;font-size:.8rem">27/02</td><td><strong>434</strong></td></tr>
+  <tr><td style="color:#94a3b8;font-size:.8rem">4</td><td><a href="https://www.instagram.com/reel/DWXT-QhAEcA/" target="_blank" style="color:#a78bfa;text-decoration:none">Não é sobre parecer que vive. 🌍</a></td><td><span class="badge">🎬 Reel</span></td><td style="color:#94a3b8;font-size:.8rem">26/03</td><td><strong>393</strong></td></tr>
+  <tr><td style="color:#94a3b8;font-size:.8rem">5</td><td><a href="https://www.instagram.com/p/DVn61LdgLHu/" target="_blank" style="color:#a78bfa;text-decoration:none">Tranquilidade… paz… um ambiente confortável</a></td><td><span class="badge">🖼️ Carrossel</span></td><td style="color:#94a3b8;font-size:.8rem">08/03</td><td><strong>380</strong></td></tr>
+  </tbody></table></div>
+  <!-- Mobile -->
+  <div class="post-list">
+    <div class="post-card"><span class="post-rank">1</span><div class="post-info"><a href="https://www.instagram.com/reel/DWTwL0igM_t/" target="_blank" class="post-caption">Eu achei que era apenas uma loja de sardinhas...</a><div class="post-meta"><span class="badge">🎬 Reel</span><span class="post-date">25/03</span></div></div><span class="post-metric">1,185</span></div>
+    <div class="post-card"><span class="post-rank">2</span><div class="post-info"><a href="https://www.instagram.com/p/DVj99DeAOWE/" target="_blank" class="post-caption">Construindo. Celebrando. Repetindo.</a><div class="post-meta"><span class="badge">📷 Foto</span><span class="post-date">06/03</span></div></div><span class="post-metric">470</span></div>
+    <div class="post-card"><span class="post-rank">3</span><div class="post-info"><a href="https://www.instagram.com/p/DVQyI-HgCik/" target="_blank" class="post-caption">Você quer estabilidade…ou histórias para contar?</a><div class="post-meta"><span class="badge">🖼️ Carrossel</span><span class="post-date">27/02</span></div></div><span class="post-metric">434</span></div>
+    <div class="post-card"><span class="post-rank">4</span><div class="post-info"><a href="https://www.instagram.com/reel/DWXT-QhAEcA/" target="_blank" class="post-caption">Não é sobre parecer que vive. 🌍</a><div class="post-meta"><span class="badge">🎬 Reel</span><span class="post-date">26/03</span></div></div><span class="post-metric">393</span></div>
+    <div class="post-card"><span class="post-rank">5</span><div class="post-info"><a href="https://www.instagram.com/p/DVn61LdgLHu/" target="_blank" class="post-caption">Tranquilidade… paz… um ambiente confortável</a><div class="post-meta"><span class="badge">🖼️ Carrossel</span><span class="post-date">08/03</span></div></div><span class="post-metric">380</span></div>
+  </div>
+</div>
 
 <p class="section-title">Top 5 Posts por Curtidas</p>
-<div class="card"><table><thead><tr><th>#</th><th>Legenda</th><th>Tipo</th><th>Data</th><th>Curtidas</th></tr></thead><tbody>
-<tr><td style="color:#94a3b8;font-size:.8rem">1</td><td><a href="https://www.instagram.com/p/DW2O1nsAExw/" target="_blank" style="color:#a78bfa;text-decoration:none">No fim… tudo se conecta. Prêmio Govtech 2026</a></td><td><span class="badge">📷 Foto</span></td><td style="color:#94a3b8;font-size:.8rem">2026-04-08</td><td><strong style="color:#e2e8f0">41</strong></td></tr>
-<tr><td style="color:#94a3b8;font-size:.8rem">2</td><td><a href="https://www.instagram.com/reel/DWTwL0igM_t/" target="_blank" style="color:#a78bfa;text-decoration:none">Eu achei que era apenas uma loja de sardinhas...</a></td><td><span class="badge">🎬 Reel</span></td><td style="color:#94a3b8;font-size:.8rem">2026-03-25</td><td><strong style="color:#e2e8f0">31</strong></td></tr>
-<tr><td style="color:#94a3b8;font-size:.8rem">3</td><td><a href="https://www.instagram.com/p/DVn61LdgLHu/" target="_blank" style="color:#a78bfa;text-decoration:none">Tranquilidade… paz… um ambiente confortável</a></td><td><span class="badge">🖼️ Carrossel</span></td><td style="color:#94a3b8;font-size:.8rem">2026-03-08</td><td><strong style="color:#e2e8f0">29</strong></td></tr>
-<tr><td style="color:#94a3b8;font-size:.8rem">4</td><td><a href="https://www.instagram.com/p/DXSbwQcFF0V/" target="_blank" style="color:#a78bfa;text-decoration:none">O mundo não é só destino. É contraste.</a></td><td><span class="badge">🖼️ Carrossel</span></td><td style="color:#94a3b8;font-size:.8rem">2026-04-18</td><td><strong style="color:#e2e8f0">28</strong></td></tr>
-<tr><td style="color:#94a3b8;font-size:.8rem">5</td><td><a href="https://www.instagram.com/p/DVQyI-HgCik/" target="_blank" style="color:#a78bfa;text-decoration:none">Você quer estabilidade…ou histórias para contar?</a></td><td><span class="badge">🖼️ Carrossel</span></td><td style="color:#94a3b8;font-size:.8rem">2026-02-27</td><td><strong style="color:#e2e8f0">26</strong></td></tr>
-</tbody></table></div>
+<div class="card">
+  <!-- Desktop -->
+  <div class="table-wrap"><table><thead><tr><th>#</th><th>Legenda</th><th>Tipo</th><th>Data</th><th>Curtidas</th></tr></thead><tbody>
+  <tr><td style="color:#94a3b8;font-size:.8rem">1</td><td><a href="https://www.instagram.com/p/DW2O1nsAExw/" target="_blank" style="color:#a78bfa;text-decoration:none">No fim… tudo se conecta. Prêmio Govtech 2026</a></td><td><span class="badge">📷 Foto</span></td><td style="color:#94a3b8;font-size:.8rem">08/04</td><td><strong>41</strong></td></tr>
+  <tr><td style="color:#94a3b8;font-size:.8rem">2</td><td><a href="https://www.instagram.com/reel/DWTwL0igM_t/" target="_blank" style="color:#a78bfa;text-decoration:none">Eu achei que era apenas uma loja de sardinhas...</a></td><td><span class="badge">🎬 Reel</span></td><td style="color:#94a3b8;font-size:.8rem">25/03</td><td><strong>31</strong></td></tr>
+  <tr><td style="color:#94a3b8;font-size:.8rem">3</td><td><a href="https://www.instagram.com/p/DVn61LdgLHu/" target="_blank" style="color:#a78bfa;text-decoration:none">Tranquilidade… paz… um ambiente confortável</a></td><td><span class="badge">🖼️ Carrossel</span></td><td style="color:#94a3b8;font-size:.8rem">08/03</td><td><strong>29</strong></td></tr>
+  <tr><td style="color:#94a3b8;font-size:.8rem">4</td><td><a href="https://www.instagram.com/p/DXSbwQcFF0V/" target="_blank" style="color:#a78bfa;text-decoration:none">O mundo não é só destino. É contraste.</a></td><td><span class="badge">🖼️ Carrossel</span></td><td style="color:#94a3b8;font-size:.8rem">18/04</td><td><strong>28</strong></td></tr>
+  <tr><td style="color:#94a3b8;font-size:.8rem">5</td><td><a href="https://www.instagram.com/p/DVQyI-HgCik/" target="_blank" style="color:#a78bfa;text-decoration:none">Você quer estabilidade…ou histórias para contar?</a></td><td><span class="badge">🖼️ Carrossel</span></td><td style="color:#94a3b8;font-size:.8rem">27/02</td><td><strong>26</strong></td></tr>
+  </tbody></table></div>
+  <!-- Mobile -->
+  <div class="post-list">
+    <div class="post-card"><span class="post-rank">1</span><div class="post-info"><a href="https://www.instagram.com/p/DW2O1nsAExw/" target="_blank" class="post-caption">No fim… tudo se conecta. Prêmio Govtech 2026</a><div class="post-meta"><span class="badge">📷 Foto</span><span class="post-date">08/04</span></div></div><span class="post-metric">41</span></div>
+    <div class="post-card"><span class="post-rank">2</span><div class="post-info"><a href="https://www.instagram.com/reel/DWTwL0igM_t/" target="_blank" class="post-caption">Eu achei que era apenas uma loja de sardinhas...</a><div class="post-meta"><span class="badge">🎬 Reel</span><span class="post-date">25/03</span></div></div><span class="post-metric">31</span></div>
+    <div class="post-card"><span class="post-rank">3</span><div class="post-info"><a href="https://www.instagram.com/p/DVn61LdgLHu/" target="_blank" class="post-caption">Tranquilidade… paz… um ambiente confortável</a><div class="post-meta"><span class="badge">🖼️ Carrossel</span><span class="post-date">08/03</span></div></div><span class="post-metric">29</span></div>
+    <div class="post-card"><span class="post-rank">4</span><div class="post-info"><a href="https://www.instagram.com/p/DXSbwQcFF0V/" target="_blank" class="post-caption">O mundo não é só destino. É contraste.</a><div class="post-meta"><span class="badge">🖼️ Carrossel</span><span class="post-date">18/04</span></div></div><span class="post-metric">28</span></div>
+    <div class="post-card"><span class="post-rank">5</span><div class="post-info"><a href="https://www.instagram.com/p/DVQyI-HgCik/" target="_blank" class="post-caption">Você quer estabilidade…ou histórias para contar?</a><div class="post-meta"><span class="badge">🖼️ Carrossel</span><span class="post-date">27/02</span></div></div><span class="post-metric">26</span></div>
+  </div>
+</div>
 
 <!-- Insights -->
 <p class="section-title">Insights & Recomendações</p>
