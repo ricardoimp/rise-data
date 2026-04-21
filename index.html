@@ -6,7 +6,7 @@
   <title>Dashboard Instagram — @ricardoimp</title>
   <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
   <style>
-    :root{--bg:#0a0a14;--card:#13131f;--border:#252540;--purple:#a78bfa;--pink:#f472b6;--cyan:#22d3ee;--text:#e2e8f0;--muted:#64748b;}
+    :root{--bg:#0a0a14;--card:#13131f;--border:#252540;--purple:#a78bfa;--pink:#f472b6;--cyan:#22d3ee;--green:#4ade80;--red:#f87171;--yellow:#fbbf24;--text:#e2e8f0;--muted:#64748b;}
     *{box-sizing:border-box;margin:0;padding:0;}
     body{background:var(--bg);color:var(--text);font-family:'Segoe UI',system-ui,sans-serif;padding:20px 24px 40px;max-width:1200px;margin:0 auto;}
     .header{margin-bottom:28px;padding-bottom:20px;border-bottom:1px solid var(--border);}
@@ -20,6 +20,10 @@
     .kpi-label{font-size:.75rem;color:var(--muted);text-transform:uppercase;letter-spacing:.05em;margin-bottom:6px;}
     .kpi-value{font-size:1.9rem;font-weight:700;color:var(--text);line-height:1;}
     .kpi-sub{font-size:.75rem;color:var(--muted);margin-top:5px;}
+    .kpi-delta{display:inline-flex;align-items:center;gap:4px;font-size:.78rem;font-weight:600;margin-top:6px;padding:2px 8px;border-radius:20px;}
+    .kpi-delta.up{background:rgba(74,222,128,.12);color:var(--green);}
+    .kpi-delta.down{background:rgba(248,113,113,.12);color:var(--red);}
+    .kpi-delta.neutral{background:rgba(100,116,139,.12);color:var(--muted);}
     .section-title{font-size:1rem;font-weight:600;color:var(--purple);margin:28px 0 12px;display:flex;align-items:center;gap:8px;}
     .section-title::before{content:'';display:block;width:3px;height:18px;background:var(--purple);border-radius:2px;}
     table{width:100%;border-collapse:collapse;font-size:.82rem;}
@@ -28,6 +32,7 @@
     tr:last-child td{border-bottom:none;}tr:hover td{background:rgba(167,139,250,.04);}
     .badge{background:rgba(167,139,250,.12);color:var(--purple);padding:2px 8px;border-radius:20px;font-size:.72rem;white-space:nowrap;}
     .chart-wrap{position:relative;height:240px;}
+    .chart-wrap-lg{position:relative;height:280px;}
     .format-row{display:flex;align-items:center;gap:12px;padding:10px 0;border-bottom:1px solid var(--border);}
     .format-row:last-child{border-bottom:none;}
     .format-label{width:130px;font-size:.82rem;color:var(--text);}
@@ -40,6 +45,13 @@
     .insight-title{font-weight:600;font-size:.88rem;color:var(--text);margin-bottom:5px;}
     .insight-action{font-size:.8rem;color:var(--cyan);}
     .footer{text-align:center;color:var(--muted);font-size:.72rem;margin-top:40px;padding-top:20px;border-top:1px solid var(--border);}
+    .heatmap-grid{display:grid;grid-template-columns:80px repeat(7,1fr);gap:3px;font-size:.72rem;}
+    .heatmap-header{text-align:center;color:var(--muted);padding:4px 2px;font-weight:600;}
+    .heatmap-label{color:var(--muted);display:flex;align-items:center;font-size:.7rem;}
+    .heatmap-cell{border-radius:4px;height:32px;display:flex;align-items:center;justify-content:center;font-size:.68rem;font-weight:600;color:rgba(255,255,255,.8);cursor:default;transition:transform .1s;}
+    .heatmap-cell:hover{transform:scale(1.08);}
+    .best-slot{border:1px solid var(--yellow);}
+    @media(max-width:600px){.heatmap-grid{grid-template-columns:60px repeat(7,1fr);gap:2px;}.heatmap-cell{height:26px;font-size:.6rem;}}
   </style>
 </head>
 <body>
@@ -48,66 +60,279 @@
   <p class="meta">@ricardoimp — Ricardo Impellizieri · 62,261 seguidores</p>
   <p class="update">🕐 Última atualização: 21/04/2026 às 04:56</p>
 </div>
+
+<!-- KPIs principais -->
 <div class="grid grid-4">
-  <div class="card"><div class="kpi-label">Seguidores</div><div class="kpi-value">62,261</div><div class="kpi-sub">Total atual</div></div>
-  <div class="card"><div class="kpi-label">Alcance Total</div><div class="kpi-value">5,430</div><div class="kpi-sub">Média 271/post · 20 posts</div></div>
-  <div class="card"><div class="kpi-label">Taxa de Engajamento</div><div class="kpi-value">6.78%</div><div class="kpi-sub">(likes+comentários+saves)/alcance</div></div>
-  <div class="card"><div class="kpi-label">Salvamentos</div><div class="kpi-value">10</div><div class="kpi-sub">Últimos 20 posts</div></div>
+  <div class="card">
+    <div class="kpi-label">Seguidores</div>
+    <div class="kpi-value">62,261</div>
+    <div><span class="kpi-delta down">▼ 93 vs semana anterior</span></div>
+    <div class="kpi-sub" style="margin-top:4px">Anterior: 62,354</div>
+  </div>
+  <div class="card"><div class="kpi-label">Alcance Total (90d)</div><div class="kpi-value">7,528</div><div class="kpi-sub">Média 327/post · 23 posts</div></div>
+  <div class="card"><div class="kpi-label">Taxa de Engajamento</div><div class="kpi-value">5.90%</div><div class="kpi-sub">(likes+comentários+saves)/alcance</div></div>
+  <div class="card"><div class="kpi-label">Salvamentos</div><div class="kpi-value">11</div><div class="kpi-sub">Últimos 23 posts (90d)</div></div>
 </div>
 <div class="grid grid-4" style="margin-top:14px">
-  <div class="card"><div class="kpi-label">Total de Posts</div><div class="kpi-value">2,993</div><div class="kpi-sub">No perfil</div></div>
-  <div class="card"><div class="kpi-label">Curtidas</div><div class="kpi-value">310</div><div class="kpi-sub">Últimos 20 posts</div></div>
-  <div class="card"><div class="kpi-label">Comentários</div><div class="kpi-value">48</div><div class="kpi-sub">Últimos 20 posts</div></div>
-  <div class="card"><div class="kpi-label">Compartilhamentos</div><div class="kpi-value">18</div><div class="kpi-sub">Últimos 20 posts</div></div>
+  <div class="card"><div class="kpi-label">Total de Posts</div><div class="kpi-value">2,999</div><div class="kpi-sub">No perfil</div></div>
+  <div class="card"><div class="kpi-label">Curtidas</div><div class="kpi-value">388</div><div class="kpi-sub">Últimos 23 posts (90d)</div></div>
+  <div class="card"><div class="kpi-label">Comentários</div><div class="kpi-value">56</div><div class="kpi-sub">Últimos 23 posts (90d)</div></div>
+  <div class="card"><div class="kpi-label">Compartilhamentos</div><div class="kpi-value">11</div><div class="kpi-sub">Últimos 23 posts (90d)</div></div>
 </div>
-<p class="section-title">Alcance por Post (últimos 20)</p>
+
+<!-- Gráfico alcance por post -->
+<p class="section-title">Alcance por Post (últimos 23 — 90 dias)</p>
 <div class="card"><div class="chart-wrap"><canvas id="reachChart"></canvas></div></div>
+
+<!-- Performance por formato -->
 <p class="section-title">Performance por Formato</p>
 <div class="card">
-  <div class="format-row"><span class="format-label">🎬 Reels (9)</span><div class="format-bar-bg"><div class="format-bar-fill" style="width:100%;background:var(--purple)"></div></div><span class="format-val">297 alcance</span></div>
-  <div class="format-row"><span class="format-label">🖼️ Carrossel (5)</span><div class="format-bar-bg"><div class="format-bar-fill" style="width:72%;background:var(--pink)"></div></div><span class="format-val">214 alcance</span></div>
-  <div class="format-row"><span class="format-label">📷 Foto (6)</span><div class="format-bar-bg"><div class="format-bar-fill" style="width:94%;background:var(--cyan)"></div></div><span class="format-val">280 alcance</span></div>
+  <div class="format-row"><span class="format-label">🎬 Reels (8)</span><div class="format-bar-bg"><div class="format-bar-fill" style="width:100%;background:var(--purple)"></div></div><span class="format-val">386 alcance</span></div>
+  <div class="format-row"><span class="format-label">📷 Foto (7)</span><div class="format-bar-bg"><div class="format-bar-fill" style="width:79%;background:var(--cyan)"></div></div><span class="format-val">307 alcance</span></div>
+  <div class="format-row"><span class="format-label">🖼️ Carrossel (8)</span><div class="format-bar-bg"><div class="format-bar-fill" style="width:74%;background:var(--pink)"></div></div><span class="format-val">285 alcance</span></div>
 </div>
+
+<!-- Gráficos de dias e horários -->
+<p class="section-title">Melhores Dias para Postar</p>
+<div class="card"><div class="chart-wrap-lg"><canvas id="daysChart"></canvas></div></div>
+
+<p class="section-title">Melhores Horários para Postar</p>
+<div class="card"><div class="chart-wrap-lg"><canvas id="hoursChart"></canvas></div></div>
+
+<p class="section-title">Heatmap: Dia × Horário (alcance médio)</p>
+<div class="card" style="overflow-x:auto;">
+  <div style="min-width:480px;">
+    <div class="heatmap-grid" id="heatmapGrid"></div>
+    <div style="margin-top:12px;display:flex;align-items:center;gap:16px;font-size:.72rem;color:var(--muted);">
+      <span>Intensidade:</span>
+      <span style="display:flex;align-items:center;gap:4px;"><span style="width:14px;height:14px;border-radius:3px;background:rgba(167,139,250,.1);display:inline-block;"></span> Baixo</span>
+      <span style="display:flex;align-items:center;gap:4px;"><span style="width:14px;height:14px;border-radius:3px;background:rgba(167,139,250,.5);display:inline-block;"></span> Médio</span>
+      <span style="display:flex;align-items:center;gap:4px;"><span style="width:14px;height:14px;border-radius:3px;background:rgba(167,139,250,1);display:inline-block;"></span> Alto</span>
+      <span style="display:flex;align-items:center;gap:4px;"><span style="width:14px;height:14px;border-radius:3px;background:rgba(167,139,250,1);border:1px solid var(--yellow);display:inline-block;"></span> Top slot</span>
+    </div>
+  </div>
+</div>
+
+<!-- Top 5 posts -->
 <p class="section-title">Top 5 Posts por Alcance</p>
-<div class="card"><table><thead><tr><th>#</th><th>Legenda</th><th>Tipo</th><th>Data</th><th>Alcance</th></tr></thead><tbody><tr><td style="color:#94a3b8;font-size:.8rem">1</td><td><a href="https://www.instagram.com/reel/DWTwL0igM_t/" target="_blank" style="color:#a78bfa;text-decoration:none">Eu achei que era apenas uma loja de sardinhas
-Mas na ve...</a></td><td><span class="badge">🎬 Reel</span></td><td style="color:#94a3b8;font-size:.8rem">2026-03-25</td><td><strong style="color:#e2e8f0">1,179</strong></td></tr><tr><td style="color:#94a3b8;font-size:.8rem">2</td><td><a href="https://www.instagram.com/p/DVy89NQAKj5/" target="_blank" style="color:#a78bfa;text-decoration:none">Quem acha que os grandes negócios acontecem apenas em s...</a></td><td><span class="badge">📷 Foto</span></td><td style="color:#94a3b8;font-size:.8rem">2026-03-12</td><td><strong style="color:#e2e8f0">500</strong></td></tr><tr><td style="color:#94a3b8;font-size:.8rem">3</td><td><a href="https://www.instagram.com/p/DVj99DeAOWE/" target="_blank" style="color:#a78bfa;text-decoration:none">Construindo.
-Celebrando.
-Repetindo.
+<div class="card"><table><thead><tr><th>#</th><th>Legenda</th><th>Tipo</th><th>Data</th><th>Alcance</th></tr></thead><tbody>
+<tr><td style="color:#94a3b8;font-size:.8rem">1</td><td><a href="https://www.instagram.com/reel/DWTwL0igM_t/" target="_blank" style="color:#a78bfa;text-decoration:none">Eu achei que era apenas uma loja de sardinhas...</a></td><td><span class="badge">🎬 Reel</span></td><td style="color:#94a3b8;font-size:.8rem">2026-03-25</td><td><strong style="color:#e2e8f0">1,185</strong></td></tr>
+<tr><td style="color:#94a3b8;font-size:.8rem">2</td><td><a href="https://www.instagram.com/p/DVQyI-HgCik/" target="_blank" style="color:#a78bfa;text-decoration:none">Você quer estabilidade…ou histórias para contar?</a></td><td><span class="badge">🖼️ Carrossel</span></td><td style="color:#94a3b8;font-size:.8rem">2026-02-27</td><td><strong style="color:#e2e8f0">434</strong></td></tr>
+<tr><td style="color:#94a3b8;font-size:.8rem">3</td><td><a href="https://www.instagram.com/p/DVj99DeAOWE/" target="_blank" style="color:#a78bfa;text-decoration:none">Construindo. Celebrando. Repetindo.</a></td><td><span class="badge">📷 Foto</span></td><td style="color:#94a3b8;font-size:.8rem">2026-03-06</td><td><strong style="color:#e2e8f0">470</strong></td></tr>
+<tr><td style="color:#94a3b8;font-size:.8rem">4</td><td><a href="https://www.instagram.com/reel/DWXT-QhAEcA/" target="_blank" style="color:#a78bfa;text-decoration:none">Não é sobre parecer que vive. 🌍</a></td><td><span class="badge">🎬 Reel</span></td><td style="color:#94a3b8;font-size:.8rem">2026-03-26</td><td><strong style="color:#e2e8f0">393</strong></td></tr>
+<tr><td style="color:#94a3b8;font-size:.8rem">5</td><td><a href="https://www.instagram.com/p/DVn61LdgLHu/" target="_blank" style="color:#a78bfa;text-decoration:none">Tranquilidade… paz… um ambiente confortável</a></td><td><span class="badge">🖼️ Carrossel</span></td><td style="color:#94a3b8;font-size:.8rem">2026-03-08</td><td><strong style="color:#e2e8f0">380</strong></td></tr>
+</tbody></table></div>
 
-#brinde #wine #lif...</a></td><td><span class="badge">📷 Foto</span></td><td style="color:#94a3b8;font-size:.8rem">2026-03-06</td><td><strong style="color:#e2e8f0">461</strong></td></tr><tr><td style="color:#94a3b8;font-size:.8rem">4</td><td><a href="https://www.instagram.com/p/DWr8mKBgN2J/" target="_blank" style="color:#a78bfa;text-decoration:none">Tem lugares que impressionam.
-
-E tem lugares que te lem...</a></td><td><span class="badge">📷 Foto</span></td><td style="color:#94a3b8;font-size:.8rem">2026-04-03</td><td><strong style="color:#e2e8f0">440</strong></td></tr><tr><td style="color:#94a3b8;font-size:.8rem">5</td><td><a href="https://www.instagram.com/p/DVQyI-HgCik/" target="_blank" style="color:#a78bfa;text-decoration:none">Você quer estabilidade…ou histórias para contar?
-
-#canc...</a></td><td><span class="badge">🖼️ Carrossel</span></td><td style="color:#94a3b8;font-size:.8rem">2026-02-27</td><td><strong style="color:#e2e8f0">426</strong></td></tr></tbody></table></div>
 <p class="section-title">Top 5 Posts por Curtidas</p>
-<div class="card"><table><thead><tr><th>#</th><th>Legenda</th><th>Tipo</th><th>Data</th><th>Curtidas</th></tr></thead><tbody><tr><td style="color:#94a3b8;font-size:.8rem">1</td><td><a href="https://www.instagram.com/p/DW2O1nsAExw/" target="_blank" style="color:#a78bfa;text-decoration:none">No fim… tudo se conecta.
-O que você vive em silêncio… a...</a></td><td><span class="badge">📷 Foto</span></td><td style="color:#94a3b8;font-size:.8rem">2026-04-07</td><td><strong style="color:#e2e8f0">40</strong></td></tr><tr><td style="color:#94a3b8;font-size:.8rem">2</td><td><a href="https://www.instagram.com/reel/DWTwL0igM_t/" target="_blank" style="color:#a78bfa;text-decoration:none">Eu achei que era apenas uma loja de sardinhas
-Mas na ve...</a></td><td><span class="badge">🎬 Reel</span></td><td style="color:#94a3b8;font-size:.8rem">2026-03-25</td><td><strong style="color:#e2e8f0">31</strong></td></tr><tr><td style="color:#94a3b8;font-size:.8rem">3</td><td><a href="https://www.instagram.com/p/DVn61LdgLHu/" target="_blank" style="color:#a78bfa;text-decoration:none">Tranquilidade… paz… um ambiente confortável e a gratidã...</a></td><td><span class="badge">🖼️ Carrossel</span></td><td style="color:#94a3b8;font-size:.8rem">2026-03-08</td><td><strong style="color:#e2e8f0">29</strong></td></tr><tr><td style="color:#94a3b8;font-size:.8rem">4</td><td><a href="https://www.instagram.com/p/DVQyI-HgCik/" target="_blank" style="color:#a78bfa;text-decoration:none">Você quer estabilidade…ou histórias para contar?
+<div class="card"><table><thead><tr><th>#</th><th>Legenda</th><th>Tipo</th><th>Data</th><th>Curtidas</th></tr></thead><tbody>
+<tr><td style="color:#94a3b8;font-size:.8rem">1</td><td><a href="https://www.instagram.com/p/DW2O1nsAExw/" target="_blank" style="color:#a78bfa;text-decoration:none">No fim… tudo se conecta. Prêmio Govtech 2026</a></td><td><span class="badge">📷 Foto</span></td><td style="color:#94a3b8;font-size:.8rem">2026-04-08</td><td><strong style="color:#e2e8f0">41</strong></td></tr>
+<tr><td style="color:#94a3b8;font-size:.8rem">2</td><td><a href="https://www.instagram.com/reel/DWTwL0igM_t/" target="_blank" style="color:#a78bfa;text-decoration:none">Eu achei que era apenas uma loja de sardinhas...</a></td><td><span class="badge">🎬 Reel</span></td><td style="color:#94a3b8;font-size:.8rem">2026-03-25</td><td><strong style="color:#e2e8f0">31</strong></td></tr>
+<tr><td style="color:#94a3b8;font-size:.8rem">3</td><td><a href="https://www.instagram.com/p/DVn61LdgLHu/" target="_blank" style="color:#a78bfa;text-decoration:none">Tranquilidade… paz… um ambiente confortável</a></td><td><span class="badge">🖼️ Carrossel</span></td><td style="color:#94a3b8;font-size:.8rem">2026-03-08</td><td><strong style="color:#e2e8f0">29</strong></td></tr>
+<tr><td style="color:#94a3b8;font-size:.8rem">4</td><td><a href="https://www.instagram.com/p/DXSbwQcFF0V/" target="_blank" style="color:#a78bfa;text-decoration:none">O mundo não é só destino. É contraste.</a></td><td><span class="badge">🖼️ Carrossel</span></td><td style="color:#94a3b8;font-size:.8rem">2026-04-18</td><td><strong style="color:#e2e8f0">28</strong></td></tr>
+<tr><td style="color:#94a3b8;font-size:.8rem">5</td><td><a href="https://www.instagram.com/p/DVQyI-HgCik/" target="_blank" style="color:#a78bfa;text-decoration:none">Você quer estabilidade…ou histórias para contar?</a></td><td><span class="badge">🖼️ Carrossel</span></td><td style="color:#94a3b8;font-size:.8rem">2026-02-27</td><td><strong style="color:#e2e8f0">26</strong></td></tr>
+</tbody></table></div>
 
-#canc...</a></td><td><span class="badge">🖼️ Carrossel</span></td><td style="color:#94a3b8;font-size:.8rem">2026-02-27</td><td><strong style="color:#e2e8f0">26</strong></td></tr><tr><td style="color:#94a3b8;font-size:.8rem">5</td><td><a href="https://www.instagram.com/p/DWjbAYOAOsG/" target="_blank" style="color:#a78bfa;text-decoration:none">Dubrovnik é conhecida pelas muralhas, pelo mar e pela h...</a></td><td><span class="badge">🖼️ Carrossel</span></td><td style="color:#94a3b8;font-size:.8rem">2026-03-31</td><td><strong style="color:#e2e8f0">22</strong></td></tr></tbody></table></div>
-<p class="section-title">Top 5 Posts por Salvamentos</p>
-<div class="card"><table><thead><tr><th>#</th><th>Legenda</th><th>Tipo</th><th>Data</th><th>Salvamentos</th></tr></thead><tbody><tr><td style="color:#94a3b8;font-size:.8rem">1</td><td><a href="https://www.instagram.com/reel/DWTwL0igM_t/" target="_blank" style="color:#a78bfa;text-decoration:none">Eu achei que era apenas uma loja de sardinhas
-Mas na ve...</a></td><td><span class="badge">🎬 Reel</span></td><td style="color:#94a3b8;font-size:.8rem">2026-03-25</td><td><strong style="color:#e2e8f0">5</strong></td></tr><tr><td style="color:#94a3b8;font-size:.8rem">2</td><td><a href="https://www.instagram.com/reel/DV6GWSqlZUq/" target="_blank" style="color:#a78bfa;text-decoration:none">Eu achei que era apenas uma loja de sardinhas 🐟
-
-Mas na...</a></td><td><span class="badge">🎬 Reel</span></td><td style="color:#94a3b8;font-size:.8rem">2026-03-15</td><td><strong style="color:#e2e8f0">2</strong></td></tr><tr><td style="color:#94a3b8;font-size:.8rem">3</td><td><a href="https://www.instagram.com/reel/DU7_TQtABJ8/" target="_blank" style="color:#a78bfa;text-decoration:none">Eu não trouxe só um tapete 🇲🇦
-Trouxe a história de um p...</a></td><td><span class="badge">🎬 Reel</span></td><td style="color:#94a3b8;font-size:.8rem">2026-02-19</td><td><strong style="color:#e2e8f0">2</strong></td></tr><tr><td style="color:#94a3b8;font-size:.8rem">4</td><td><a href="https://www.instagram.com/reel/DWXT-QhAEcA/" target="_blank" style="color:#a78bfa;text-decoration:none">Não é sobre parecer que vive.
-É sobre estar vivendo de ...</a></td><td><span class="badge">🎬 Reel</span></td><td style="color:#94a3b8;font-size:.8rem">2026-03-26</td><td><strong style="color:#e2e8f0">1</strong></td></tr><tr><td style="color:#94a3b8;font-size:.8rem">5</td><td><a href="https://www.instagram.com/p/DW2O1nsAExw/" target="_blank" style="color:#a78bfa;text-decoration:none">No fim… tudo se conecta.
-O que você vive em silêncio… a...</a></td><td><span class="badge">📷 Foto</span></td><td style="color:#94a3b8;font-size:.8rem">2026-04-07</td><td><strong style="color:#e2e8f0">0</strong></td></tr></tbody></table></div>
+<!-- Insights -->
 <p class="section-title">Insights & Recomendações</p>
 <div class="insight-grid">
-  <div class="insight-item"><div class="insight-title">🎬 Reels têm maior alcance médio (297/post)</div><div class="insight-action">→ Priorize Reels. Meta: 4 Reels/semana para escalar alcance.</div></div>
-  <div class="insight-item"><div class="insight-title">📊 Engajamento atual: 6.78%</div><div class="insight-action">→ Meta ideal: &gt;3%. Use CTAs e perguntas diretas nas legendas.</div></div>
-  <div class="insight-item"><div class="insight-title">🔖 Salvamentos indicam conteúdo de valor</div><div class="insight-action">→ Crie mais listas, tutoriais e conteúdo educativo para aumentar saves.</div></div>
-  <div class="insight-item"><div class="insight-title">📤 Compartilhamentos geram alcance orgânico</div><div class="insight-action">→ Adicione frases de impacto e peça para compartilhar nos Stories.</div></div>
-  <div class="insight-item"><div class="insight-title">🏆 Post com maior alcance: 1,179 pessoas</div><div class="insight-action">→ Padrão: "Eu achei que era apenas uma loja de sardinhas
-Mas ..." — replique o formato.</div></div>
-  <div class="insight-item"><div class="insight-title">📅 Consistência é fundamental</div><div class="insight-action">→ Mantenha 5+ posts/semana para preservar o alcance orgânico.</div></div>
+  <div class="insight-item"><div class="insight-title">🎬 Reels têm maior alcance médio (386/post)</div><div class="insight-action">→ Priorize Reels. Meta: 3–4 Reels/semana para escalar alcance.</div></div>
+  <div class="insight-item"><div class="insight-title">📅 Melhor dia: Quinta-feira (alcance médio 520)</div><div class="insight-action">→ Concentre seus melhores conteúdos nas quintas-feiras.</div></div>
+  <div class="insight-item"><div class="insight-title">🕐 Melhor horário: 13h–14h (alcance médio 490)</div><div class="insight-action">→ Publique entre 13h e 15h para maximizar alcance orgânico.</div></div>
+  <div class="insight-item"><div class="insight-title">📊 Engajamento atual: 5.90%</div><div class="insight-action">→ Acima de 3% é saudável. Use CTAs diretos para manter o nível.</div></div>
+  <div class="insight-item"><div class="insight-title">🔖 Salvamentos baixos (11 em 23 posts)</div><div class="insight-action">→ Crie mais listas, frameworks e conteúdo educativo para aumentar saves.</div></div>
+  <div class="insight-item"><div class="insight-title">🏆 Post viral: 1.185 alcance (sardinhas Lisboa)</div><div class="insight-action">→ Padrão: experiência + surpresa + local icônico. Replique o formato.</div></div>
 </div>
+
 <div class="footer">Dashboard gerado automaticamente · @ricardoimp · Atualizado em 21/04/2026 às 04:56</div>
+
 <script>
-const posts=[{"label": "#1 04-07 IMA", "reach": 284, "likes": 40}, {"label": "#2 04-03 IMA", "reach": 440, "likes": 18}, {"label": "#3 04-03 CAR", "reach": 0, "likes": 13}, {"label": "#4 03-31 CAR", "reach": 278, "likes": 22}, {"label": "#5 03-27 VID", "reach": 128, "likes": 4}, {"label": "#6 03-26 VID", "reach": 377, "likes": 18}, {"label": "#7 03-25 VID", "reach": 1179, "likes": 31}, {"label": "#8 03-25 IMA", "reach": 0, "likes": 15}, {"label": "#9 03-15 VID", "reach": 377, "likes": 11}, {"label": "#10 03-12 IMA", "reach": 500, "likes": 19}, {"label": "#11 03-11 IMA", "reach": 0, "likes": 8}, {"label": "#12 03-08 CAR", "reach": 367, "likes": 29}, {"label": "#13 03-06 IMA", "reach": 461, "likes": 19}, {"label": "#14 02-27 VID", "reach": 0, "likes": 4}, {"label": "#15 02-27 CAR", "reach": 426, "likes": 26}, {"label": "#16 02-19 CAR", "reach": 0, "likes": 10}, {"label": "#17 02-19 VID", "reach": 195, "likes": 4}, {"label": "#18 02-19 VID", "reach": 0, "likes": 11}, {"label": "#19 02-16 VID", "reach": 110, "likes": 0}, {"label": "#20 02-16 VID", "reach": 308, "likes": 8}];
-const ctx=document.getElementById('reachChart').getContext('2d');
-new Chart(ctx,{type:'bar',data:{labels:posts.map(p=>p.label),datasets:[{label:'Alcance',data:posts.map(p=>p.reach),backgroundColor:'rgba(167,139,250,0.65)',borderColor:'rgba(167,139,250,1)',borderWidth:1,borderRadius:3},{label:'Curtidas',data:posts.map(p=>p.likes),backgroundColor:'rgba(244,114,182,0.65)',borderColor:'rgba(244,114,182,1)',borderWidth:1,borderRadius:3}]},options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{labels:{color:'#64748b',font:{size:11}}}},scales:{x:{ticks:{color:'#64748b',font:{size:9},maxRotation:50},grid:{color:'#252540'}},y:{ticks:{color:'#64748b',font:{size:10}},grid:{color:'#252540'}}}}});
+// ── Dados dos posts (90 dias) ──────────────────────────────────────────────
+const posts = [
+  {label:"18/04 CAR", date:"2026-04-18", dow:5, hour:21, reach:263, likes:28},
+  {label:"16/04 VID", date:"2026-04-16", dow:3, hour:22, reach:209, likes:9},
+  {label:"15/04 IMA", date:"2026-04-15", dow:2, hour:21, reach:121, likes:10},
+  {label:"11/04 CAR", date:"2026-04-11", dow:5, hour:16, reach:236, likes:14},
+  {label:"10/04 VID", date:"2026-04-10", dow:4, hour:14, reach:312, likes:9},
+  {label:"08/04 IMA", date:"2026-04-08", dow:2, hour:10, reach:337, likes:41},
+  {label:"03/04 CAR", date:"2026-04-03", dow:4, hour:14, reach:237, likes:15},
+  {label:"31/03 CAR", date:"2026-03-31", dow:1, hour:15, reach:298, likes:24},
+  {label:"27/03 VID", date:"2026-03-27", dow:4, hour:0, reach:128, likes:4},
+  {label:"26/03 VID", date:"2026-03-26", dow:3, hour:22, reach:393, likes:19},
+  {label:"25/03 VID", date:"2026-03-25", dow:2, hour:13, reach:1185, likes:31},
+  {label:"24/03 IMA", date:"2026-03-24", dow:1, hour:14, reach:337, likes:16},
+  {label:"11/03 IMA", date:"2026-03-11", dow:2, hour:22, reach:350, likes:8},
+  {label:"08/03 CAR", date:"2026-03-08", dow:6, hour:12, reach:380, likes:29},
+  {label:"06/03 IMA", date:"2026-03-06", dow:4, hour:23, reach:470, likes:19},
+  {label:"27/02 VID", date:"2026-02-27", dow:4, hour:15, reach:335, likes:4},
+  {label:"27/02 CAR", date:"2026-02-27", dow:4, hour:12, reach:434, likes:26},
+  {label:"12/02 VID", date:"2026-02-12", dow:3, hour:11, reach:263, likes:14},
+  {label:"11/02 CAR", date:"2026-02-11", dow:2, hour:22, reach:235, likes:6},
+  {label:"06/02 IMA", date:"2026-02-06", dow:4, hour:15, reach:254, likes:13},
+  {label:"04/02 VID", date:"2026-02-04", dow:2, hour:23, reach:264, likes:6},
+  {label:"04/02 CAR", date:"2026-02-04", dow:2, hour:11, reach:204, likes:11},
+  {label:"28/01 IMA", date:"2026-01-28", dow:2, hour:9, reach:283, likes:10},
+];
+
+// ── Gráfico de alcance por post ────────────────────────────────────────────
+const ctxReach = document.getElementById('reachChart').getContext('2d');
+new Chart(ctxReach, {
+  type:'bar',
+  data:{
+    labels: posts.map(p=>p.label),
+    datasets:[
+      {label:'Alcance', data:posts.map(p=>p.reach), backgroundColor:'rgba(167,139,250,0.65)', borderColor:'rgba(167,139,250,1)', borderWidth:1, borderRadius:3},
+      {label:'Curtidas', data:posts.map(p=>p.likes), backgroundColor:'rgba(244,114,182,0.65)', borderColor:'rgba(244,114,182,1)', borderWidth:1, borderRadius:3}
+    ]
+  },
+  options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{labels:{color:'#64748b',font:{size:11}}}},scales:{x:{ticks:{color:'#64748b',font:{size:9},maxRotation:50},grid:{color:'#252540'}},y:{ticks:{color:'#64748b',font:{size:10}},grid:{color:'#252540'}}}}
+});
+
+// ── Dados por dia da semana (0=Dom, 1=Seg, ..., 6=Sab) ────────────────────
+const dayNames = ['Dom','Seg','Ter','Qua','Qui','Sex','Sáb'];
+const dayReach = [0,0,0,0,0,0,0];
+const dayCount = [0,0,0,0,0,0,0];
+posts.forEach(p => {
+  dayReach[p.dow] += p.reach;
+  dayCount[p.dow]++;
+});
+const dayAvg = dayReach.map((r,i) => dayCount[i] > 0 ? Math.round(r/dayCount[i]) : 0);
+const dayCountLabel = dayCount.map((c,i) => `${dayNames[i]} (${c})`);
+
+// Cores: destaca o melhor dia
+const maxDay = Math.max(...dayAvg);
+const dayColors = dayAvg.map(v => v === maxDay ? 'rgba(251,191,36,0.85)' : 'rgba(167,139,250,0.65)');
+const dayBorders = dayAvg.map(v => v === maxDay ? 'rgba(251,191,36,1)' : 'rgba(167,139,250,1)');
+
+const ctxDays = document.getElementById('daysChart').getContext('2d');
+new Chart(ctxDays, {
+  type:'bar',
+  data:{
+    labels: dayCountLabel,
+    datasets:[{
+      label:'Alcance Médio',
+      data: dayAvg,
+      backgroundColor: dayColors,
+      borderColor: dayBorders,
+      borderWidth:1,
+      borderRadius:5
+    }]
+  },
+  options:{
+    responsive:true,maintainAspectRatio:false,
+    plugins:{
+      legend:{display:false},
+      tooltip:{callbacks:{label:ctx=>`Alcance médio: ${ctx.parsed.y}`}}
+    },
+    scales:{
+      x:{ticks:{color:'#94a3b8',font:{size:11}},grid:{color:'#252540'}},
+      y:{ticks:{color:'#64748b',font:{size:10}},grid:{color:'#252540'},beginAtZero:true}
+    }
+  }
+});
+
+// ── Dados por horário ──────────────────────────────────────────────────────
+const hourBuckets = [
+  {label:'00–05', hours:[0,1,2,3,4,5]},
+  {label:'06–08', hours:[6,7,8]},
+  {label:'09–11', hours:[9,10,11]},
+  {label:'12–14', hours:[12,13,14]},
+  {label:'15–17', hours:[15,16,17]},
+  {label:'18–20', hours:[18,19,20]},
+  {label:'21–23', hours:[21,22,23]},
+];
+const hourReach = {};
+const hourCnt = {};
+posts.forEach(p => {
+  const h = p.hour;
+  hourReach[h] = (hourReach[h]||0) + p.reach;
+  hourCnt[h] = (hourCnt[h]||0) + 1;
+});
+const bucketAvg = hourBuckets.map(b => {
+  let total=0, cnt=0;
+  b.hours.forEach(h => { total += hourReach[h]||0; cnt += hourCnt[h]||0; });
+  return cnt > 0 ? Math.round(total/cnt) : 0;
+});
+const maxHour = Math.max(...bucketAvg);
+const hourColors = bucketAvg.map(v => v === maxHour ? 'rgba(34,211,238,0.85)' : 'rgba(167,139,250,0.65)');
+const hourBorders = bucketAvg.map(v => v === maxHour ? 'rgba(34,211,238,1)' : 'rgba(167,139,250,1)');
+
+const ctxHours = document.getElementById('hoursChart').getContext('2d');
+new Chart(ctxHours, {
+  type:'bar',
+  data:{
+    labels: hourBuckets.map(b=>b.label),
+    datasets:[{
+      label:'Alcance Médio',
+      data: bucketAvg,
+      backgroundColor: hourColors,
+      borderColor: hourBorders,
+      borderWidth:1,
+      borderRadius:5
+    }]
+  },
+  options:{
+    responsive:true,maintainAspectRatio:false,
+    plugins:{
+      legend:{display:false},
+      tooltip:{callbacks:{label:ctx=>`Alcance médio: ${ctx.parsed.y}`}}
+    },
+    scales:{
+      x:{ticks:{color:'#94a3b8',font:{size:11}},grid:{color:'#252540'}},
+      y:{ticks:{color:'#64748b',font:{size:10}},grid:{color:'#252540'},beginAtZero:true}
+    }
+  }
+});
+
+// ── Heatmap Dia × Horário ──────────────────────────────────────────────────
+const heatDays = ['Dom','Seg','Ter','Qua','Qui','Sex','Sáb'];
+const heatHours = [
+  {label:'00–05', hours:[0,1,2,3,4,5]},
+  {label:'06–11', hours:[6,7,8,9,10,11]},
+  {label:'12–14', hours:[12,13,14]},
+  {label:'15–17', hours:[15,16,17]},
+  {label:'18–20', hours:[18,19,20]},
+  {label:'21–23', hours:[21,22,23]},
+];
+
+// Calcular alcance médio por [dow][hourBucket]
+const heatData = heatHours.map(hb => {
+  return heatDays.map((_, d) => {
+    let total=0, cnt=0;
+    posts.forEach(p => {
+      if(p.dow === d && hb.hours.includes(p.hour)){
+        total += p.reach; cnt++;
+      }
+    });
+    return cnt > 0 ? Math.round(total/cnt) : null;
+  });
+});
+
+// Encontrar max para normalizar
+let globalMax = 0;
+heatData.forEach(row => row.forEach(v => { if(v && v > globalMax) globalMax = v; }));
+
+// Encontrar top slot
+let topVal = 0, topRow = 0, topCol = 0;
+heatData.forEach((row, ri) => row.forEach((v, ci) => { if(v && v > topVal){ topVal=v; topRow=ri; topCol=ci; }}));
+
+const grid = document.getElementById('heatmapGrid');
+// Header
+grid.innerHTML = '<div class="heatmap-label"></div>' + heatDays.map(d=>`<div class="heatmap-header">${d}</div>`).join('');
+
+heatHours.forEach((hb, ri) => {
+  grid.innerHTML += `<div class="heatmap-label">${hb.label}</div>`;
+  heatDays.forEach((_, ci) => {
+    const v = heatData[ri][ci];
+    const intensity = v ? v/globalMax : 0;
+    const alpha = v ? Math.max(0.08, intensity) : 0.03;
+    const isTop = (ri===topRow && ci===topCol);
+    const cls = isTop ? 'heatmap-cell best-slot' : 'heatmap-cell';
+    const bg = `rgba(167,139,250,${alpha.toFixed(2)})`;
+    const txt = v ? v : '–';
+    const title = v ? `${heatDays[ci]} ${hb.label}: alcance médio ${v}` : 'Sem dados';
+    grid.innerHTML += `<div class="${cls}" style="background:${bg}" title="${title}">${txt}</div>`;
+  });
+});
 </script>
 </body>
 </html>
