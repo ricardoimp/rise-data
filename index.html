@@ -60,7 +60,69 @@
     .insight-item{background:var(--card);border:1px solid var(--border);border-left:3px solid var(--purple);border-radius:8px;padding:14px 16px;}
     .insight-title{font-weight:600;font-size:.88rem;color:var(--text);margin-bottom:5px;}
     .insight-action{font-size:.8rem;color:var(--cyan);}
-    .footer{text-align:center;color:var(--muted);font-size:.72rem;margin-top:40px;padding-top:20px;border-top:1px solid var(--border);}
+    .footer{text-align:center;color:var(--muted);font-size:.72rem;margin-top:40px;padding-top:20px;border-top:1px solid var(--border);padding-bottom:72px;}
+    /* ── Bottom Nav Mobile ── */
+    .bottom-nav{display:none;position:fixed;bottom:0;left:0;right:0;z-index:999;background:#0a0a14;border-top:1px solid var(--border);overflow-x:auto;-webkit-overflow-scrolling:touch;scrollbar-width:none;}
+    .bottom-nav::-webkit-scrollbar{display:none;}
+    .bottom-nav-inner{display:flex;min-width:max-content;}
+    .bottom-nav a{display:flex;flex-direction:column;align-items:center;gap:2px;padding:8px 14px;font-size:.6rem;color:var(--muted);text-decoration:none;white-space:nowrap;border-top:2px solid transparent;transition:color .15s,border-color .15s;}
+    .bottom-nav a:hover{color:var(--purple);border-top-color:var(--purple);}
+    .bottom-nav a .nav-icon{font-size:1rem;}
+    @media(max-width:900px){.bottom-nav{display:block;}body{padding-bottom:68px;}}
+    /* ── Urgency badges ── */
+    .urgency-imediato{background:rgba(248,113,113,.15);color:#f87171;padding:2px 8px;border-radius:20px;font-size:.7rem;font-weight:600;}
+    .urgency-semana{background:rgba(251,191,36,.15);color:#fbbf24;padding:2px 8px;border-radius:20px;font-size:.7rem;font-weight:600;}
+    .urgency-mes{background:rgba(74,222,128,.12);color:var(--green);padding:2px 8px;border-radius:20px;font-size:.7rem;font-weight:600;}
+    .action-card{background:var(--card);border:1px solid var(--border);border-radius:10px;padding:16px;margin-bottom:12px;}
+    .action-card-header{display:flex;align-items:flex-start;justify-content:space-between;gap:8px;margin-bottom:8px;}
+    .action-num{display:flex;align-items:center;justify-content:center;width:26px;height:26px;min-width:26px;background:rgba(167,139,250,.15);border-radius:50%;font-size:.78rem;font-weight:700;color:var(--purple);}
+    .action-title{font-weight:600;font-size:.88rem;color:var(--text);}
+    .action-detail{font-size:.8rem;color:var(--muted);line-height:1.5;margin-bottom:8px;}
+    .action-meta{display:grid;grid-template-columns:1fr 1fr;gap:8px;}
+    .action-meta-item{background:#0a0a14;border-radius:8px;padding:8px 10px;border:1px solid var(--border);}
+    .action-meta-label{font-size:.68rem;color:var(--muted);text-transform:uppercase;letter-spacing:.04em;}
+    .action-meta-value{font-size:.78rem;color:var(--cyan);font-weight:600;margin-top:2px;}
+    .grade-box{background:var(--card);border:1px solid var(--border);border-radius:10px;padding:20px;text-align:center;margin-bottom:16px;}
+    .grade-value{font-size:3.5rem;font-weight:800;color:var(--purple);line-height:1;}
+    .grade-label{font-size:.78rem;color:var(--muted);margin-top:6px;}
+    .grade-summary{font-size:.82rem;color:var(--text);margin-top:10px;line-height:1.5;}
+    .stories-card{background:var(--card);border:1px solid var(--border);border-radius:10px;padding:14px 16px;margin-bottom:10px;}
+    .stories-card-title{font-weight:600;font-size:.85rem;color:var(--text);margin-bottom:4px;display:flex;align-items:center;gap:6px;}
+    .stories-card-sub{font-size:.78rem;color:var(--muted);line-height:1.5;}
+    .stories-kpi-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-bottom:16px;}
+    @media(max-width:600px){.stories-kpi-grid{grid-template-columns:1fr;}}
+    .sponsor-item{background:var(--card);border:1px solid var(--border);border-radius:10px;padding:14px 16px;margin-bottom:10px;}
+    .sponsor-header{display:flex;align-items:flex-start;gap:10px;margin-bottom:8px;}
+    .sponsor-num{font-size:1.4rem;font-weight:800;color:var(--purple);min-width:28px;line-height:1;}
+    .sponsor-title{font-weight:600;font-size:.88rem;color:var(--text);margin-bottom:3px;}
+    .sponsor-why{font-size:.78rem;color:var(--muted);line-height:1.4;}
+    .sponsor-tags{display:flex;gap:6px;flex-wrap:wrap;margin-top:6px;}
+    .sponsor-tag{background:rgba(167,139,250,.1);color:var(--purple);border-radius:20px;padding:2px 8px;font-size:.7rem;}
+    .sponsor-tag.green{background:rgba(74,222,128,.1);color:var(--green);}
+    .sponsor-tag.cyan{background:rgba(34,211,238,.1);color:var(--cyan);}
+    .budget-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-bottom:16px;}
+    @media(max-width:600px){.budget-grid{grid-template-columns:1fr;}}
+    .budget-item{background:var(--card);border:1px solid var(--border);border-radius:10px;padding:14px;text-align:center;}
+    .budget-label{font-size:.72rem;color:var(--muted);text-transform:uppercase;margin-bottom:6px;}
+    .budget-value{font-size:1.3rem;font-weight:700;color:var(--text);}
+    .budget-note{font-size:.7rem;color:var(--muted);margin-top:4px;}
+    .step-list{list-style:none;}
+    .step-item{display:flex;gap:12px;padding:12px 0;border-bottom:1px solid var(--border);}
+    .step-item:last-child{border-bottom:none;}
+    .step-num{display:flex;align-items:center;justify-content:center;width:26px;height:26px;min-width:26px;background:rgba(167,139,250,.15);border-radius:50%;font-size:.78rem;font-weight:700;color:var(--purple);}
+    .step-content{flex:1;}
+    .step-title{font-weight:600;font-size:.85rem;color:var(--text);margin-bottom:3px;}
+    .step-detail{font-size:.78rem;color:var(--muted);line-height:1.5;}
+    .problem-box{background:rgba(248,113,113,.06);border:1px solid rgba(248,113,113,.2);border-radius:10px;padding:14px 16px;margin-bottom:12px;}
+    .problem-title{font-weight:600;font-size:.85rem;color:#f87171;margin-bottom:6px;}
+    .problem-text{font-size:.8rem;color:var(--muted);line-height:1.5;}
+    .tip-box{background:rgba(34,211,238,.06);border:1px solid rgba(34,211,238,.2);border-radius:10px;padding:14px 16px;margin-bottom:12px;}
+    .tip-title{font-weight:600;font-size:.85rem;color:var(--cyan);margin-bottom:6px;}
+    .tip-text{font-size:.8rem;color:var(--muted);line-height:1.5;}
+    .checklist{list-style:none;}
+    .checklist li{display:flex;gap:10px;padding:8px 0;border-bottom:1px solid var(--border);font-size:.82rem;color:var(--muted);}
+    .checklist li:last-child{border-bottom:none;}
+    .checklist li strong{color:var(--text);min-width:50px;}
     .heatmap-grid{display:grid;grid-template-columns:80px repeat(7,1fr);gap:3px;font-size:.72rem;}
     .heatmap-header{text-align:center;color:var(--muted);padding:4px 2px;font-weight:600;}
     .heatmap-label{color:var(--muted);display:flex;align-items:center;font-size:.7rem;}
@@ -196,7 +258,117 @@
   <div class="insight-item"><div class="insight-title">🏆 Post viral: 1,187 alcance (Eu achei que era apenas uma loja de sard...)</div><div class="insight-action">→ Padrão: experiência + surpresa + local icônico. Replique o formato.</div></div>
 </div>
 
-<div class="footer">Dashboard gerado automaticamente · @ricardoimp · Atualizado em 24/04/2026 às 12:00</div>
+<!-- ══════════════════════════════════════════════════════════════════ -->
+<!-- SEÇÃO: STORIES ──────────────────────────────────────────────────── -->
+<p class="section-title" id="sec-stories">📱 Stories — Monitoramento & Estratégia</p>
+<div class="stories-kpi-grid">
+  <div class="card"><div class="kpi-label">Status</div><div class="kpi-value" style="font-size:1.3rem;color:#fbbf24">Não monitorado</div><div class="kpi-sub">API só retorna stories ativos (24h)</div></div>
+  <div class="card"><div class="kpi-label">Meta de alcance</div><div class="kpi-value" style="font-size:1.3rem">3.1k–6.2k</div><div class="kpi-sub">5–10% dos 62k seguidores por Story</div></div>
+  <div class="card"><div class="kpi-label">Exit rate alvo</div><div class="kpi-value" style="font-size:1.3rem">&lt; 20%</div><div class="kpi-sub">Conteúdo que retém atenção</div></div>
+</div>
+<div class="stories-card"><div class="stories-card-title">📌 Recomendações estratégicas</div><div class="stories-card-sub">1. <strong>Publique Stories diariamente</strong> — o algoritmo prioriza contas ativas. Mínimo 3 Stories/dia.<br>2. <strong>Use enquetes e caixinhas de perguntas</strong> — geram resposta e aumentam o alcance orgânico.<br>3. <strong>Mostre bastidores reais</strong> — viagens, trabalho, família. Seu perfil tem âncora emocional forte.<br>4. <strong>Reposte seus melhores posts nos Stories</strong> — aumenta o alcance de cada publicação em até 40%.<br>5. <strong>CTA direto no último frame</strong> — "Salva esse post", "Me manda DM" ou "Clica no link da bio".</div></div>
+<div class="insight-grid">
+  <div class="insight-item"><div class="insight-title">🎬 Story tipo: Bastidores de viagem</div><div class="insight-action">→ 3x/semana · Vídeo curto 15s · Mostra o que não aparece no feed</div></div>
+  <div class="insight-item"><div class="insight-title">💼 Story tipo: Decisão de negócio</div><div class="insight-action">→ 2x/semana · Enquete ou caixinha · "Qual você escolheria?"</div></div>
+  <div class="insight-item"><div class="insight-title">👨‍👧 Story tipo: Família & momentos reais</div><div class="insight-action">→ 1x/semana · Foto ou vídeo espontâneo · Maior engajamento emocional</div></div>
+  <div class="insight-item"><div class="insight-title">📊 Story tipo: Dado ou insight rápido</div><div class="insight-action">→ 2x/semana · Texto + fundo sólido · Fácil de salvar e compartilhar</div></div>
+</div>
+
+<!-- SEÇÃO: INSIGHTS ESTRATÉGICOS ─────────────────────────────────────── -->
+<p class="section-title" id="sec-insights">🧠 Insights — Estrategista de Redes Sociais</p>
+<div class="grade-box">
+  <div class="grade-value">C+</div>
+  <div class="grade-label">Nota geral do perfil (escala A–F)</div>
+  <div class="grade-summary">Perfil com autoridade real e vida autêntica. O problema não é o conteúdo — é a <strong>inconsistência e a ausência de estratégia editorial</strong>. Você publica quando tem vontade, não quando o algoritmo e a audiência pedem. Com disciplina de 90 dias, a nota vai para B+.</div>
+</div>
+<div class="problem-box">
+  <div class="problem-title">⚠️ Problema principal identificado</div>
+  <div class="problem-text">Frequência irregular: média de 1 post/semana, com gaps de até 13 dias. O algoritmo penaliza inatividade. Você tem 62k seguidores mas alcança apenas 7.150 pessoas (11.5%) — isso é sinal de penalização por baixa frequência, não de conteúdo ruim.</div>
+</div>
+<div class="tip-box">
+  <div class="tip-title">✅ Fórmula que funciona para você</div>
+  <div class="tip-text"><strong>Experiência real + âncora emocional + local icônico = viral.</strong> Prova: Reel da loja de sardinhas em Lisboa (1.187 alcance). Padrão: você estava lá, foi surpreendido, filmou o momento. Replique isso em cada viagem.</div>
+</div>
+<p style="font-size:.88rem;font-weight:600;color:var(--purple);margin:20px 0 12px;">⚡ 6 Ações críticas — em ordem de prioridade</p>
+<div class="action-card">
+  <div class="action-card-header"><div style="display:flex;align-items:center;gap:8px"><span class="action-num">1</span><span class="action-title">Publique 4x/semana sem exceção</span></div><span class="urgency-imediato">IMEDIATO</span></div>
+  <div class="action-detail">Hoje você publica 1x/semana. O algoritmo do Instagram penaliza contas com menos de 3 posts/semana reduzindo o alcance orgânico em até 60%. Não precisa ser perfeito — precisa ser consistente.</div>
+  <div class="action-meta"><div class="action-meta-item"><div class="action-meta-label">Impacto esperado</div><div class="action-meta-value">+40–60% alcance em 30 dias</div></div><div class="action-meta-item"><div class="action-meta-label">Como fazer</div><div class="action-meta-value">Seg+Qua+Sex+Sáb · Use conteúdo de viagens já feitas</div></div></div>
+</div>
+<div class="action-card">
+  <div class="action-card-header"><div style="display:flex;align-items:center;gap:8px"><span class="action-num">2</span><span class="action-title">Crie 2 Reels por semana</span></div><span class="urgency-imediato">IMEDIATO</span></div>
+  <div class="action-detail">Reels têm alcance médio 441 vs 273 dos carrosséis. São o único formato que o Instagram distribui para não-seguidores. Você tem material de 37 países — use.</div>
+  <div class="action-meta"><div class="action-meta-item"><div class="action-meta-label">Impacto esperado</div><div class="action-meta-value">+200–400 novos seguidores/mês</div></div><div class="action-meta-item"><div class="action-meta-label">Como fazer</div><div class="action-meta-value">30s · música trending · legenda com gancho nos 3s iniciais</div></div></div>
+</div>
+<div class="action-card">
+  <div class="action-card-header"><div style="display:flex;align-items:center;gap:8px"><span class="action-num">3</span><span class="action-title">Adicione CTA em todo post</span></div><span class="urgency-semana">ESTA SEMANA</span></div>
+  <div class="action-detail">Nenhum dos seus posts analisados tem CTA explícito na legenda. "Salva esse post", "Comenta aqui" ou "Manda DM" aumentam salvamentos e comentários em 2–3x — e esses são os sinais que mais pesam no algoritmo.</div>
+  <div class="action-meta"><div class="action-meta-item"><div class="action-meta-label">Impacto esperado</div><div class="action-meta-value">+150% em salvamentos</div></div><div class="action-meta-item"><div class="action-meta-label">Como fazer</div><div class="action-meta-value">Última linha da legenda sempre com pergunta ou pedido direto</div></div></div>
+</div>
+<div class="action-card">
+  <div class="action-card-header"><div style="display:flex;align-items:center;gap:8px"><span class="action-num">4</span><span class="action-title">Stories diários (mínimo 3/dia)</span></div><span class="urgency-semana">ESTA SEMANA</span></div>
+  <div class="action-detail">Stories diários mantêm você no topo da lista de seguidores. Cada Story publicado aumenta a probabilidade de seus posts aparecerem no feed. É o motor invisível do algoritmo.</div>
+  <div class="action-meta"><div class="action-meta-item"><div class="action-meta-label">Impacto esperado</div><div class="action-meta-value">+25% alcance nos posts do feed</div></div><div class="action-meta-item"><div class="action-meta-label">Como fazer</div><div class="action-meta-value">Manhã: bastidores · Tarde: enquete · Noite: repost do feed</div></div></div>
+</div>
+<div class="action-card">
+  <div class="action-card-header"><div style="display:flex;align-items:center;gap:8px"><span class="action-num">5</span><span class="action-title">Defina 3 pilares de conteúdo</span></div><span class="urgency-mes">ESTE MÊS</span></div>
+  <div class="action-detail">Seu perfil mistura viagem, negócios, família e reflexão sem hierarquia. Isso confunde o algoritmo sobre quem te seguir. Defina: 1) Vida de empreendedor viajante, 2) Bastidores de negócios, 3) Família & momentos reais.</div>
+  <div class="action-meta"><div class="action-meta-item"><div class="action-meta-label">Impacto esperado</div><div class="action-meta-value">Audiência mais qualificada e fiel</div></div><div class="action-meta-item"><div class="action-meta-label">Como fazer</div><div class="action-meta-value">Alterne os pilares: 2 viagem + 1 negócio + 1 família por semana</div></div></div>
+</div>
+<div class="action-card">
+  <div class="action-card-header"><div style="display:flex;align-items:center;gap:8px"><span class="action-num">6</span><span class="action-title">Reative e corrija a campanha Meta Ads</span></div><span class="urgency-mes">ESTE MÊS</span></div>
+  <div class="action-detail">Campanha "Las Vegas" ativa com R$35/dia mas zero entrega mensurável nos últimos 90 dias. Objetivo LINK_CLICKS não faz sentido para crescimento de perfil. Troque para REACH ou PROFILE_VISITS.</div>
+  <div class="action-meta"><div class="action-meta-item"><div class="action-meta-label">Impacto esperado</div><div class="action-meta-value">ROI real sobre o budget investido</div></div><div class="action-meta-item"><div class="action-meta-label">Como fazer</div><div class="action-meta-value">Pause campanha atual · Crie nova com objetivo REACH · Patrocine o Reel da sardinha</div></div></div>
+</div>
+<div class="insight-grid" style="margin-top:16px">
+  <div class="insight-item"><div class="insight-title">🎯 Meta 30 dias</div><div class="insight-action">Alcance médio por post: 350→600 · Engajamento: 6%→8% · Novos seguidores: +300</div></div>
+  <div class="insight-item"><div class="insight-title">🎯 Meta 90 dias</div><div class="insight-action">Seguidores: 62k→65k · Alcance total: 7k→15k · 1 post viral/mês (+1k alcance)</div></div>
+  <div class="insight-item"><div class="insight-title">📅 Checklist semanal</div><div class="insight-action">Seg: Reel de viagem · Qua: Foto/carrossel de negócios · Sex: Reflexão/família · Sáb: Reel leve</div></div>
+  <div class="insight-item"><div class="insight-title">📊 KPI para acompanhar</div><div class="insight-action">Alcance/post · Taxa de salvamento · Crescimento semanal de seguidores · Reach de Stories</div></div>
+</div>
+
+<!-- SEÇÃO: PATROCINADO ───────────────────────────────────────────────── -->
+<p class="section-title" id="sec-patrocinado">💰 Patrocinado — Guia de Mídia Paga</p>
+<div class="problem-box">
+  <div class="problem-title">⚠️ Campanha atual com problema identificado</div>
+  <div class="problem-text"><strong>Campanha:</strong> "Las Vegas do alto" · <strong>Status:</strong> ATIVA · <strong>Budget:</strong> R$35/dia · <strong>Objetivo:</strong> LINK_CLICKS<br><strong>Problema:</strong> Zero insights de entrega nos últimos 90 dias. Objetivo LINK_CLICKS não é adequado para crescimento de perfil pessoal. O dinheiro está sendo gasto sem retorno mensurável.<br><strong>Ação imediata:</strong> Pause essa campanha. Crie uma nova com objetivo REACH apontando para o Reel da sardinha.</div>
+</div>
+<p style="font-size:.88rem;font-weight:600;color:var(--purple);margin:16px 0 10px;">🏆 O que patrocinar — ranking por potencial</p>
+<div class="sponsor-item"><div class="sponsor-header"><span class="sponsor-num">#1</span><div><div class="sponsor-title">Reel: "Eu achei que era apenas uma loja de sardinhas" (1.187 alcance orgânico)</div><div class="sponsor-why">Já provou que funciona. Patrocinar um post que já performou bem é a estratégia mais segura. Custo por resultado cai 40–60% vs conteúdo novo.</div></div></div><div class="sponsor-tags"><span class="sponsor-tag">Objetivo: REACH</span><span class="sponsor-tag green">Budget: R$20–30/dia</span><span class="sponsor-tag cyan">Resultado: 5k–15k alcance/dia</span></div></div>
+<div class="sponsor-item"><div class="sponsor-header"><span class="sponsor-num">#2</span><div><div class="sponsor-title">Reel de viagem com âncora emocional (próximo a ser criado)</div><div class="sponsor-why">Reels têm CPM mais baixo no Instagram. Com âncora emocional (família, conquista, surpresa), o custo por engajamento cai ainda mais. Crie antes de patrocinar.</div></div></div><div class="sponsor-tags"><span class="sponsor-tag">Objetivo: REACH</span><span class="sponsor-tag green">Budget: R$15–25/dia</span><span class="sponsor-tag cyan">Resultado: 3k–10k alcance/dia</span></div></div>
+<div class="sponsor-item"><div class="sponsor-header"><span class="sponsor-num">#3</span><div><div class="sponsor-title">Post de negócios/conquista (ex: Prêmio Govtech)</div><div class="sponsor-why">Para audiência de empreendedores e investidores. Segmentar por interesse em "empreendedorismo", "startups" e "investimentos" no Brasil. Constrói autoridade profissional.</div></div></div><div class="sponsor-tags"><span class="sponsor-tag">Objetivo: PROFILE_VISITS</span><span class="sponsor-tag green">Budget: R$20/dia</span><span class="sponsor-tag cyan">Resultado: +50–150 seguidores qualificados</span></div></div>
+<div class="sponsor-item"><div class="sponsor-header"><span class="sponsor-num">#4</span><div><div class="sponsor-title">Carrossel educativo sobre empreendedorismo ou viagem</div><div class="sponsor-why">Carrosséis têm o maior tempo de visualização. Patrocinar um carrossel com dicas práticas gera salvamentos — o sinal mais forte para o algoritmo.</div></div></div><div class="sponsor-tags"><span class="sponsor-tag">Objetivo: ENGAGEMENT</span><span class="sponsor-tag green">Budget: R$10–15/dia</span><span class="sponsor-tag cyan">Resultado: +200–500 salvamentos</span></div></div>
+<p style="font-size:.88rem;font-weight:600;color:var(--purple);margin:20px 0 10px;">💵 Budget mensal sugerido</p>
+<div class="budget-grid">
+  <div class="budget-item"><div class="budget-label">Conservador</div><div class="budget-value">R$ 300/mês</div><div class="budget-note">R$10/dia · 1 campanha ativa</div></div>
+  <div class="budget-item" style="border-color:var(--yellow)"><div class="budget-label">Moderado ⭐</div><div class="budget-value" style="color:var(--yellow)">R$ 700/mês</div><div class="budget-note">R$23/dia · 2 campanhas rotativas</div></div>
+  <div class="budget-item"><div class="budget-label">Agressivo</div><div class="budget-value">R$ 1.500/mês</div><div class="budget-note">R$50/dia · 3 campanhas simultâneas</div></div>
+</div>
+<div class="tip-box">
+  <div class="tip-title">💡 Recomendação: R$700/mês (moderado)</div>
+  <div class="tip-text">Com R$700/mês você consegue patrocinar 2 conteúdos em rodízio (15 dias cada). Priorize sempre conteúdo que já performou organicamente. Nunca patrocine conteúdo novo sem validação orgânica primeiro.</div>
+</div>
+<p style="font-size:.88rem;font-weight:600;color:var(--purple);margin:20px 0 10px;">📋 Como patrocinar — passo a passo</p>
+<ul class="step-list">
+  <li class="step-item"><span class="step-num">1</span><div class="step-content"><div class="step-title">Escolha o conteúdo certo</div><div class="step-detail">Patrocine apenas posts com engajamento orgânico acima da média. Nunca patrocine posts com menos de 20 curtidas.</div></li>
+  <li class="step-item"><span class="step-num">2</span><div class="step-content"><div class="step-title">Defina o objetivo correto</div><div class="step-detail">Para crescimento de perfil: REACH ou PROFILE_VISITS. Para vendas: LINK_CLICKS (mas você precisa ter uma landing page). Nunca misture objetivos.</div></li>
+  <li class="step-item"><span class="step-num">3</span><div class="step-content"><div class="step-title">Configure a audiência</div><div class="step-detail">Brasil · Homens e mulheres 28–50 anos · Interesses: empreendedorismo, viagens, tecnologia, investimentos. Raio: nacional (não limite por cidade).</div></li>
+  <li class="step-item"><span class="step-num">4</span><div class="step-content"><div class="step-title">Defina budget e duração</div><div class="step-detail">Mínimo 7 dias para o algoritmo otimizar. Budget mínimo R$15/dia. Abaixo disso o alcance é muito limitado para gerar dados úteis.</div></li>
+  <li class="step-item"><span class="step-num">5</span><div class="step-content"><div class="step-title">Monitore após 48h</div><div class="step-detail">Se CPM > R$25 ou CTR < 1%, pause e ajuste a audiência ou o criativo. Se estiver performando bem, aumente o budget em 20%.</div></li>
+  <li class="step-item"><span class="step-num">6</span><div class="step-content"><div class="step-title">Analise e replique</div><div class="step-detail">Após cada campanha, anote: qual conteúdo, qual audiência, qual resultado. Em 3 meses você terá um playbook próprio de mídia paga.</div></li>
+</ul>
+
+<div class="footer">Dashboard gerado automaticamente · @ricardoimp · Atualizado em 01/05/2026 às 12:00</div>
+
+<!-- ── Bottom Nav Mobile ── -->
+<nav class="bottom-nav">
+  <div class="bottom-nav-inner">
+    <a href="#top"><span class="nav-icon">📊</span>Resumo</a>
+    <a href="#sec-stories"><span class="nav-icon">📱</span>Stories</a>
+    <a href="#sec-insights"><span class="nav-icon">🧠</span>Insights</a>
+    <a href="#sec-patrocinado"><span class="nav-icon">💰</span>Patrocinado</a>
+  </div>
+</nav>
 
 <script>
 // ── Dados dos posts (90 dias) ──────────────────────────────────────────────
